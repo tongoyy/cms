@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseRequest;
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfController extends Controller
@@ -14,7 +13,8 @@ class PdfController extends Controller
         $data = [
             'title' => 'Title PDF',
             'date' => date('d/m/y'),
-            'PR' => $PR
+            'PR' => $PR,
+            'images' => public_path('images/aiweb.png')
         ];
         $pdf = Pdf::loadView('generate-user-pdf', $data);
         return $pdf->download('purchase-request.pdf');

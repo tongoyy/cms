@@ -9,6 +9,7 @@ use AutoIncrementTextInput;
 use Carbon\Carbon;
 use Filament\Tables\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
@@ -18,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Pages\Actions\Modal\Actions\ButtonAction;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -160,6 +162,11 @@ class PurchaseRequestResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn(PurchaseRequest $record) => route('purchase.pdf.download', $record))
+                    ->openUrlInNewTab()
+                    ->color('info')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
