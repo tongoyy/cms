@@ -11,6 +11,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -48,11 +49,13 @@ class PurchaseRequestResource extends Resource
     public static function form(Form $form): Form
     {
         /* Fetch ID */
-        $id = PurchaseRequest::latest()->value('id') ?? 1;
-
+        // $id = PurchaseRequest::latest()->value('id');
+        $number = PurchaseRequest::latest()->value('Number');
         return $form
             ->schema([
-                TextInput::make('PR_Code')->label('Purchase Request Code')->default('#PR-0000' . $id . date('-Y')),
+                TextInput::make('PR_Code')->label('Purchase Request Code')->default('#PR-0000' . $number++ . date('-Y'))->readOnly(true),
+                // TextInput::make('Number')->label('Number')->default($number++),
+                Hidden::make('Number')->default($number++),
                 TextInput::make('PR_Name')->label('Purchase Request Name')->required(),
                 Select::make('Project')->required()
                     ->options([
@@ -89,16 +92,20 @@ class PurchaseRequestResource extends Resource
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->required(),
-                        TextInput::make('Quantity')->numeric()->required(),
+                        TextInput::make('Quantity')->numeric()->required()->debounce(600)
+                            ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                $vHarga = $get('Price');
+                                $set('Total', $state * $vHarga);
+                            }),
                         TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()
+                            ->reactive()->debounce(600)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
                                 $set('Total', $state * $vHarga);
                             })->required(),
                         TextInput::make('Unit')->numeric()->required(),
                         TextInput::make('Tax'),
-                        TextInput::make('Total')->numeric(),
+                        TextInput::make('Total')->numeric()->readOnly(true),
                     ])->columns(7)->columnSpan(2)->addActionLabel('Tambah Item')->label('Tambahkan Item')->addActionAlignment(Alignment::Start)->reorderable(true)->reorderableWithButtons()->cloneable(),
 
                 /* Total */
@@ -110,7 +117,7 @@ class PurchaseRequestResource extends Resource
                         } else {
                             $set('Subtotal', $subtotal);
                         }
-                    }),
+                    })->readOnly(true),
                 /* Grand Total */
                 TextInput::make('GrandTotal')->label('Grand Total')
                     ->placeholder(function (Set $set, Get $get) {
@@ -120,7 +127,7 @@ class PurchaseRequestResource extends Resource
                         } else {
                             $set('GrandTotal', $Grandtotal);
                         }
-                    }),
+                    })->readOnly(true),
             ]);
     }
 
