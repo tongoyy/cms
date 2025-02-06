@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    padding: 0 !important;
+    font-size: 12px;
+}
+
+.container {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin-top: 5%;
+}
+
+.logo {
+    max-width: 150px;
+}
+
+.document-info {
+    text-align: right;
+    font-size: 8px;
+    padding-right: 1%;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inside {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
+
+
+.left {
+    padding: 0px;
+    text-align: left;
+}
+
+.right {
+    padding: 0px;
+    text-align: left;
+}
+
+th {
+    background-color: rgb(56, 56, 56);
+    color: white;
+}
+
+.total {
+    display: flexbox;
+    justify-items: flex-end;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.subtotal {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    width: 35%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.final-total {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    width: 35%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.bank-info {
+    text-align: left;
+    margin-top: 30px;
+    font-size: 0.7rem;
+}
+
+.approval {
+    display: inline-block;
+    justify-content: space-between;
+    margin-top: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.approval p {
+    margin-bottom: 5px;
+}
+
+.approval small {
+    font-size: 14px;
+    color: gray;
+}
+
+.approval-title {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10%;
+}
+
+.approval-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.inside tr td {
+    border: 1px solid black;
+    border-spacing: 0px;
+}
+
+.left tr td {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.right tr td {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+p {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+strong {
+    text-wrap: nowrap;
+}

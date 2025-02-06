@@ -6,6 +6,7 @@ use App\Filament\Resources\PurchaseRequestResource\Pages;
 use App\Filament\Resources\PurchaseRequestResource\RelationManagers;
 use App\Models\PurchaseRequest;
 use AutoIncrementTextInput;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Filament\Tables\Actions\Action;
 use Filament\Forms;
@@ -27,6 +28,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Blade;
 use Joaopaulolndev\FilamentPdfViewer\Forms\Components\PdfViewerField;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 use PhpParser\Node\Stmt\Label;
@@ -145,6 +147,7 @@ class PurchaseRequestResource extends Resource
                 TextColumn::make('Category'),
                 TextColumn::make('DueDate')->label('Due Date')->dateTime('D. d-M-y'),
                 TextColumn::make('Description'),
+                TextColumn::make('GrandTotal'),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Request')
@@ -164,9 +167,19 @@ class PurchaseRequestResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('pdf')
                     ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn(PurchaseRequest $record) => route('purchase.pdf.download', $record))
+                    ->url(fn(PurchaseRequest $record) => route('PdfDownload', $record))
                     ->openUrlInNewTab()
-                    ->color('info')
+                    ->label('Pdf')
+                    ->color('success'),
+
+                // Html2MediaAction::make('print')
+                //     ->filename('my-custom-document')
+                //     ->icon('heroicon-o-printer')
+                //     ->preview(true)
+                //     ->savePdf(true)
+                //     ->requiresConfirmation(true)
+                //     ->content(fn($record) => view('generate-user-pdf', ['record' => $record]))
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

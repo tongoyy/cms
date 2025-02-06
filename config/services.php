@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'browsershort' =>
+    [
+        'include_path' => '$PATH:' . env('BROWSERSHOT_INCLUDE_PATH')
+    ]
 ];
