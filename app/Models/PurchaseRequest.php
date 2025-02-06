@@ -11,10 +11,12 @@ class PurchaseRequest extends Model
 
     protected $guarded = [];
 
+    protected $table = 'purchase_requests';
+
     /* Relasi Items Detail */
     public function items()
     {
-        return $this->hasMany(PurchaseRequestItem::class, 'purchase_request_id');
+        return $this->hasMany(PurchaseRequestItem::class, 'Purchase_Request_ID');
     }
 
     public function kodeOtomatis()

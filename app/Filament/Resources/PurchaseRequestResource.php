@@ -13,6 +13,8 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -96,13 +98,13 @@ class PurchaseRequestResource extends Resource
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->required(),
-                        TextInput::make('Quantity')->numeric()->required()->debounce(600)
+                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 1500)
                             ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Price');
                                 $set('Total', $state * $vHarga);
                             }),
                         TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()->debounce(600)
+                            ->reactive()->live(debounce: 1500)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
                                 $set('Total', $state * $vHarga);
@@ -110,28 +112,33 @@ class PurchaseRequestResource extends Resource
                         TextInput::make('Unit')->numeric()->required(),
                         TextInput::make('Tax'),
                         TextInput::make('Total')->numeric()->readOnly(true),
+
                     ])->columns(7)->columnSpan(2)->addActionLabel('Tambah Item')->label('Tambahkan Item')->addActionAlignment(Alignment::Start)->reorderable(true)->reorderableWithButtons()->cloneable(),
 
-                /* Total */
-                TextInput::make('Subtotal')
-                    ->placeholder(function (Set $set, Get $get) {
-                        $subtotal = collect($get('items'))->pluck('Total')->sum();
-                        if ($subtotal == null) {
-                            $set('Subtotal', 0);
-                        } else {
-                            $set('Subtotal', $subtotal);
-                        }
-                    })->readOnly(true),
-                /* Grand Total */
-                TextInput::make('GrandTotal')->label('Grand Total')
-                    ->placeholder(function (Set $set, Get $get) {
-                        $Grandtotal = collect($get('items'))->pluck('Total')->sum();
-                        if ($Grandtotal == null) {
-                            $set('GrandTotal', 0);
-                        } else {
-                            $set('GrandTotal', $Grandtotal);
-                        }
-                    })->readOnly(true),
+                Fieldset::make()
+                    ->schema([
+                        /* Total */
+                        TextInput::make('SubTotal')
+                            ->placeholder(function (Set $set, Get $get) {
+                                $SubTotal = collect($get('items'))->pluck('Total')->sum();
+                                if ($SubTotal == null) {
+                                    $set('SubTotal', 0);
+                                } else {
+                                    $set('SubTotal', $SubTotal);
+                                }
+                            })->readOnly(true),
+                        /* Grand Total */
+                        TextInput::make('GrandTotal')->label('Grand Total')
+                            ->placeholder(function (Set $set, Get $get) {
+                                $Grandtotal = collect($get('items'))->pluck('Total')->sum();
+                                if ($Grandtotal == null) {
+                                    $set('GrandTotal', 0);
+                                } else {
+                                    $set('GrandTotal', $Grandtotal);
+                                }
+                            })->readOnly(true),
+                    ])
+
             ]);
     }
 

@@ -43,15 +43,15 @@ class VendorResource extends Resource
         $number = Vendors::latest()->value('Number');
         return $form
             ->schema([
-                TextInput::make('Vendor_Code')->label('Vendor Code')->default('#VC-0' . $number++)->readOnly(true),
+                TextInput::make('VendorCode')->label('Vendor Code')->default('#VC-0' . $number++)->readOnly(true),
                 Hidden::make('Number')->default($number++),
-                TextInput::make('Company_Name')->label('Company Name')->required(),
+                TextInput::make('CompanyName')->label('Company Name')->required(),
                 TextInput::make('NPWP')->label('NPWP')->required(),
                 TextInput::make('Phone')->label('Phone')->required()->numeric(),
                 TextInput::make('Email')->label('Email')->required()->email(),
                 Textarea::make('Address')->label('Address')->required(),
-                TextInput::make('Rekening_Bank')->label('Rekening Bank')->required(),
-                TextInput::make('Nomor_Rekening')->label('Nomor Rekening')->required()->numeric(),
+                TextInput::make('RekeningBank')->label('Rekening Bank')->required(),
+                TextInput::make('NomorRekening')->label('Nomor Rekening')->required()->numeric(),
             ]);
     }
 
@@ -59,14 +59,14 @@ class VendorResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('Vendor_Code')->label('Vendor Code'),
-                TextColumn::make('Company_Name')->label('Company Name'),
+                TextColumn::make('VendorCode')->label('Vendor Code'),
+                TextColumn::make('CompanyName')->label('Company Name'),
                 TextColumn::make('NPWP')->label('NPWP'),
                 TextColumn::make('Phone')->label('Phone'),
                 TextColumn::make('Email')->label('Email'),
                 TextColumn::make('Address')->label('Address'),
-                TextColumn::make('Rekening_Bank')->label('Rekening_Bank'),
-                TextColumn::make('Nomor_Rekening')->label('Nomor Rekening'),
+                TextColumn::make('RekeningBank')->label('RekeningBank'),
+                TextColumn::make('NomorRekening')->label('Nomor Rekening'),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Vendor!')
             ->emptyStateDescription('Silahkan tambahkan Vendor')
@@ -74,7 +74,7 @@ class VendorResource extends Resource
             ->emptyStateActions([
                 Action::make('create')
                     ->label('Tambahkan Vendor')
-                    ->url(route('filament.admin.resources.purchase-requests.create'))
+                    ->url(route('filament.admin.resources.vendors.create'))
                     ->icon('heroicon-m-plus')
                     ->button(),
             ])

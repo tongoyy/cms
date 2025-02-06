@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('Category');
             $table->dateTime('DueDate');
             $table->text('Description');
-            $table->bigInteger('SubTotal');
-            $table->bigInteger('GrandTotal');
+            $table->text('SubTotal');
+            $table->text('GrandTotal');
             $table->timestamps();
         });
     }

@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('purchase_request_id')->constrained('purchase_requests', 'id')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('Vendors_ID')->constrained('vendors', 'id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->unsignedBigInteger('Purchase_Orders_ID');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
@@ -24,6 +22,8 @@ return new class extends Migration
             $table->bigInteger('Tax');
             $table->bigInteger('Discount');
             $table->bigInteger('Total');
+            $table->foreign('Purchase_Orders_ID')->references('id')->on('purchase_orders');
+            $table->timestamps();
         });
     }
 

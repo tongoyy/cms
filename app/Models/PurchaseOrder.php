@@ -8,17 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseOrder extends Model
 {
     use HasFactory;
-
     protected $guarded = [];
 
-    /* Relasi Order Detail */
-    public function PurchaseRequest()
-    {
-        return $this->hasMany(PurchaseRequest::class, 'purchase_request_id');
-    }
+    protected $table = 'purchase_orders';
 
-    public function Vendors()
+    public function purchaseRequest()
     {
-        return $this->hasMany(Vendors::class, 'purchase_request_id');
+        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Request_ID');
     }
 }

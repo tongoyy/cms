@@ -47,7 +47,7 @@ class PurchaseOrderResource extends Resource
                 Hidden::make('Number')->default($number++),
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
                 Select::make('Vendor')->required()
-                    ->relationship(name: 'Vendor', titleAttribute: 'Company_Name'),
+                    ->relationship(name: 'vendors', titleAttribute: 'Company_Name'),
                 Select::make('Purchase_Request')->required(),
                 TextInput::make('Order_Date')->label('Order Date')->required(),
                 Select::make('Department')->required(),
@@ -55,7 +55,7 @@ class PurchaseOrderResource extends Resource
                 Select::make('Project')->required(),
 
                 /* Items Detail */
-                Repeater::make('items')->label('Items Detail')
+                Repeater::make('')->label('Items Detail')
                     ->relationship()
                     ->schema([
                         TextInput::make('Item_Name')->required(),
@@ -72,8 +72,7 @@ class PurchaseOrderResource extends Resource
                                 $set('Total', $state * $vHarga);
                             })->required(),
                         TextInput::make('Unit')->numeric()->required(),
-                        TextInput::make('Tax')->numeric(),
-                        TextInput::make('Discount')->numeric(),
+                        TextInput::make('Tax'),
                         TextInput::make('Total')->numeric()->readOnly(true),
                     ])->columns(7)->columnSpan(2)->addActionLabel('Tambah Item')->label('Tambahkan Item')->addActionAlignment(Alignment::Start)->reorderable(true)->reorderableWithButtons()->cloneable(),
             ]);

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->bigInteger('Number');
             $table->text('VendorCode');
             $table->text('CompanyName');
             $table->text('NPWP');
