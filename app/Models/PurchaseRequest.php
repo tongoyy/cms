@@ -23,4 +23,16 @@ class PurchaseRequest extends Model
     {
         return '#PR-' . str_pad($this->id, 3, '0', STR_PAD_LEFT);
     }
+
+    // PurchaseRequest.php
+    public function purchaseOrderItems()
+    {
+        return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    // PurchaseOrderItem.php
+    public function purchaseRequest()
+    {
+        return $this->belongsTo(PurchaseRequest::class);
+    }
 }

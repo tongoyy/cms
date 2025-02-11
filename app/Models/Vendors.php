@@ -11,5 +11,13 @@ class Vendors extends Model
 
     protected $guarded = [];
 
-    
+    public function vendors()
+    {
+        return $this->belongsTo(Vendors::class, 'Vendors_ID');
+    }
+
+    public function purchaseRequest()
+    {
+        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Request_ID');
+    }
 }

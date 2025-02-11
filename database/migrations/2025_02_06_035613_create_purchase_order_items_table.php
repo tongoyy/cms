@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('Purchase_Orders_ID');
+            $table->unsignedBigInteger('Purchase_Request_ID');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->bigInteger('Discount');
             $table->bigInteger('Total');
             $table->foreign('Purchase_Orders_ID')->references('id')->on('purchase_orders');
+            $table->foreign('Purchase_Request_ID')->references('id')->on('purchase_requests');
             $table->timestamps();
         });
     }

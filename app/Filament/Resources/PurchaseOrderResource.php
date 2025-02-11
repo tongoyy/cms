@@ -5,7 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PurchaseOrderResource\Pages;
 use App\Filament\Resources\PurchaseOrderResource\RelationManagers;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseRequest;
+use App\Models\Vendors;
+use App\Models\PurchaseRequestItem;
+use DateTime;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -21,6 +28,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Attributes\Reactive;
 
 class PurchaseOrderResource extends Resource
 {
@@ -39,42 +47,120 @@ class PurchaseOrderResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $number = 0;
         $number = PurchaseOrder::latest()->value('Number');
         return $form
             ->schema([
                 TextInput::make('PO_Code')->label('Purchase Order Code')->default('#PO-0000' . $number++ . date('-Y'))->readOnly(true),
-                // TextInput::make('Number')->label('Number')->default($number++),
                 Hidden::make('Number')->default($number++),
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
-                Select::make('Vendor')->required()
-                    ->relationship(name: 'vendors', titleAttribute: 'Company_Name'),
-                Select::make('Purchase_Request')->required(),
-                TextInput::make('Order_Date')->label('Order Date')->required(),
-                Select::make('Department')->required(),
-                Select::make('Category')->required(),
-                Select::make('Project')->required(),
+                Select::make('Vendors')->required()
+                    ->relationship(name: 'vendors', titleAttribute: 'CompanyName')
+                    ->options(Vendors::pluck('CompanyName', 'id'))
+                    ->reactive()
+                    ->searchable()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        // Fetch the selected vendor
+                        $vendor = Vendors::find($state);
+                        $number = 0;
+                        $number = PurchaseOrder::latest()->value('Number');
+                        if ($vendor) {
+                            // Generate the PO_Code with the vendor's name
+                            $poCode = '#PO-0000' . $number++ . date('-Y') . '-' . strtoupper(substr($vendor->VendorCode, 0, 3));
+                            $set('PO_Code', $poCode);
+                        }
+                    }),
+                Select::make('Purchase_Request')->required()->label('Purchase Request')->live()->reactive()
+                    ->options(PurchaseRequest::pluck('PR_Code', 'id'))
+                    ->searchable()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        $purchaseRequest = PurchaseRequest::with('items')->find($state);
+                        if ($purchaseRequest) {
+                            $items = $purchaseRequest->items->map(function ($item) {
+                                return [
+                                    'Item_Name' => $item->Item_Name,
+                                    'Item_Description' => $item->Item_Description,
+                                    'Quantity' => $item->Quantity,
+                                    'Price' => $item->Price,
+                                    'Unit' => $item->Unit,
+                                    'Tax' => $item->Tax,
+                                    'Total' => $item->Total,
+                                ];
+                            })->toArray();
+
+                            $set('purchaseOrderItems', $items);
+                        } else {
+                            $set('purchaseOrderItems', []);
+                        }
+                    })
+                    ->required(),
+                // ->relationship(name: 'purchaseRequest', titleAttribute: 'PR_Code'),
+                DateTimePicker::make('Order_Date')->label('Order Date')->required(),
+                Select::make('Department')->required()
+                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Department'),
+                Select::make('Category')->required()
+                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Category'),
+                Select::make('Project')->required()
+                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Project'),
 
                 /* Items Detail */
-                Repeater::make('')->label('Items Detail')
+                Repeater::make('purchaseOrderItems')
+                    ->label('Items Detail')
                     ->relationship()
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->required(),
-                        TextInput::make('Quantity')->numeric()->required()->debounce(600)
-                            ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $vHarga = $get('Price');
-                                $set('Total', $state * $vHarga);
-                            }),
-                        TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()->debounce(600)
+                        TextInput::make('Quantity')
+                            ->numeric()
+                            ->required()
+                            ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $vHarga = $get('Quantity');
-                                $set('Total', $state * $vHarga);
-                            })->required(),
+                                $set('Total', $state * $get('Price'));
+                            }),
+                        TextInput::make('Price')
+                            ->numeric()
+                            ->prefix('Rp.')
+                            ->required()
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                $set('Total', $state * $get('Quantity'));
+                            }),
                         TextInput::make('Unit')->numeric()->required(),
                         TextInput::make('Tax'),
-                        TextInput::make('Total')->numeric()->readOnly(true),
-                    ])->columns(7)->columnSpan(2)->addActionLabel('Tambah Item')->label('Tambahkan Item')->addActionAlignment(Alignment::Start)->reorderable(true)->reorderableWithButtons()->cloneable(),
+                        TextInput::make('Total')->numeric()->readOnly(),
+                    ])
+                    ->columns(7)
+                    ->columnSpan(2)
+                    ->addActionLabel('Tambah Item')
+                    ->reorderable()
+                    ->collapsible()
+                    ->cloneable(),
+
+                /* Result */
+                Fieldset::make()
+                    ->schema([
+                        /* Total */
+                        TextInput::make('SubTotal')
+                            ->placeholder(function (Set $set, Get $get) {
+                                $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
+                                if ($SubTotal == null) {
+                                    $set('SubTotal', 0);
+                                } else {
+                                    $set('SubTotal', $SubTotal);
+                                }
+                            })->readOnly(true),
+                        /* Grand Total */
+                        TextInput::make('GrandTotal')->label('Grand Total')
+                            ->placeholder(function (Set $set, Get $get) {
+                                $Grandtotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
+                                if ($Grandtotal == null) {
+                                    $set('GrandTotal', 0);
+                                } else {
+                                    $set('GrandTotal', $Grandtotal);
+                                }
+                            })->readOnly(true),
+                    ])
             ]);
     }
 
@@ -82,7 +168,12 @@ class PurchaseOrderResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('PO_Code')->label('PR Code'),
+                TextColumn::make('PO_Name')->label('PR Name'),
+                TextColumn::make('Vendors')->label('Vendors Type'),
+                TextColumn::make('Order_Date')->label('Order_Date'),
+                TextColumn::make('Project')->label('Purchase Type'),
+                TextColumn::make('GrandTotal'),
             ])
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Order')
@@ -99,6 +190,7 @@ class PurchaseOrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
