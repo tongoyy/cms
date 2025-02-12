@@ -13,18 +13,15 @@ return new class extends Migration
     {
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('Purchase_Orders_ID');
-            $table->unsignedBigInteger('Purchase_Request_ID');
+            $table->foreignId('Purchase_Orders_ID')->nullable()->constrained(table: 'purchase_orders');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
             $table->bigInteger('Price');
             $table->bigInteger('Unit');
             $table->bigInteger('Tax');
-            $table->bigInteger('Discount');
+            $table->bigInteger('Discount')->nullable();
             $table->bigInteger('Total');
-            $table->foreign('Purchase_Orders_ID')->references('id')->on('purchase_orders');
-            $table->foreign('Purchase_Request_ID')->references('id')->on('purchase_requests');
             $table->timestamps();
         });
     }

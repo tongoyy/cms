@@ -20,4 +20,9 @@ class Vendors extends Model
     {
         return $this->belongsTo(PurchaseRequest::class, 'Purchase_Request_ID');
     }
+
+    public function purchaseOrder()
+    {
+        return $this->belongsTo(PurchaseOrder::class, 'Purchase_Orders_ID');
+    }
 }

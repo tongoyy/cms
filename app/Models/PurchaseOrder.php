@@ -12,14 +12,29 @@ class PurchaseOrder extends Model
 
     protected $table = 'purchase_orders';
 
+    // public function discount($id)
+    // {
+    //     $product = PurchaseRequestItem::find($id);
+    //     $discount = PurchaseOrder::find($id);
+    //     if ($discount) {
+    //         if ($discount->type == 'amount') {
+    //             $finalPrice = max(0, $product->price - $discount->value);
+    //         } elseif ($discount->type == 'percent') {
+    //             $finalPrice = $product->price * (1 - $discount->value / 100);
+    //         }
+    //     } else {
+    //         $finalPrice = $product->price;
+    //     }
+    // }
+
     public function purchaseRequest()
     {
-        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Request_ID');
+        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Requests_ID');
     }
 
     public function purchaseRequestItems()
     {
-        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Request_ID');
+        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Requests_ID');
     }
 
     public function purchaseOrderItems()

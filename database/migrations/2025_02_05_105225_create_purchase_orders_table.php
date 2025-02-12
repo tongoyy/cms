@@ -13,8 +13,19 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Purchase_Requests_ID')->nullable()->constrained('purchase_requests');
-            $table->unsignedBigInteger('Vendors_ID')->nullable()->constrained('vendors');
+            // Foreign key ke purchase_requests
+            $table->foreignId('Purchase_Requests_ID') // Gunakan snake_case
+                ->nullable()
+                ->constrained('purchase_requests')
+                ->onDelete('set null');
+
+            // Foreign key ke vendors
+            $table->unsignedBigInteger('Vendors_ID')->nullable(); // 1. Definisikan kolom
+            $table->foreign('Vendors_ID') // 2. Baru tambahkan foreign key
+                ->references('id')
+                ->on('vendors')
+                ->onDelete('set null');
+
             $table->text('PO_Code');
             $table->bigInteger('Number');
             $table->text('PO_Name');
@@ -24,8 +35,17 @@ return new class extends Migration
             $table->text('Department');
             $table->text('Category');
             $table->text('Project');
-            $table->text('SubTotal');
-            $table->text('GrandTotal');
+            $table->bigInteger('Sub_Total');
+            $table->bigInteger('Discounts');
+            $table->enum('Discount_Type', ['amount', 'percent']);
+            $table->bigInteger('Total_Discount');
+            $table->bigInteger('Shipping_Fee');
+            $table->bigInteger('Grand_Total');
+            $table->text('Terbilang');
+            $table->text('Delivery_Time');
+            $table->text('Payment_Terms');
+            $table->text('Inspection_Notes');
+            $table->text('Vendor_Notes');
             $table->timestamps();
         });
     }

@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Purchase_Orders_ID')->nullable()->constrained('purchase_orders');
-            $table->timestamps();
             $table->bigInteger('Number');
             $table->text('VendorCode');
             $table->text('CompanyName');
@@ -24,6 +22,7 @@ return new class extends Migration
             $table->text('Address');
             $table->text('RekeningBank');
             $table->text('NomorRekening');
+            $table->timestamps();
         });
     }
 

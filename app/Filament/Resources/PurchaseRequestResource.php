@@ -89,7 +89,13 @@ class PurchaseRequestResource extends Resource
                         'Manufaktur' => 'Manufaktur',
                         'Project' => 'Project',
                     ]),
-                DateTimePicker::make('DueDate')->label('Due Date')->required(),
+                DateTimePicker::make('DueDate')->label('Due Date')->required()
+                    ->native(false)
+                    ->firstDayOfWeek(1)
+                    ->closeOnDateSelection()
+                    ->timezone('America/New_York')
+                    ->displayFormat('D, d-M-Y H:i:s')
+                    ->default(now()),
                 TextInput::make('Description'),
 
                 /* Items Detail */
@@ -98,13 +104,13 @@ class PurchaseRequestResource extends Resource
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->required(),
-                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 1500)
+                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 600)
                             ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Price');
                                 $set('Total', $state * $vHarga);
                             }),
                         TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()->live(debounce: 1500)
+                            ->reactive()->live(debounce: 600)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
                                 $set('Total', $state * $vHarga);

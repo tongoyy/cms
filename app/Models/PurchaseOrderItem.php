@@ -9,4 +9,9 @@ class PurchaseOrderItem extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function purchaseOrderItems()
+    {
+        return $this->hasMany(PurchaseOrderItem::class, 'Purchase_Orders_ID');
+    }
 }

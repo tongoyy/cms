@@ -16,23 +16,6 @@ class PurchaseRequest extends Model
     /* Relasi Items Detail */
     public function items()
     {
-        return $this->hasMany(PurchaseRequestItem::class, 'Purchase_Request_ID');
-    }
-
-    public function kodeOtomatis()
-    {
-        return '#PR-' . str_pad($this->id, 3, '0', STR_PAD_LEFT);
-    }
-
-    // PurchaseRequest.php
-    public function purchaseOrderItems()
-    {
-        return $this->hasMany(PurchaseOrderItem::class);
-    }
-
-    // PurchaseOrderItem.php
-    public function purchaseRequest()
-    {
-        return $this->belongsTo(PurchaseRequest::class);
+        return $this->hasMany(PurchaseRequestItem::class, 'Purchase_Requests_ID');
     }
 }

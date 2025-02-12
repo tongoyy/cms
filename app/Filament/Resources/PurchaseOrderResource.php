@@ -13,9 +13,11 @@ use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -51,6 +53,7 @@ class PurchaseOrderResource extends Resource
         $number = PurchaseOrder::latest()->value('Number');
         return $form
             ->schema([
+                Hidden::make('Purchase_Requests_ID')->nullable()->default(null),
                 TextInput::make('PO_Code')->label('Purchase Order Code')->default('#PO-0000' . $number++ . date('-Y'))->readOnly(true),
                 Hidden::make('Number')->default($number++),
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
@@ -96,7 +99,13 @@ class PurchaseOrderResource extends Resource
                     })
                     ->required(),
                 // ->relationship(name: 'purchaseRequest', titleAttribute: 'PR_Code'),
-                DateTimePicker::make('Order_Date')->label('Order Date')->required(),
+                DateTimePicker::make('Order_Date')->label('Order Date')->required()
+                    ->native(false)
+                    ->firstDayOfWeek(1)
+                    ->closeOnDateSelection()
+                    ->timezone('America/New_York')
+                    ->displayFormat('D, d-M-Y H:i:s')
+                    ->default(now()),
                 Select::make('Department')->required()
                     ->relationship(name: 'purchaseRequest', titleAttribute: 'Department'),
                 Select::make('Category')->required()
@@ -104,7 +113,7 @@ class PurchaseOrderResource extends Resource
                 Select::make('Project')->required()
                     ->relationship(name: 'purchaseRequest', titleAttribute: 'Project'),
 
-                /* Items Detail */
+                /* Orders Items Detail */
                 Repeater::make('purchaseOrderItems')
                     ->label('Items Detail')
                     ->relationship()
@@ -128,9 +137,21 @@ class PurchaseOrderResource extends Resource
                             }),
                         TextInput::make('Unit')->numeric()->required(),
                         TextInput::make('Tax'),
+                        TextInput::make('Discount')
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                                $quantity = $get('Quantity');
+                                $price = $get('Price');
+                                $totalAwal = $quantity * $price;
+                                if ('Discount' > 0) {
+                                    $set('Total', $get('Price') - ($get('Price') * ($state / 100)));
+                                } else {
+                                    $set('Total', $get('Price') * $get('Quantity'));
+                                }
+                            }),
                         TextInput::make('Total')->numeric()->readOnly(),
                     ])
-                    ->columns(7)
+                    ->columns(8)
                     ->columnSpan(2)
                     ->addActionLabel('Tambah Item')
                     ->reorderable()
@@ -138,28 +159,49 @@ class PurchaseOrderResource extends Resource
                     ->cloneable(),
 
                 /* Result */
-                Fieldset::make()
+                Fieldset::make()->columns(1)->columnSpan(1)->columnStart(2)->label('Result')
                     ->schema([
                         /* Total */
-                        TextInput::make('SubTotal')
+                        TextInput::make('Sub_Total')
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
                                 if ($SubTotal == null) {
-                                    $set('SubTotal', 0);
+                                    $set('Sub_Total', 0);
                                 } else {
-                                    $set('SubTotal', $SubTotal);
+                                    $set('Sub_Total', $SubTotal);
                                 }
                             })->readOnly(true),
+                        /* Discount */
+                        Grid::make()->schema(
+                            [
+                                TextInput::make('Discounts')->label('Discount')->numeric(),
+                                Select::make('Discount_Type')->label('Jenis Diskon')
+                                    ->options([
+                                        'Amount' => 'Amount',
+                                        'Percent' => '%',
+                                    ]),
+                                TextInput::make('Total_Discount')->label('Total Discount'),
+                                TextInput::make('Shipping_Fee')->label('Shipping Fee')
+                            ]
+                        ),
                         /* Grand Total */
-                        TextInput::make('GrandTotal')->label('Grand Total')
+                        TextInput::make('Grand_Total')->label('Grand Total')
                             ->placeholder(function (Set $set, Get $get) {
-                                $Grandtotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
-                                if ($Grandtotal == null) {
-                                    $set('GrandTotal', 0);
+                                $Grand_total = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
+                                if ($Grand_total == null) {
+                                    $set('Grand_Total', 0);
                                 } else {
-                                    $set('GrandTotal', $Grandtotal);
+                                    $set('Grand_Total', $Grand_total);
                                 }
                             })->readOnly(true),
+                    ]),
+                Fieldset::make()->columns(1)
+                    ->schema([
+                        TextInput::make('Terbilang')->label('Terbilang'),
+                        TextInput::make('Delivery_Time')->label('Delivery Time'),
+                        Textarea::make('Payment_Terms')->label('Payment Terms'),
+                        Textarea::make('Inspection_Notes')->label('Inspection Notes'),
+                        Textarea::make('Vendor_Notes')->label('Vendor Notes'),
                     ])
             ]);
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_request_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Purchase_Request_ID')->constrained(table: 'purchase_requests', indexName: 'id')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('Purchase_Requests_ID')->constrained(table: 'purchase_requests');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
