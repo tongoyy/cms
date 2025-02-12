@@ -31,6 +31,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\Attributes\Reactive;
+use PhpParser\Node\Stmt\Label;
 
 class PurchaseOrderResource extends Resource
 {
@@ -87,7 +88,6 @@ class PurchaseOrderResource extends Resource
                                     'Quantity' => $item->Quantity,
                                     'Price' => $item->Price,
                                     'Unit' => $item->Unit,
-                                    'Tax' => $item->Tax,
                                     'Total' => $item->Total,
                                 ];
                             })->toArray();
@@ -113,7 +113,7 @@ class PurchaseOrderResource extends Resource
                 Select::make('Project')->required()
                     ->relationship(name: 'purchaseRequest', titleAttribute: 'Project'),
 
-                /* Orders Items Detail */
+                /* Order Item Details */
                 Repeater::make('purchaseOrderItems')
                     ->label('Items Detail')
                     ->relationship()
@@ -125,7 +125,14 @@ class PurchaseOrderResource extends Resource
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $set('Total', $state * $get('Price'));
+                                $totalAwal = $state * $get('Price'); // Hitung total awal
+                                $diskon = $get('Discount'); // Ambil nilai diskon
+                                if ($diskon > 0) {
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100)); // Hitung total setelah diskon
+                                    $set('Total', $totalSetelahDiskon);
+                                } else {
+                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
+                                }
                             }),
                         TextInput::make('Price')
                             ->numeric()
@@ -133,20 +140,52 @@ class PurchaseOrderResource extends Resource
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $set('Total', $state * $get('Quantity'));
+                                $totalAwal = $state * $get('Quantity'); // Hitung total awal
+                                $diskon = $get('Discount'); // Ambil nilai diskon
+                                if ($diskon > 0) {
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100)); // Hitung total setelah diskon
+                                    $set('Total', $totalSetelahDiskon);
+                                } else {
+                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
+                                }
                             }),
-                        TextInput::make('Unit')->numeric()->required(),
-                        TextInput::make('Tax'),
+                        TextInput::make('Unit')->required(),
+                        Select::make('Tax')->label('Tax')
+                            ->options([
+                                'PPH' => 'PPH (2%)',
+                                'PPN' => 'PPN (12%)',
+                                'None' => 'Tanpa Pajak'
+                            ])
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, Get $get) {
+                                $total = (float) $get('Total');
+                                $taxType = $get('Tax');
+
+                                if ($taxType === 'PPH') {
+                                    $taxAmount = 0.02 * $total; // 2% dari Total
+                                } elseif ($taxType === 'PPN') {
+                                    $taxAmount = 0.12 * $total; // 12% dari Total
+                                } else {
+                                    $taxAmount = 0;
+                                }
+
+                                $set('Tax_Amount', $taxAmount);
+                                $set('Total', $total + $taxAmount);
+                            }),
+
+                        Hidden::make('Tax_Amount'),
+
                         TextInput::make('Discount')
+                            ->Label('Discount(%)')
+                            ->numeric()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $quantity = $get('Quantity');
-                                $price = $get('Price');
-                                $totalAwal = $quantity * $price;
-                                if ('Discount' > 0) {
-                                    $set('Total', $get('Price') - ($get('Price') * ($state / 100)));
+                                $totalAwal = $get('Price') * $get('Quantity'); // Hitung total awal
+                                if ($state > 0) {
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($state / 100)); // Hitung total setelah diskon
+                                    $set('Total', $totalSetelahDiskon);
                                 } else {
-                                    $set('Total', $get('Price') * $get('Quantity'));
+                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
                                 }
                             }),
                         TextInput::make('Total')->numeric()->readOnly(),
@@ -165,36 +204,90 @@ class PurchaseOrderResource extends Resource
                         TextInput::make('Sub_Total')
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
-                                if ($SubTotal == null) {
-                                    $set('Sub_Total', 0);
-                                } else {
-                                    $set('Sub_Total', $SubTotal);
-                                }
-                            })->readOnly(true),
+                                $set('Sub_Total', $SubTotal ?? 0);
+                            })->readOnly(true)->debounce(1000),
+
                         /* Discount */
-                        Grid::make()->schema(
-                            [
-                                TextInput::make('Discounts')->label('Discount')->numeric(),
-                                Select::make('Discount_Type')->label('Jenis Diskon')
-                                    ->options([
-                                        'Amount' => 'Amount',
-                                        'Percent' => '%',
-                                    ]),
-                                TextInput::make('Total_Discount')->label('Total Discount'),
-                                TextInput::make('Shipping_Fee')->label('Shipping Fee')
-                            ]
-                        ),
+                        Grid::make()->schema([
+                            TextInput::make('Discounts')
+                                ->label('Discount')
+                                ->numeric()
+                                ->reactive()
+                                ->afterStateUpdated(function (Set $set, Get $get) {
+                                    $discount = (float) $get('Discounts');
+                                    $subTotal = (float) $get('Sub_Total');
+                                    $discountType = $get('Discount_Type');
+                                    $shippingFee = (float) $get('Shipping_Fee');
+
+                                    // Hitung Total Discount
+                                    if ($discountType === 'Amount') {
+                                        $totalDiscount = min($discount, $subTotal);
+                                    } elseif ($discountType === 'Percent') {
+                                        $totalDiscount = ($discount / 100) * $subTotal;
+                                    } else {
+                                        $totalDiscount = 0;
+                                    }
+
+                                    // Hitung Grand Total setelah diskon dan Shipping Fee
+                                    $grandTotal = max(($subTotal - $totalDiscount) - $shippingFee, 0);
+
+                                    $set('Total_Discount', $totalDiscount);
+                                    $set('Grand_Total', $grandTotal);
+                                })->debounce(1000),
+
+                            Select::make('Discount_Type')
+                                ->label('Jenis Diskon')
+                                ->options([
+                                    'Amount' => 'Amount',
+                                    'Percent' => '%',
+                                ])
+                                ->reactive()
+                                ->afterStateUpdated(function (Set $set, Get $get) {
+                                    $discount = (float) $get('Discounts');
+                                    $subTotal = (float) $get('Sub_Total');
+                                    $discountType = $get('Discount_Type');
+                                    $shippingFee = (float) $get('Shipping_Fee');
+
+                                    // Hitung Total Discount
+                                    if ($discountType === 'Amount') {
+                                        $totalDiscount = min($discount, $subTotal);
+                                    } elseif ($discountType === 'Percent') {
+                                        $totalDiscount = ($discount / 100) * $subTotal;
+                                    } else {
+                                        $totalDiscount = 0;
+                                    }
+
+                                    // Hitung Grand Total setelah diskon dan Shipping Fee
+                                    $grandTotal = max(($subTotal - $totalDiscount) - $shippingFee, 0);
+
+                                    $set('Total_Discount', $totalDiscount);
+                                    $set('Grand_Total', $grandTotal);
+                                })->debounce(1000),
+
+                            TextInput::make('Total_Discount')->label('Total Discount')->readOnly(true),
+
+                            TextInput::make('Shipping_Fee')
+                                ->label('Shipping Fee')
+                                ->numeric()
+                                ->reactive()
+                                ->afterStateUpdated(function (Set $set, Get $get) {
+                                    $subTotal = (float) $get('Sub_Total');
+                                    $totalDiscount = (float) $get('Total_Discount');
+                                    $shippingFee = (float) $get('Shipping_Fee');
+
+                                    // Hitung Grand Total setelah diskon dan Shipping Fee
+                                    $grandTotal = max(($subTotal - $totalDiscount) + $shippingFee, 0);
+
+                                    $set('Grand_Total', $grandTotal);
+                                })->debounce(1000),
+                        ]),
+
                         /* Grand Total */
-                        TextInput::make('Grand_Total')->label('Grand Total')
-                            ->placeholder(function (Set $set, Get $get) {
-                                $Grand_total = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
-                                if ($Grand_total == null) {
-                                    $set('Grand_Total', 0);
-                                } else {
-                                    $set('Grand_Total', $Grand_total);
-                                }
-                            })->readOnly(true),
+                        TextInput::make('Grand_Total')
+                            ->label('Grand Total')
+                            ->readOnly(true)
                     ]),
+
                 Fieldset::make()->columns(1)
                     ->schema([
                         TextInput::make('Terbilang')->label('Terbilang'),
@@ -212,10 +305,10 @@ class PurchaseOrderResource extends Resource
             ->columns([
                 TextColumn::make('PO_Code')->label('PR Code'),
                 TextColumn::make('PO_Name')->label('PR Name'),
-                TextColumn::make('Vendors')->label('Vendors Type'),
+                TextColumn::make('Vendors')->label('Vendors'),
                 TextColumn::make('Order_Date')->label('Order_Date'),
                 TextColumn::make('Project')->label('Purchase Type'),
-                TextColumn::make('GrandTotal'),
+                TextColumn::make('Grand_Total'),
             ])
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Order')

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
+
             // Foreign key ke purchase_requests
             $table->foreignId('Purchase_Requests_ID') // Gunakan snake_case
                 ->nullable()

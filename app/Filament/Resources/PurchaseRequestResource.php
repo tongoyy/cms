@@ -115,11 +115,43 @@ class PurchaseRequestResource extends Resource
                                 $vHarga = $get('Quantity');
                                 $set('Total', $state * $vHarga);
                             })->required(),
-                        TextInput::make('Unit')->numeric()->required(),
-                        TextInput::make('Tax'),
-                        TextInput::make('Total')->numeric()->readOnly(true),
+                        TextInput::make('Unit')->required(),
 
-                    ])->columns(7)->columnSpan(2)->addActionLabel('Tambah Item')->label('Tambahkan Item')->addActionAlignment(Alignment::Start)->reorderable(true)->reorderableWithButtons()->cloneable(),
+                        Select::make('Tax')->label('Tax')
+                            ->options([
+                                'PPH' => 'PPH (2%)',
+                                'PPN' => 'PPN (12%)',
+                                'None' => 'Tanpa Pajak'
+                            ])
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, Get $get) {
+                                $total = (float) $get('Total');
+                                $taxType = $get('Tax');
+
+                                if ($taxType === 'PPH') {
+                                    $taxAmount = 0.02 * $total; // 2% dari Total
+                                } elseif ($taxType === 'PPN') {
+                                    $taxAmount = 0.12 * $total; // 12% dari Total
+                                } else {
+                                    $taxAmount = 0;
+                                }
+
+                                $set('Tax_Amount', $taxAmount);
+                                $set('Total', $total + $taxAmount);
+                            }),
+
+                        Hidden::make('Tax_Amount'),
+
+                        TextInput::make('Total')->numeric()->readOnly(true),
+                    ])
+                    ->columns(7)
+                    ->columnSpan(2)
+                    ->addActionLabel('Tambah Item')
+                    ->label('Tambahkan Item')
+                    ->addActionAlignment(Alignment::Start)
+                    ->reorderable(true)
+                    ->reorderableWithButtons()
+                    ->cloneable(),
 
                 Fieldset::make()
                     ->schema([

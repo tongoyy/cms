@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('purchase_order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Purchase_Orders_ID')->nullable()->constrained(table: 'purchase_orders');
+            $table->foreignId('Purchase_Orders_ID')
+                ->nullable()
+                ->constrained(table: 'purchase_orders')
+                ->onDelete('set null');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
             $table->bigInteger('Price');
-            $table->bigInteger('Unit');
-            $table->bigInteger('Tax');
+            $table->text('Unit');
+            $table->text('Tax');
+            $table->bigInteger('Tax_Amount');
             $table->bigInteger('Discount')->nullable();
             $table->bigInteger('Total');
             $table->timestamps();

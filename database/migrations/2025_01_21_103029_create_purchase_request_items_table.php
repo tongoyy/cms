@@ -18,8 +18,9 @@ return new class extends Migration
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
             $table->bigInteger('Price');
-            $table->bigInteger('Unit');
-            $table->bigInteger('Tax');
+            $table->string('Unit');
+            $table->text('Tax');
+            $table->bigInteger('Tax_Amount');
             $table->bigInteger('Total');
             $table->timestamps();
         });
