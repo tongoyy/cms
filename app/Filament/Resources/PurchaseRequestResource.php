@@ -59,7 +59,15 @@ class PurchaseRequestResource extends Resource
         $number = PurchaseRequest::latest()->value('Number');
         return $form
             ->schema([
-                TextInput::make('PR_Code')->label('Purchase Request Code')->default('#PR-0000' . $number++ . date('-Y'))->readOnly(true),
+                TextInput::make('PR_Code')
+                    ->label('Purchase Request Code')
+                    ->default(function () {
+                        $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+                        return "#PR-" . $nextNumber++ . '-' . date('Y');
+                    })
+                    ->readOnly(),
+
                 // TextInput::make('Number')->label('Number')->default($number++),
                 Hidden::make('Number')->default($number++),
                 TextInput::make('PR_Name')->label('Purchase Request Name')->required(),

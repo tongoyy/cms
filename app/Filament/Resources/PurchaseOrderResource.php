@@ -64,13 +64,21 @@ class PurchaseOrderResource extends Resource
                     ->reactive()
                     ->searchable()
                     ->afterStateUpdated(function ($state, Set $set) {
-                        // Fetch the selected vendor
+                        // Ambil vendor yang dipilih
                         $vendor = Vendors::find($state);
-                        $number = 0;
-                        $number = PurchaseOrder::latest()->value('Number');
+
+                        // Ambil nomor PO terakhir dan tingkatkan nilainya
+                        $lastNumber = PurchaseOrder::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Format jadi 0001, 0002, dst.
+
                         if ($vendor) {
-                            // Generate the PO_Code with the vendor's name
-                            $poCode = '#PO-0000' . $number++ . date('-Y') . '-' . strtoupper(substr($vendor->VendorCode, 0, 3));
+                            // Gunakan VendorCode secara lengkap
+                            $vendorCode = strtoupper($vendor->VendorCode);
+
+                            // Format PO_Code: #PO-{nomor urut}{tahun}-{VENDORCODE}
+                            $poCode = "#PO-{$nextNumber}" . date('-Y') . "-{$vendorCode}";
+
+                            // Set PO_Code ke field
                             $set('PO_Code', $poCode);
                         }
                     }),

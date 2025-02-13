@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('purchase_requests', function (Blueprint $table) {
             $table->id();
             $table->string('PR_Code');
-            $table->bigInteger('Number');
+            $table->bigInteger('Number')->nullable();
             $table->text('PR_Name');
             $table->string('Project');
             $table->string('Department');

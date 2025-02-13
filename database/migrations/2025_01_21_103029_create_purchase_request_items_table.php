@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('purchase_request_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('Purchase_Requests_ID')->constrained(table: 'purchase_requests');
+            $table->foreignId('Purchase_Requests_ID') // Gunakan snake_case
+                ->nullable()
+                ->constrained('purchase_requests')
+                ->onDelete('set null');
             $table->text('Item_Name');
             $table->text('Item_Description');
             $table->bigInteger('Quantity');
