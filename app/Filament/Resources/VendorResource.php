@@ -43,7 +43,14 @@ class VendorResource extends Resource
         $number = Vendors::latest()->value('Number');
         return $form
             ->schema([
-                TextInput::make('VendorCode')->label('Vendor Code')->default('#VC-0' . $number++)->readOnly(true),
+                TextInput::make('VendorCode')->label('Vendor Code')->required()
+                    ->label('Vendor Code')
+                    ->default(function () {
+                        $lastNumber = \App\Models\Vendors::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+                        return "VC-" . $nextNumber++;
+                    })
+                    ->readOnly(),
                 Hidden::make('Number')->default($number++),
                 TextInput::make('CompanyName')->label('Company Name')->required(),
                 TextInput::make('NPWP')->label('NPWP')->required(),

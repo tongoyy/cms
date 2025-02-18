@@ -101,7 +101,8 @@ class PurchaseRequestResource extends Resource
                     ->native(false)
                     ->firstDayOfWeek(1)
                     ->closeOnDateSelection()
-                    ->timezone('America/New_York')
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
                     ->displayFormat('D, d-M-Y H:i:s')
                     ->default(now()),
                 TextInput::make('Description'),

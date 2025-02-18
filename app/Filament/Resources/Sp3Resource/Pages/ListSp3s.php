@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\SPTigaResource\Pages;
+namespace App\Filament\Resources\Sp3Resource\Pages;
 
-use App\Filament\Resources\SPTigaResource;
+use App\Filament\Resources\Sp3Resource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListSPTigas extends ListRecords
+class ListSp3s extends ListRecords
 {
-    protected static string $resource = SPTigaResource::class;
+    protected static string $resource = Sp3Resource::class;
 
     protected function getHeaderActions(): array
     {

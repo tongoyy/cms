@@ -55,7 +55,14 @@ class PurchaseOrderResource extends Resource
         return $form
             ->schema([
                 Hidden::make('Purchase_Requests_ID')->nullable()->default(null),
-                TextInput::make('PO_Code')->label('Purchase Order Code')->default('#PO-0000' . $number++ . date('-Y'))->readOnly(true),
+                TextInput::make('PO_Code')
+                    ->label('Purchase Order Code')
+                    ->default(function () {
+                        $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+                        return "#PO-" . $nextNumber++ . '-' . date('Y');
+                    })
+                    ->readOnly(),
                 Hidden::make('Number')->default($number++),
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
                 Select::make('Vendors')->required()
@@ -111,15 +118,35 @@ class PurchaseOrderResource extends Resource
                     ->native(false)
                     ->firstDayOfWeek(1)
                     ->closeOnDateSelection()
-                    ->timezone('America/New_York')
+                    ->timezone('Asia/Jakarta')
                     ->displayFormat('D, d-M-Y H:i:s')
                     ->default(now()),
-                Select::make('Department')->required()
-                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Department'),
-                Select::make('Category')->required()
-                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Category'),
-                Select::make('Project')->required()
-                    ->relationship(name: 'purchaseRequest', titleAttribute: 'Project'),
+                // Select::make('Department')->required()
+                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Department')->label('Department'),
+                // Select::make('Category')->required()
+                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Category')->label('Category'),
+                // Select::make('Project')->required()
+                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Project')->label('Project'),
+                Select::make('Department')->required()->label('Department')
+                    ->options([
+                        'Administrative' => 'Administrative',
+                        'Operation' => 'Operation',
+                        'Business Development' => 'Business Development',
+                        'Executive' => 'Executive',
+                        'Manufacture' => 'Manufacture',
+                    ]),
+                Select::make('Category')->required()->label('Category')
+                    ->options([
+                        'Operasional Kantor' => 'Operasional Kantor',
+                        'Outstanding' => 'Outstanding',
+                        'Manufaktur' => 'Manufaktur',
+                        'Project' => 'Project',
+                    ]),
+                Select::make('Project')->required()->label('Project')
+                    ->options([
+                        'Zona 4' => 'Zona 4',
+                        'Zona 11' => 'Zona 11',
+                    ]),
 
                 /* Order Item Details */
                 Repeater::make('purchaseOrderItems')
@@ -283,22 +310,30 @@ class PurchaseOrderResource extends Resource
                                     $totalDiscount = (float) $get('Total_Discount');
                                     $shippingFee = (float) $get('Shipping_Fee');
 
-                                    // Hitung Grand Total setelah diskon dan Shipping Fee
+                                    // Hitung Grand Total
                                     $grandTotal = max(($subTotal - $totalDiscount) + $shippingFee, 0);
 
+                                    // Set Grand Total
                                     $set('Grand_Total', $grandTotal);
+
+                                    // Konversi Grand Total ke terbilang
+                                    $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
                                 })->debounce(1000),
                         ]),
 
                         /* Grand Total */
                         TextInput::make('Grand_Total')
                             ->label('Grand Total')
-                            ->readOnly(true)
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, Get $get) {
+                                $grandTotal = (float) $get('Grand_Total');
+                                $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
+                            }),
                     ]),
 
                 Fieldset::make()->columns(1)
                     ->schema([
-                        TextInput::make('Terbilang')->label('Terbilang'),
+                        TextInput::make('Terbilang')->label('Terbilang')->readOnly(),
                         TextInput::make('Delivery_Time')->label('Delivery Time'),
                         Textarea::make('Payment_Terms')->label('Payment Terms'),
                         Textarea::make('Inspection_Notes')->label('Inspection Notes'),

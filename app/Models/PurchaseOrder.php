@@ -46,4 +46,24 @@ class PurchaseOrder extends Model
     {
         return $this->belongsTo(Vendors::class, 'Vendors_ID');
     }
+
+    /* Kode Ototmatis */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($purchaseOrder) {
+            // Ambil nomor terakhir dari database
+            $lastNumber = self::latest()->value('Number') ?? 0;
+
+            // Tambah 1 dan buat format 5 digit
+            $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+
+            // Set PR_Code ke format yang benar
+            $purchaseOrder->PO_Code = "#PO-{$nextNumber}-" . date('Y');
+
+            // Simpan angka terakhir ke kolom Number
+            $purchaseOrder->Number = $lastNumber + 1;
+        });
+    }
 }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('s_p__tigas', function (Blueprint $table) {
+        Schema::create('sp3s', function (Blueprint $table) {
             $table->id();
 
             // Foreign key ke purchase_requests
@@ -34,32 +34,33 @@ return new class extends Migration
                 ->onDelete('set null');
 
             $table->text('SP3_Number');
-            $table->text('Purchase_Request');
-            $table->text('Purchase_Order');
+            $table->text('Number');
+            $table->text('Purchase_Request')->nullable();
+            $table->text('Purchase_Order')->nullable();
             $table->text('Vendors');
             $table->date('Date_Created');
-            $table->date('Nama_Supplier');
-            $table->date('No_Invoice');
+            $table->text('Nama_Supplier');
+            $table->text('No_Invoice');
             $table->date('Tanggal_Invoice');
-            $table->date('No_Kwitansi');
+            $table->text('No_Kwitansi');
             $table->date('Tanggal_Kwitansi');
-            $table->date('No_DO');
+            $table->text('No_DO');
             $table->date('Tanggal_DO');
-            $table->date('No_FP');
+            $table->text('No_FP');
             $table->date('Tanggal_FP');
-            $table->date('Jenis_Pembayaran');
-            $table->date('Untuk_Pembayaran');
-            $table->date('Rekening_Bank');
-            $table->date('Nomor_Rekening');
-            $table->date('Atas_Nama');
-            $table->date('Lokasi');
-            $table->date('Paid_Status');
-            $table->date('Amount');
-            $table->date('PPN');
-            $table->date('PPH');
-            $table->date('Discount');
-            $table->date('Jumlah');
-            $table->date('Terbilang');
+            $table->text('Jenis_Pembayaran');
+            $table->text('Untuk_Pembayaran');
+            $table->bigInteger('Rekening_Bank');
+            $table->bigInteger('Nomor_Rekening');
+            $table->text('Atas_Nama');
+            $table->text('Lokasi');
+            $table->text('Paid_Status');
+            $table->bigInteger('Amount');
+            $table->bigInteger('PPN');
+            $table->bigInteger('PPH');
+            $table->bigInteger('Discount');
+            $table->bigInteger('Jumlah');
+            $table->longText('Terbilang');
             $table->timestamps();
         });
     }
@@ -69,6 +70,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('s_p__tigas');
+        Schema::dropIfExists('sp3s');
     }
 };
