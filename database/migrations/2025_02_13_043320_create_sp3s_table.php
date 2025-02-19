@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
 
             // Foreign key ke purchase_requests
-            $table->foreignId('Purchase_Requests_ID') // Gunakan snake_case
+            $table->unsignedBigInteger('Purchase_Requests_ID') // Gunakan snake_case
                 ->nullable()
                 ->constrained('purchase_requests')
                 ->onDelete('set null');
 
             // Foreign key ke purchase_requests
-            $table->foreignId('Purchase_Orders_ID') // Gunakan snake_case
+            $table->unsignedBigInteger('Purchase_Orders_ID') // Gunakan snake_case
                 ->nullable()
                 ->constrained('purchase_orders')
                 ->onDelete('set null');
@@ -33,10 +33,10 @@ return new class extends Migration
                 ->on('vendors')
                 ->onDelete('set null');
 
-            $table->text('SP3_Number');
+            $table->longText('SP3_Number');
             $table->text('Number');
-            $table->text('Purchase_Request')->nullable();
-            $table->text('Purchase_Order')->nullable();
+            $table->longText('Purchase_Request')->nullable();
+            $table->longText('Purchase_Order')->nullable();
             $table->text('Vendors');
             $table->date('Date_Created');
             $table->text('Nama_Supplier');
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->date('Tanggal_FP');
             $table->text('Jenis_Pembayaran');
             $table->text('Untuk_Pembayaran');
-            $table->bigInteger('Rekening_Bank');
+            $table->text('Rekening_Bank');
             $table->bigInteger('Nomor_Rekening');
             $table->text('Atas_Nama');
             $table->text('Lokasi');

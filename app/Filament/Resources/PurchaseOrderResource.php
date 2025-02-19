@@ -57,37 +57,42 @@ class PurchaseOrderResource extends Resource
                 Hidden::make('Purchase_Requests_ID')->nullable()->default(null),
                 TextInput::make('PO_Code')
                     ->label('Purchase Order Code')
-                    ->default(function () {
+                    ->default(function (Get $get) {
+                        // Ambil nomor PO terakhir
                         $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-                        return "#PO-" . $nextNumber++ . '-' . date('Y');
+
+                        // Ambil ID Vendor dari select
+                        $vendorId = $get('Vendors');
+                        $vendorCode = \App\Models\Vendors::where('id', $vendorId)->value('VendorCode') ?? '000';
+
+                        // Format PO Code
+                        return "#PO-{$nextNumber}-" . date('Y') . "-VC-{$vendorCode}";
                     })
                     ->readOnly(),
-                Hidden::make('Number')->default($number++),
+
+                /* Number */
+                Hidden::make('Number')->label('Number')->default($number + 1),
+
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
-                Select::make('Vendors')->required()
+                Select::make('Vendors')->label('Vendor')->required()
                     ->relationship(name: 'vendors', titleAttribute: 'CompanyName')
-                    ->options(Vendors::pluck('CompanyName', 'id'))
+                    ->options(\App\Models\Vendors::pluck('CompanyName', 'id'))
                     ->reactive()
                     ->searchable()
-                    ->afterStateUpdated(function ($state, Set $set) {
-                        // Ambil vendor yang dipilih
-                        $vendor = Vendors::find($state);
+                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                        // Ambil nomor PO terakhir
+                        $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
 
-                        // Ambil nomor PO terakhir dan tingkatkan nilainya
-                        $lastNumber = PurchaseOrder::latest()->value('Number') ?? 0;
-                        $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Format jadi 0001, 0002, dst.
+                        // Ambil kode vendor berdasarkan ID yang dipilih
+                        $vendorCode = \App\Models\Vendors::where('id', $state)->value('VendorCode') ?? '000';
 
-                        if ($vendor) {
-                            // Gunakan VendorCode secara lengkap
-                            $vendorCode = strtoupper($vendor->VendorCode);
+                        // Format PO Code
+                        $poCode = "#PO-{$nextNumber}-" . date('Y') . "-{$vendorCode}";
 
-                            // Format PO_Code: #PO-{nomor urut}{tahun}-{VENDORCODE}
-                            $poCode = "#PO-{$nextNumber}" . date('-Y') . "-{$vendorCode}";
-
-                            // Set PO_Code ke field
-                            $set('PO_Code', $poCode);
-                        }
+                        // Set PO_Code ke field
+                        $set('PO_Code', $poCode);
                     }),
                 Select::make('Purchase_Request')->required()->label('Purchase Request')->live()->reactive()
                     ->options(PurchaseRequest::pluck('PR_Code', 'id'))
@@ -128,6 +133,7 @@ class PurchaseOrderResource extends Resource
                 // Select::make('Project')->required()
                 //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Project')->label('Project'),
                 Select::make('Department')->required()->label('Department')
+                    ->placeholder('Pilih Departemen')
                     ->options([
                         'Administrative' => 'Administrative',
                         'Operation' => 'Operation',
@@ -136,6 +142,7 @@ class PurchaseOrderResource extends Resource
                         'Manufacture' => 'Manufacture',
                     ]),
                 Select::make('Category')->required()->label('Category')
+                    ->placeholder('Pilih Kategori')
                     ->options([
                         'Operasional Kantor' => 'Operasional Kantor',
                         'Outstanding' => 'Outstanding',
@@ -143,6 +150,7 @@ class PurchaseOrderResource extends Resource
                         'Project' => 'Project',
                     ]),
                 Select::make('Project')->required()->label('Project')
+                    ->placeholder('Pilih Project')
                     ->options([
                         'Zona 4' => 'Zona 4',
                         'Zona 11' => 'Zona 11',
@@ -185,7 +193,7 @@ class PurchaseOrderResource extends Resource
                                 }
                             }),
                         TextInput::make('Unit')->required(),
-                        Select::make('Tax')->label('Tax')
+                        Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->required()
                             ->options([
                                 'PPH' => 'PPH (2%)',
                                 'PPN' => 'PPN (12%)',
@@ -211,6 +219,10 @@ class PurchaseOrderResource extends Resource
                         Hidden::make('Tax_Amount'),
 
                         TextInput::make('Discount')
+                            ->default(function (Get $get) {
+                                return $get('Discount') ?? 0;
+                            })
+                            ->nullable()
                             ->Label('Discount(%)')
                             ->numeric()
                             ->reactive()
@@ -240,11 +252,15 @@ class PurchaseOrderResource extends Resource
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
                                 $set('Sub_Total', $SubTotal ?? 0);
-                            })->readOnly(true)->debounce(1000),
+                            })->readOnly(true)->debounce(600),
 
                         /* Discount */
                         Grid::make()->schema([
                             TextInput::make('Discounts')
+                                ->default(function (Get $get) {
+                                    return $get('Discount') ?? 0;
+                                })
+                                ->nullable()
                                 ->label('Discount')
                                 ->numeric()
                                 ->reactive()
@@ -268,9 +284,11 @@ class PurchaseOrderResource extends Resource
 
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
-                                })->debounce(1000),
+                                })->debounce(600),
 
                             Select::make('Discount_Type')
+                                ->placeholder('Pilih Jenis Diskon')
+                                ->nullable()
                                 ->label('Jenis Diskon')
                                 ->options([
                                     'Amount' => 'Amount',
@@ -297,11 +315,12 @@ class PurchaseOrderResource extends Resource
 
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
-                                })->debounce(1000),
+                                })->debounce(600),
 
                             TextInput::make('Total_Discount')->label('Total Discount')->readOnly(true),
 
                             TextInput::make('Shipping_Fee')
+                                ->required()
                                 ->label('Shipping Fee')
                                 ->numeric()
                                 ->reactive()
@@ -318,7 +337,7 @@ class PurchaseOrderResource extends Resource
 
                                     // Konversi Grand Total ke terbilang
                                     $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
-                                })->debounce(1000),
+                                })->debounce(600),
                         ]),
 
                         /* Grand Total */
@@ -334,10 +353,10 @@ class PurchaseOrderResource extends Resource
                 Fieldset::make()->columns(1)
                     ->schema([
                         TextInput::make('Terbilang')->label('Terbilang')->readOnly(),
-                        TextInput::make('Delivery_Time')->label('Delivery Time'),
-                        Textarea::make('Payment_Terms')->label('Payment Terms'),
-                        Textarea::make('Inspection_Notes')->label('Inspection Notes'),
-                        Textarea::make('Vendor_Notes')->label('Vendor Notes'),
+                        TextInput::make('Delivery_Time')->label('Delivery Time')->nullable(),
+                        Textarea::make('Payment_Terms')->label('Payment Terms')->nullable(),
+                        Textarea::make('Inspection_Notes')->label('Inspection Notes')->nullable(),
+                        Textarea::make('Vendor_Notes')->label('Vendor Notes')->nullable(),
                     ])
             ]);
     }

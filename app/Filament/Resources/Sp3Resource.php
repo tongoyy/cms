@@ -24,6 +24,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -49,39 +50,45 @@ class Sp3Resource extends Resource
 
         function hitungTotal(Set $set, Get $get)
         {
-            $amount = (float) $get('Amount');
-            $includePPN = $get('PPN');
-            $includePPH = $get('PPH');
+            // Ambil nilai Amount, PPN, PPH, dan Discount
+            $amount = (float) $get('Amount') ?? 0;
+            $ppn = $get('PPN') ? $amount * 0.12 : 0;
+            $pph = $get('PPH') ? $amount * 0.02 : 0;
+            $discount = (float) $get('Discount') ?? 0;
 
-            $total = $amount;
+            // Hitung total setelah PPN, PPH, dan Diskon
+            $total = ($amount + $ppn - $pph) - $discount;
 
-            if ($includePPN) {
-                $total += ($amount * 0.12); // Tambah 12%
-            }
-
-            if ($includePPH) {
-                $total += ($amount * 0.02); // Tambah 2%
-            }
-
+            // Set nilai ke field 'Jumlah'
             $set('Jumlah', $total);
-            $jumlah = (float) $get('Jumlah');
-            $set('Terbilang', ucwords(terbilang($jumlah)) . " Rupiah");
+
+            // Konversi ke terbilang
+            $set('Terbilang', ucwords(terbilang($total)) . " Rupiah");
         }
 
         return $form
             ->schema([
                 Fieldset::make()
                     ->schema([
-                        Fieldset::make()->label('First Row')
+                        Fieldset::make()->label('Baris Pertama')
                             ->schema([
                                 TextInput::make('SP3_Number')->label('SP3 Number')
-                                    ->default(function () {
-                                        $lastNumber = \App\Models\Sp3::latest()->value('Number') ?? 0;
+                                    ->default(function (Get $get) {
+                                        // Ambil nomor PO terakhir
+                                        $lastNumber = \App\Models\sp3::latest()->value('Number') ?? 0;
                                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-                                        return $nextNumber++ . '/AMI-SP3/' . date('m/Y');
+
+                                        // Ambil ID Vendor dari select
+                                        $vendorId = $get('Vendors');
+                                        $vendorCode = \App\Models\Vendors::where('id', $vendorId)->value('VendorCode') ?? '000';
+
+                                        // Format PO Code
+                                        return "{$nextNumber}/AMI-SP3/" . date('m/Y') . "-{$vendorCode}";
                                     })
                                     ->readOnly(),
-                                Hidden::make('Number')->default($number++),
+
+                                /* Number */
+                                Hidden::make('Number')->label('Number')->default($number + 1),
 
                                 /* Purchase Request */
                                 Select::make('Purchase_Request')->label('Purchase Request')
@@ -89,29 +96,38 @@ class Sp3Resource extends Resource
                                     ->visible(fn(Get $get): bool => !$get('Purchase_Order'))
                                     ->options(PurchaseRequest::pluck('PR_Code', 'id'))
                                     ->reactive()
-                                    ->afterStateUpdated(function (Set $set, Get $get) {
-                                        $PO = PurchaseRequest::latest()->value('GrandTotal') ?? 0;
-                                        if ($PO) {
-                                            $set('Amount', $PO);
-                                            $set('Jumlah', $PO);
-                                            $jumlah = (float) $get('Amount');
-                                            $set('Terbilang', ucwords(terbilang($jumlah)) . " Rupiah");
+                                    ->afterStateUpdated(function (Set $set, Get $get, $state) {
+                                        if ($state) { // Jika ada yang dipilih
+                                            $PR = PurchaseRequest::find($state)?->GrandTotal ?? 0;
+                                            $set('Amount', $PR);
+                                            $set('Jumlah', $PR);
+                                            $set('Terbilang', ucwords(terbilang($PR)) . " Rupiah");
+                                        } else {
+                                            // Jika tidak ada yang dipilih, kosongkan field
+                                            $set('Amount', null);
+                                            $set('Jumlah', null);
+                                            $set('Terbilang', null);
                                         }
                                     }),
 
-                                /* Purchase Request */
+                                /* Purchase Order */
                                 Select::make('Purchase_Order')->label('Purchase Order')
                                     ->live()
                                     ->visible(fn(Get $get): bool => !$get('Purchase_Request'))
                                     ->options(PurchaseOrder::pluck('PO_Code', 'id'))
                                     ->reactive()
-                                    ->afterStateUpdated(function (Set $set, Get $get) {
-                                        $PO = PurchaseOrder::latest()->value('Grand_Total') ?? 0;
-                                        if ($PO) {
+                                    ->afterStateUpdated(function (Set $set, Get $get, $state) {
+                                        if ($state) {
+                                            // Jika ada yang dipilih
+                                            $PO = PurchaseOrder::find($state)?->Grand_Total ?? 0;
                                             $set('Amount', $PO);
                                             $set('Jumlah', $PO);
-                                            $jumlah = (float) $get('Amount');
-                                            $set('Terbilang', ucwords(terbilang($jumlah)) . " Rupiah");
+                                            $set('Terbilang', ucwords(terbilang($PO)) . " Rupiah");
+                                        } else {
+                                            // Jika tidak ada yang dipilih, kosongkan field
+                                            $set('Amount', null);
+                                            $set('Jumlah', null);
+                                            $set('Terbilang', null);
                                         }
                                     }),
 
@@ -121,30 +137,39 @@ class Sp3Resource extends Resource
                                     ->reactive()
                                     ->searchable()
                                     ->afterStateUpdated(function ($state, Set $set) {
-                                        // Ambil vendor yang dipilih
+                                        // Ambil vendor berdasarkan ID yang dipilih
                                         $vendor = Vendors::find($state);
 
                                         // Ambil nomor PO terakhir dan tingkatkan nilainya
                                         $lastNumber = PurchaseOrder::latest()->value('Number') ?? 0;
-                                        $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Format jadi 0001, 0002, dst.
+                                        $nextNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Format 0001, 0002, dst.
 
                                         if ($vendor) {
-                                            // Gunakan VendorCode secara lengkap
-                                            $vendorCode = strtoupper($vendor->VendorCode);
+                                            $lastNumber = \App\Models\sp3::latest()->value('Number') ?? 0;
+                                            $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
 
-                                            // Format PO_Code: #PO-{nomor urut}{tahun}-{VENDORCODE}
-                                            $poCode = "#PO-{$nextNumber}" . date('-Y') . "-{$vendorCode}";
+                                            // Ambil kode vendor berdasarkan ID yang dipilih
+                                            $vendorCode = \App\Models\Vendors::where('id', $state)->value('VendorCode') ?? '000';
 
-                                            $noRekening = Vendors::latest()->value('NomorRekening') ?? 0;
+                                            // Format PO Code
+                                            $poCode = "{$nextNumber}/AMI-SP3/" . date('m/Y') . "-{$vendorCode}";
 
-                                            $rekeningBank = Vendors::latest()->value('RekeningBank') ?? 0;;
+                                            // Ambil informasi vendor sesuai ID yang dipilih
+                                            $noRekening = $vendor->NomorRekening ?? '-';
+                                            $rekeningBank = $vendor->RekeningBank ?? '-';
+                                            $namaVendor = $vendor->CompanyName ?? '-';
 
-                                            $namaVendor = Vendors::latest()->value('CompanyName') ?? 0;;
-                                            // Set PO Code, Rekening Bank, Nomor Rekening, Atas Nama ke field
-                                            $set('PO_Code', $poCode);
+                                            // Set field dengan data vendor yang dipilih
+                                            $set('SP3_Number', $poCode);
                                             $set('Rekening_Bank', $rekeningBank);
                                             $set('Nomor_Rekening', $noRekening);
                                             $set('Atas_Nama', $namaVendor);
+                                        } else {
+                                            // Jika vendor tidak ditemukan, set field kosong
+                                            $set('SP3_Number', '');
+                                            $set('Rekening_Bank', '');
+                                            $set('Nomor_Rekening', '');
+                                            $set('Atas_Nama', '');
                                         }
                                     }),
 
@@ -176,7 +201,14 @@ class Sp3Resource extends Resource
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
                                 TextInput::make('No_DO')->label('No Delivery Order'),
-                                TextInput::make('Tanggal_DO')->label('Tanggal DO'),
+                                DateTimePicker::make('Tanggal_DO')->label('Tanggal DO')->required()
+                                    ->native(false)
+                                    ->firstDayOfWeek(1)
+                                    ->closeOnDateSelection()
+                                    ->timezone('Asia/Jakarta')
+                                    ->locale('id')
+                                    ->displayFormat('D, d-M-Y H:i:s')
+                                    ->default(now()),
 
                             ])->columns(4)->columnSpan(2),
                         Fieldset::make()->label('Second Row')
@@ -196,7 +228,7 @@ class Sp3Resource extends Resource
                                         'Down Payment' => 'Down Payment',
                                         'Balance Payment' => 'Balance Payment',
                                     ]),
-                                TextInput::make('Untuk_Pembayaran')->label('Untuk Pembayaran'),
+                                TextInput::make('Untuk_Pembayaran'),
                                 TextInput::make('Rekening_Bank')->label('Rekening Bank')->readOnly(true),
                                 TextInput::make('Nomor_Rekening')->label('Nomor Rekening')->readOnly(true),
                                 TextInput::make('Atas_Nama')->label('Atas Nama')->readOnly(true),
@@ -224,7 +256,12 @@ class Sp3Resource extends Resource
                                             ->afterStateUpdated(fn(Set $set, Get $get) => hitungTotal($set, $get)),
                                     ])->columns(1)->columnSpan(2),
 
-                                TextInput::make('Discount')->label('Discount'),
+                                TextInput::make('Discount')
+                                    ->label('Discount')
+                                    ->numeric()
+                                    ->reactive()
+                                    ->afterStateUpdated(fn(Set $set, Get $get) => hitungTotal($set, $get)),
+
                                 TextInput::make('Jumlah')->label('Jumlah')
                                     ->reactive()
                                     ->afterStateUpdated(function (Set $set, Get $get) {
@@ -241,8 +278,26 @@ class Sp3Resource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
+                TextColumn::make('SP3_Number')->label('SP3 Number'),
+                TextColumn::make('Nama_Supplier')->label('Nama_Supplier'),
+                // TextColumn::make('purchaseRequestPR_Code')->label('PR Code'),
+                // TextColumn::make('purchaseRequest.PO_Code')->label('PO Code'),
+                TextColumn::make('purchaseRequest.PR_Code')
+                    ->label('PR Number')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(fn($record) => $record->purchaseRequest?->PR_Code ?? '-'),
+
+                TextColumn::make('purchaseOrder.PO_Code')
+                    ->label('PO Number')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(fn($record) => $record->purchaseOrder?->PO_Code ?? '-'),
+
+                TextColumn::make('Date_Created')->label('Order Date'),
+                TextColumn::make('vendors.CompanyName')->label('Vendor'),
+                TextColumn::make('Jumlah')->label('Total'),
+            ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan SP3 baru.')
             ->emptyStateIcon('heroicon-o-currency-dollar')
@@ -258,6 +313,7 @@ class Sp3Resource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

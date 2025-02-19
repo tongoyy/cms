@@ -27,9 +27,9 @@ return new class extends Migration
                 ->on('vendors')
                 ->onDelete('set null');
 
-            $table->text('PO_Code');
-            $table->bigInteger('Number');
-            $table->text('PO_Name');
+            $table->longText('PO_Code');
+            $table->bigInteger('Number')->nullable();
+            $table->longText('PO_Name');
             $table->text('Vendors');
             $table->text('Purchase_Request');
             $table->date('Order_Date');
