@@ -54,36 +54,49 @@ class PurchaseRequestResource extends Resource
 
     public static function form(Form $form): Form
     {
-        /* Fetch ID */
-        // $id = PurchaseRequest::latest()->value('id');
+        $number = 0;
         $number = PurchaseRequest::latest()->value('Number');
         return $form
             ->schema([
                 TextInput::make('PR_Code')
                     ->label('Purchase Request Code')
-                    ->default(function () {
+                    ->default(function (Get $get) {
                         $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-                        return "#PR-" . $nextNumber++ . '-' . date('Y');
+                        $department = strtoupper(str_replace(' ', '', $get('Department') ?? '')); // Ambil Department tanpa spasi
+                        return "#PR-" . $nextNumber . '-' . date('Y') . '-' . $department;
                     })
+                    ->reactive()
                     ->readOnly(),
 
                 // TextInput::make('Number')->label('Number')->default($number++),
-                Hidden::make('Number')->default($number++),
+                Hidden::make('Number')->default($number + 1),
                 TextInput::make('PR_Name')->label('Purchase Request Name')->required(),
                 Select::make('Project')->required()
                     ->options([
                         'Zona 4' => 'Zona 4',
                         'Zona 11' => 'Zona 11',
                     ]),
-                Select::make('Department')->required()
+                Select::make('Department')
+                    ->required()
                     ->options([
                         'Administrative' => 'Administrative',
                         'Operation' => 'Operation',
                         'Business Development' => 'Business Development',
                         'Executive' => 'Executive',
                         'Manufacture' => 'Manufacture',
-                    ]),
+                    ])
+                    ->reactive()
+                    ->live(debounce: 200)
+                    ->afterStateUpdated(function (Set $set, Get $get, $state) {
+                        $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
+                        $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+                        $department = strtoupper(str_replace(' ', '', $state)); // Ambil Department tanpa spasi
+                        $prCode = "#PR-" . $nextNumber . '-' . date('Y') . '-' . $department;
+
+                        // Set PR_Code dengan format baru
+                        $set('PR_Code', $prCode);
+                    }),
                 Select::make('PurchaseType')->required()
                     ->options([
                         'Barang' => 'Barang',
@@ -108,18 +121,18 @@ class PurchaseRequestResource extends Resource
                 TextInput::make('Description'),
 
                 /* Items Detail */
-                Repeater::make('items')->label('Items Detail')
+                Repeater::make('purchaseRequestItems')->label('Items Detail')
                     ->relationship()
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->required(),
-                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 600)
+                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 500)
                             ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Price');
                                 $set('Total', $state * $vHarga);
                             }),
                         TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()->live(debounce: 600)
+                            ->reactive()->live(debounce: 500)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
                                 $set('Total', $state * $vHarga);
@@ -130,9 +143,10 @@ class PurchaseRequestResource extends Resource
                             ->options([
                                 'PPH' => 'PPH (2%)',
                                 'PPN' => 'PPN (12%)',
-                                'None' => 'Tanpa Pajak'
+                                'Tanpa Pajak' => 'Tanpa Pajak'
                             ])
                             ->reactive()
+                            ->live(debounce: 500)
                             ->afterStateUpdated(function (Set $set, Get $get) {
                                 $total = (float) $get('Total');
                                 $taxType = $get('Tax');
@@ -167,7 +181,7 @@ class PurchaseRequestResource extends Resource
                         /* Total */
                         TextInput::make('SubTotal')
                             ->placeholder(function (Set $set, Get $get) {
-                                $SubTotal = collect($get('items'))->pluck('Total')->sum();
+                                $SubTotal = collect($get('purchaseRequestItems'))->pluck('Total')->sum();
                                 if ($SubTotal == null) {
                                     $set('SubTotal', 0);
                                 } else {
@@ -177,7 +191,7 @@ class PurchaseRequestResource extends Resource
                         /* Grand Total */
                         TextInput::make('GrandTotal')->label('Grand Total')
                             ->placeholder(function (Set $set, Get $get) {
-                                $Grandtotal = collect($get('items'))->pluck('Total')->sum();
+                                $Grandtotal = collect($get('purchaseRequestItems'))->pluck('Total')->sum();
                                 if ($Grandtotal == null) {
                                     $set('GrandTotal', 0);
                                 } else {
@@ -221,19 +235,10 @@ class PurchaseRequestResource extends Resource
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('pdf')
                     ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn(PurchaseRequest $record) => route('PdfDownload', $record))
+                    ->url(fn(PurchaseRequest $record) => route('pdfPR', $record))
                     ->openUrlInNewTab()
-                    ->label('Pdf')
+                    ->label('PDF')
                     ->color('success'),
-
-                // Html2MediaAction::make('print')
-                //     ->filename('my-custom-document')
-                //     ->icon('heroicon-o-printer')
-                //     ->preview(true)
-                //     ->savePdf(true)
-                //     ->requiresConfirmation(true)
-                //     ->content(fn($record) => view('generate-user-pdf', ['record' => $record]))
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -10,8 +10,13 @@ class PurchaseOrderItem extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function purchaseOrderItems()
+    public function purchaseOrders()
     {
-        return $this->hasMany(PurchaseOrderItem::class, 'Purchase_Orders_ID');
+        return $this->belongsTo(PurchaseOrder::class, 'Purchase_Orders_ID');
+    }
+
+    public function purchaseOrdersItems()
+    {
+        return $this->belongsTo(PurchaseOrder::class, 'Purchase_Orders_ID');
     }
 }

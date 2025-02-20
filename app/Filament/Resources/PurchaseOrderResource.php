@@ -99,9 +99,9 @@ class PurchaseOrderResource extends Resource
                     ->searchable()
                     ->reactive()
                     ->afterStateUpdated(function ($state, Set $set) {
-                        $purchaseRequest = PurchaseRequest::with('items')->find($state);
+                        $purchaseRequest = PurchaseRequest::with('purchaseRequestItems')->find($state);
                         if ($purchaseRequest) {
-                            $items = $purchaseRequest->items->map(function ($item) {
+                            $items = $purchaseRequest->purchaseRequestItems->map(function ($item) {
                                 return [
                                     'Item_Name' => $item->Item_Name,
                                     'Item_Description' => $item->Item_Description,
@@ -154,6 +154,12 @@ class PurchaseOrderResource extends Resource
                     ->options([
                         'Zona 4' => 'Zona 4',
                         'Zona 11' => 'Zona 11',
+                    ]),
+                Select::make('Payment_Mode')->label('Jenis Pembayaran')->required()
+                    ->options([
+                        'Full Payment' => 'Full Payment',
+                        'Down Payment' => 'Down Payment',
+                        'Balance Payment' => 'Balance Payment',
                     ]),
 
                 /* Order Item Details */
@@ -252,7 +258,7 @@ class PurchaseOrderResource extends Resource
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
                                 $set('Sub_Total', $SubTotal ?? 0);
-                            })->readOnly(true)->debounce(600),
+                            })->readOnly(true)->debounce(1000),
 
                         /* Discount */
                         Grid::make()->schema([
@@ -284,7 +290,7 @@ class PurchaseOrderResource extends Resource
 
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
-                                })->debounce(600),
+                                })->debounce(1000),
 
                             Select::make('Discount_Type')
                                 ->placeholder('Pilih Jenis Diskon')
@@ -315,7 +321,7 @@ class PurchaseOrderResource extends Resource
 
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
-                                })->debounce(600),
+                                })->debounce(1000),
 
                             TextInput::make('Total_Discount')->label('Total Discount')->readOnly(true),
 
@@ -337,7 +343,7 @@ class PurchaseOrderResource extends Resource
 
                                     // Konversi Grand Total ke terbilang
                                     $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
-                                })->debounce(600),
+                                })->debounce(1000),
                         ]),
 
                         /* Grand Total */
@@ -371,7 +377,7 @@ class PurchaseOrderResource extends Resource
                 TextColumn::make('Order_Date')->label('Order_Date'),
                 TextColumn::make('Project')->label('Purchase Type'),
                 TextColumn::make('Grand_Total'),
-            ])
+            ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Order')
             ->emptyStateIcon('heroicon-o-shopping-bag')
@@ -388,6 +394,12 @@ class PurchaseOrderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn(PurchaseOrder $record) => route('pdfPO', $record))
+                    ->openUrlInNewTab()
+                    ->label('PDF')
+                    ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

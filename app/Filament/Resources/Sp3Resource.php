@@ -181,8 +181,8 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('Nama_Supplier')->label('Nama Supplier'),
-                                TextInput::make('No_Invoice')->label('Nomor Invoice'),
+                                TextInput::make('Nama_Supplier')->label('Nama Supplier')->required(),
+                                TextInput::make('No_Invoice')->label('Nomor Invoice')->required(),
                                 DateTimePicker::make('Tanggal_Invoice')->label('Tanggal Invoice')->required()
                                     ->native(false)
                                     ->firstDayOfWeek(1)
@@ -191,7 +191,7 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('No_Kwitansi')->label('Nomor Kwitansi'),
+                                TextInput::make('No_Kwitansi')->label('Nomor Kwitansi')->required(),
                                 DateTimePicker::make('Tanggal_Kwitansi')->label('Tanggal Kwitansi')->required()
                                     ->native(false)
                                     ->firstDayOfWeek(1)
@@ -200,7 +200,7 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('No_DO')->label('No Delivery Order'),
+                                TextInput::make('No_DO')->label('No Delivery Order')->required(),
                                 DateTimePicker::make('Tanggal_DO')->label('Tanggal DO')->required()
                                     ->native(false)
                                     ->firstDayOfWeek(1)
@@ -222,7 +222,7 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                Select::make('Jenis_Pembayaran')->label('Jenis Pembayaran')
+                                Select::make('Jenis_Pembayaran')->label('Jenis Pembayaran')->required()
                                     ->options([
                                         'Full Payment' => 'Full Payment',
                                         'Down Payment' => 'Down Payment',
@@ -232,8 +232,8 @@ class Sp3Resource extends Resource
                                 TextInput::make('Rekening_Bank')->label('Rekening Bank')->readOnly(true),
                                 TextInput::make('Nomor_Rekening')->label('Nomor Rekening')->readOnly(true),
                                 TextInput::make('Atas_Nama')->label('Atas Nama')->readOnly(true),
-                                TextInput::make('Lokasi')->label('Lokasi'),
-                                Select::make('Paid_Status')->label('Paid Status')
+                                TextInput::make('Lokasi')->label('Lokasi')->required(),
+                                Select::make('Paid_Status')->label('Paid Status')->required()
                                     ->options([
                                         'Paid' => 'Paid',
                                         'Unpaid' => 'Unpaid',
@@ -279,7 +279,7 @@ class Sp3Resource extends Resource
         return $table
             ->columns([
                 TextColumn::make('SP3_Number')->label('SP3 Number'),
-                TextColumn::make('Nama_Supplier')->label('Nama_Supplier'),
+                TextColumn::make('Nama_Supplier')->label('Nama Supplier'),
                 // TextColumn::make('purchaseRequestPR_Code')->label('PR Code'),
                 // TextColumn::make('purchaseRequest.PO_Code')->label('PO Code'),
                 TextColumn::make('purchaseRequest.PR_Code')

@@ -3,7 +3,8 @@
 // use App\Http\Controllers\DownloadPdfController;
 
 use App\Http\Controllers\DownloadPdfController;
-use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PR_PdfController;
+use App\Http\Controllers\PO_PdfController;
 use App\Models\PurchaseRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,9 @@ Route::get('/', function () {
 });
 
 // routes/web.php
-Route::get('/pdf/{id}', [PdfController::class, 'generatePdf'])->name('PdfDownload');
+Route::get('/pdfPR/{id}', [PR_PdfController::class, 'pdfPR'])->name('pdfPR');
+
+Route::get('/pdfPO/{id}', [PO_PdfController::class, 'pdfPO'])->name('pdfPO');
 
 // Route::get('PdfDownload', function () {
 //     $html = view('pdfs.PurchaseRequestPDF')->render();

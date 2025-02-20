@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('purchase_requests', function (Blueprint $table) {
             $table->id();
             $table->string('PR_Code');
+
+            // Foreign key ke purchase_requests
+            $table->foreignId('Purchase_Requests_ID') // Gunakan snake_case
+                ->nullable()
+                ->constrained('purchase_requests')
+                ->onDelete('set null');
+
             $table->bigInteger('Number')->nullable();
             $table->text('PR_Name');
             $table->string('Project');

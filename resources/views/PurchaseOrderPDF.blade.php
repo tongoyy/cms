@@ -104,11 +104,19 @@
             padding-bottom: 0.1rem;
         }
 
+        .shipping-fee {
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            width: 38.9%;
+            padding-bottom: 0.1rem;
+        }
+
         .final-total {
             display: flex;
             justify-content: space-between;
             text-align: left;
-            width: 32%;
+            width: 32.5%;
             padding-top: 0.1rem;
             padding-bottom: 0.1rem;
         }
@@ -214,60 +222,62 @@
             </div>
         </div>
 
-        <h2 class="title">PURCHASE REQUEST</h2>
+        <h2 class="title">PURCHASE ORDER</h2>
 
         <!-- Detail Information -->
         <div class="info">
             <div class="left">
-                @if ($data)
+                @if ($data->vendors)
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>Requester:</strong>
+                                <strong>To:</strong>
                             </td>
                             <td>
-                                <p> Irvan Sandoval</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Project:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->Project }}</p>
+                                <p> {{ $data->vendors->CompanyName }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>PR Number:</strong>
+                                <strong>Address:</strong>
                             </td>
                             <td>
-                                <p>{{ $data->PR_Code }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Type:</strong>
-                            </td>
-                            <td>
-                                <p></p>
+                                <p>{{ $data->vendors->Address }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>RAB Ref:</strong>
+                                <strong>NPWP:</strong>
                             </td>
                             <td>
-                                <p>Project</p>
+                                <p>{{ $data->vendors->NPWP }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Description:</strong>
+                                <strong>Telephone:</strong>
+                            </td>
+                            <td>
+                                <p>{{ $data->vendors->Phone }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Subject:</strong>
                             </td>
                             <td>
                                 <p>
-                                    <p>{{ $data->Description }}</p>
+                                    <p>{{ $data->PO_Name }}</p>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>PO No:</strong>
+                            </td>
+                            <td>
+                                <p>
+                                    <p>{{ $data->PO_Code }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -279,35 +289,19 @@
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <strong>Purchase Type:</strong>
+                            <strong>Jenis Pembayaran:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->PurchaseType }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Department:</strong>
-                        </td>
-                        <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Department }}</p>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Payment_Mode }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>Date Created:</strong>
+                            <strong>Date:</strong>
                         </td>
                         <td>
                             <p style="margin-top: 5%; margin-bottom: 5%;">
                                 {{ $data->created_at->format('d-m-Y') }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Due Date:</strong>
-                        </td>
-                        <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ \Carbon\Carbon::parse($data->DueDate)->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>
@@ -315,7 +309,7 @@
         </div>
 
         <!-- Table -->
-        @if ($data->purchaseRequestItems->isNotEmpty())
+        @if ($data->purchaseOrderItems->isNotEmpty())
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -330,17 +324,17 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($data->purchaseRequestItems as $item)
+                @foreach ($data->purchaseOrderItems as $poItems)
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>{{ $item->Item_Name }}</td>
-                            <td>{{ $item->Item_Description }}</td>
-                            <td>{{ $item->Price }}</td>
-                            <td>{{ $item->Quantity }}</td>
-                            <td>{{ $item->Unit }}</td>
-                            <td>{{ $item->Tax }}</td>
-                            <td>{{ $item->Total }}</td>
+                            <td>{{ $poItems->Item_Name }}</td>
+                            <td>{{ $poItems->Item_Description }}</td>
+                            <td>{{ $poItems->Price }}</td>
+                            <td>{{ $poItems->Quantity }}</td>
+                            <td>{{ $poItems->Unit }}</td>
+                            <td>{{ $poItems->Tax }}</td>
+                            <td>{{ $poItems->Total }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -352,32 +346,21 @@
         <div class="total">
             <div class="subtotal">
                 <p>Subtotal</p>
-                {{ 'Rp' . number_format($data->SubTotal, 0, ',', '.') }}
+                <p>
+                    {{ 'Rp' . number_format($data->Sub_Total, 0, ',', '.') }}
+                </p>
+            </div>
+            <div class="shipping-fee">
+                <p>Shipping Fee</p>
+                <p> 
+                    {{ 'Rp' . number_format($data->Shipping_Fee, 0, ',', '.') }}
+                </p>
             </div>
             <div class="final-total">
                 <p>Total</p>
-                {{ 'Rp' . number_format($data->GrandTotal, 0, ',', '.') }}
-            </div>
-        </div>
-
-        <!-- Bank Information -->
-        <div class="bank-info">
-            <p>Dana dapat ditransfer ke nomor rekening:</p>
-            <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
-        </div>
-
-        <!-- Approval Section -->
-        <div class="approval">
-            <div class="approval-title">
-                <p><strong>Diketahui oleh</strong></p>
-                <p><strong>Disetujui oleh</strong></p>
-            </div>
-
-            <div class="approval-list">
-                <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
-                <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
-                <p><strong>Irwandi</strong><br><small>Direktur</small></p>
-                <p><strong>Charles Teo</strong><br></p>
+                <p>
+                    {{ 'Rp' . number_format($data->Total, 0, ',', '.') }}
+                </p>
             </div>
         </div>
 

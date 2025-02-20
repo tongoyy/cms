@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PurchaseOrder;
 use App\Models\PurchaseRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Doctrine\DBAL\Schema\View;
 use Spatie\Browsershot\Browsershot;
 
-class PdfController extends Controller
+class PR_PdfController extends Controller
 {
 
-    public function generatePdf($id)
+    public function pdfPR($id)
     {
         // 1. Retrieve the data based on the ID.
         // $data = PurchaseRequest::find($id); // Or YourModel::findOrFail($id)
-        $data = PurchaseRequest::with('items')->find($id);
+        $data = PurchaseRequest::with('purchaseRequestItems')->find($id);
 
-        if (!$data) {
-            abort(404); // Handle the case where the record is not found.
+        /* Items Detail PDF */
+        if (!$data || !$data->purchaseRequestItems) {
+            abort(404, 'Data or related items not found.');
         }
 
         // 2. Pass the data to a view.
@@ -25,8 +27,8 @@ class PdfController extends Controller
 
         $html = view('PurchaseRequestPDF', compact('data'))->render();
         Browsershot::html($html)
-            ->save('#PR-000' . $id . '.pdf');
-        return response()->download('#PR-000' . $id . '.pdf');
+            ->save('#PR-0000' . $id . '.pdf');
+        return response()->download('#PR-0000' . $id . '.pdf');
         // 3. (Optional) Set PDF options (e.g., orientation, paper size).
         // $pdf->setOptions(['defaultFont' => 'sans-serif']);
 
