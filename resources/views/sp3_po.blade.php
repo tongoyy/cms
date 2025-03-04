@@ -250,14 +250,14 @@
         <!-- Detail Information -->
         <div class="info">
             <div class="left">
-                @if ($data->vendors)
+                @if ($sp3->vendors)
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
                                 <strong>To:</strong>
                             </td>
                             <td>
-                                <p> {{ $data->vendors->CompanyName }}</p>
+                                <p> {{ $sp3->vendors->CompanyName }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -265,7 +265,7 @@
                                 <strong>Address:</strong>
                             </td>
                             <td>
-                                <p>{{ $data->vendors->Address }}</p>
+                                <p>{{ $sp3->vendors->Address }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -273,7 +273,7 @@
                                 <strong>NPWP:</strong>
                             </td>
                             <td>
-                                <p>{{ $data->vendors->NPWP }}</p>
+                                <p>{{ $sp3->vendors->NPWP }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -281,7 +281,7 @@
                                 <strong>Telephone:</strong>
                             </td>
                             <td>
-                                <p>{{ $data->vendors->Phone }}</p>
+                                <p>{{ $sp3->vendors->Phone }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -290,7 +290,7 @@
                             </td>
                             <td>
                                 <p>
-                                <p>{{ $data->PO_Name }}</p>
+                                <p>{{ $sp3->PO_Name }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -300,7 +300,7 @@
                             </td>
                             <td>
                                 <p>
-                                <p>{{ $data->PO_Code }}</p>
+                                <p>{{ $sp3->PO_Code }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -315,7 +315,7 @@
                             <strong>Jenis Pembayaran:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Payment_Mode }}</p>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->Payment_Mode }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -324,7 +324,7 @@
                         </td>
                         <td>
                             <p style="margin-top: 5%; margin-bottom: 5%;">
-                                {{ $data->created_at->format('d-m-Y') }}</p>
+                                {{ $sp3->created_at->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>
@@ -332,7 +332,7 @@
         </div>
 
         <!-- Table -->
-        @if ($data->purchaseOrderItems->isNotEmpty())
+        @if (!empty($sp3->purchaseOrderItems))
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -347,17 +347,17 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($data->purchaseOrderItems as $poItems)
+                @foreach ($sp3->purchaseOrderItems as $sp3Items)
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>{{ $poItems->Item_Name }}</td>
-                            <td>{{ $poItems->Item_Description }}</td>
-                            <td>{{ $poItems->Price }}</td>
-                            <td>{{ $poItems->Quantity }}</td>
-                            <td>{{ $poItems->Unit }}</td>
-                            <td>{{ $poItems->Tax }}</td>
-                            <td>{{ $poItems->Total }}</td>
+                            <td>{{ $sp3Items->Item_Name }}</td>
+                            <td>{{ $sp3Items->Item_Description }}</td>
+                            <td>{{ $sp3Items->Price }}</td>
+                            <td>{{ $sp3Items->Quantity }}</td>
+                            <td>{{ $sp3Items->Unit }}</td>
+                            <td>{{ $sp3Items->Tax }}</td>
+                            <td>{{ $sp3Items->Total }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -370,19 +370,19 @@
             <div class="subtotal">
                 <p>Subtotal</p>
                 <p>
-                    {{ 'Rp' . number_format($data->Sub_Total, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->Sub_Total, 0, ',', '.') }}
                 </p>
             </div>
             <div class="shipping-fee">
                 <p>Shipping Fee</p>
                 <p>
-                    {{ 'Rp' . number_format($data->Shipping_Fee, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->Shipping_Fee, 0, ',', '.') }}
                 </p>
             </div>
             <div class="final-total">
                 <p>Total</p>
                 <p>
-                    {{ 'Rp' . number_format($data->Grand_Total, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->Grand_Total, 0, ',', '.') }}
                 </p>
             </div>
         </div>
@@ -396,7 +396,7 @@
 
     <!-- Halaman Kedua -->
     <div>
-        <p><strong>Terbilang:</strong> {{ $data->Terbilang }}</p>
+        <p><strong>Terbilang:</strong> {{ $sp3->Terbilang }}</p>
         <br>
         <p><strong><u>Vendor Bank Details</u></strong></p>
         <p><strong>Bank:</strong> Mandiri</p>
@@ -408,9 +408,9 @@
         <p><strong>Delivery Address:</strong> Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa
             Barat, 17530</p>
         <p><strong>Phone Number:</strong> 021-7195519</p>
-        <p><strong>Payment Terms:</strong> {{ $data->Payment_Terms }} </p>
-        <p><strong>Delivery Times: </strong> {{ $data->Delivery_Time }} </p>
-        <p><strong>Inspection Note: </strong> {{ $data->Inspection_Notes }} </p>
+        <p><strong>Payment Terms:</strong> {{ $sp3->Payment_Terms }} </p>
+        <p><strong>Delivery Times: </strong> {{ $sp3->Delivery_Time }} </p>
+        <p><strong>Inspection Note: </strong> {{ $sp3->Inspection_Notes }} </p>
         <p><strong>Vendor Note:</strong> Pembayaran ke vendor menggunakan Virtual Account dengan batas waktu, sehingga
             dana ditransfer ke rekening di atas dan dibayarkan melalui Virtual Account milik atas nama rekening
             tersebut.</p>
@@ -442,7 +442,7 @@
         </div>
         <div class="signature-box">
             <b>
-                <p>{{ $data->vendors->CompanyName }}</p>
+                <p>{{ $sp3->vendors->CompanyName }}</p>
             </b>
             <br>
             <br>

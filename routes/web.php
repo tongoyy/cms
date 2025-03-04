@@ -5,7 +5,7 @@
 use App\Http\Controllers\DownloadPdfController;
 use App\Http\Controllers\PR_PdfController;
 use App\Http\Controllers\PO_PdfController;
-use App\Models\PurchaseRequest;
+use App\Http\Controllers\SP3_PdfController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Spatie\Browsershot\Browsershot;
@@ -18,6 +18,8 @@ Route::get('/', function () {
 Route::get('/pdfPR/{id}', [PR_PdfController::class, 'pdfPR'])->name('pdfPR');
 
 Route::get('/pdfPO/{id}', [PO_PdfController::class, 'pdfPO'])->name('pdfPO');
+
+Route::get('/sp3/{id}/pdf', [Sp3_PdfController::class, 'pdfSP3'])->name('pdfSP3');
 
 // Route::get('PdfDownload', function () {
 //     $html = view('pdfs.PurchaseRequestPDF')->render();

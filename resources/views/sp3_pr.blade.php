@@ -13,13 +13,13 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
-            padding: 0.5% !important;
-            font-size: 13px;
+            padding: 5% !important;
+            font-size: 12px;
         }
 
         .container {
-            margin: 0 !important;
-            padding: 0 !important;
+            margin: 0;
+            padding: 0;
         }
 
         .header {
@@ -43,14 +43,13 @@
             text-align: center;
             font-weight: bold;
             margin-top: 0;
-            margin-bottom: 5%;
-            font-size: 16px;
+            margin-bottom: 0;
+            font-size: 14px;
         }
 
         .info {
             display: flex;
             justify-content: space-between;
-            padding-bottom: 2%;
         }
 
         .inside {
@@ -105,19 +104,11 @@
             padding-bottom: 0.1rem;
         }
 
-        .shipping-fee {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 38.9%;
-            padding-bottom: 0.1rem;
-        }
-
         .final-total {
             display: flex;
             justify-content: space-between;
             text-align: left;
-            width: 32.5%;
+            width: 32%;
             padding-top: 0.1rem;
             padding-bottom: 0.1rem;
         }
@@ -189,23 +180,6 @@
             page-break-before: always;
             /* Memastikan konten setelah ini ada di halaman kedua */
         }
-
-        .signature-section {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .signature-box {
-            display: inline-block;
-            width: 30%;
-            text-align: center;
-            vertical-align: top;
-        }
-
-        .signature-box p {
-            margin-top: 40px;
-            /* Jarak untuk tanda tangan */
-        }
     </style>
 </head>
 
@@ -245,62 +219,60 @@
             </div>
         </div>
 
-        <h2 class="title">PURCHASE ORDER</h2>
+        <h2 class="title">PURCHASE REQUEST</h2>
 
         <!-- Detail Information -->
         <div class="info">
             <div class="left">
-                @if ($data->vendors)
+                @if ($sp3)
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>To:</strong>
+                                <strong>Requester:</strong>
                             </td>
                             <td>
-                                <p> {{ $data->vendors->CompanyName }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Address:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->vendors->Address }}</p>
+                                <p> Irvan Sandoval</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>NPWP:</strong>
+                                <strong>Project:</strong>
                             </td>
                             <td>
-                                <p>{{ $data->vendors->NPWP }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Telephone:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->vendors->Phone }}</p>
+                                <p>{{ $sp3->Project }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Subject:</strong>
+                                <strong>PR Number:</strong>
+                            </td>
+                            <td>
+                                <p>{{ $sp3->PR_Code }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Type:</strong>
+                            </td>
+                            <td>
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>RAB Ref:</strong>
+                            </td>
+                            <td>
+                                <p>Project</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Description:</strong>
                             </td>
                             <td>
                                 <p>
-                                <p>{{ $data->PO_Name }}</p>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>PO No:</strong>
-                            </td>
-                            <td>
-                                <p>
-                                <p>{{ $data->PO_Code }}</p>
+                                <p>{{ $sp3->Description }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -312,19 +284,36 @@
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <strong>Jenis Pembayaran:</strong>
+                            <strong>Purchase Type:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Payment_Mode }}</p>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->PurchaseType }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>Date:</strong>
+                            <strong>Department:</strong>
+                        </td>
+                        <td>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->Department }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Date Created:</strong>
                         </td>
                         <td>
                             <p style="margin-top: 5%; margin-bottom: 5%;">
-                                {{ $data->created_at->format('d-m-Y') }}</p>
+                                {{ $sp3->created_at->format('d-m-Y') }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Due Date:</strong>
+                        </td>
+                        <td>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">
+                                {{ \Carbon\Carbon::parse($sp3->DueDate)->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>
@@ -332,7 +321,7 @@
         </div>
 
         <!-- Table -->
-        @if ($data->purchaseOrderItems->isNotEmpty())
+        @if (!empty($sp3->purchaseRequestItems))
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -347,17 +336,17 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($data->purchaseOrderItems as $poItems)
+                @foreach ($sp3->purchaseRequestItems as $item)
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>{{ $poItems->Item_Name }}</td>
-                            <td>{{ $poItems->Item_Description }}</td>
-                            <td>{{ $poItems->Price }}</td>
-                            <td>{{ $poItems->Quantity }}</td>
-                            <td>{{ $poItems->Unit }}</td>
-                            <td>{{ $poItems->Tax }}</td>
-                            <td>{{ $poItems->Total }}</td>
+                            <td>{{ $item->Item_Name }}</td>
+                            <td>{{ $item->Item_Description }}</td>
+                            <td>{{ $item->Price }}</td>
+                            <td>{{ $item->Quantity }}</td>
+                            <td>{{ $item->Unit }}</td>
+                            <td>{{ $item->Tax }}</td>
+                            <td>{{ $item->Total }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -369,85 +358,37 @@
         <div class="total">
             <div class="subtotal">
                 <p>Subtotal</p>
-                <p>
-                    {{ 'Rp' . number_format($data->Sub_Total, 0, ',', '.') }}
-                </p>
-            </div>
-            <div class="shipping-fee">
-                <p>Shipping Fee</p>
-                <p>
-                    {{ 'Rp' . number_format($data->Shipping_Fee, 0, ',', '.') }}
-                </p>
+                {{ 'Rp' . number_format($sp3->SubTotal, 0, ',', '.') }}
             </div>
             <div class="final-total">
                 <p>Total</p>
-                <p>
-                    {{ 'Rp' . number_format($data->Grand_Total, 0, ',', '.') }}
-                </p>
+                {{ 'Rp' . number_format($sp3->GrandTotal, 0, ',', '.') }}
             </div>
         </div>
 
-    </div>
-
-
-
-    <!-- Page Break untuk Halaman Kedua -->
-    <div class="page-break"></div>
-
-    <!-- Halaman Kedua -->
-    <div>
-        <p><strong>Terbilang:</strong> {{ $data->Terbilang }}</p>
-        <br>
-        <p><strong><u>Vendor Bank Details</u></strong></p>
-        <p><strong>Bank:</strong> Mandiri</p>
-        <p><strong>Account No:</strong> 1030006931402</p>
-        <p><strong>Name:</strong> MOCHAMAD IRVAN SANDO</p>
-        <br>
-        <p><strong><u>NPWP Information of PT Audemars Indonesia</u></strong></p>
-        <p><strong>NPWP:</strong> 03.262.362.1-047.000</p>
-        <p><strong>Delivery Address:</strong> Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa
-            Barat, 17530</p>
-        <p><strong>Phone Number:</strong> 021-7195519</p>
-        <p><strong>Payment Terms:</strong> {{ $data->Payment_Terms }} </p>
-        <p><strong>Delivery Times: </strong> {{ $data->Delivery_Time }} </p>
-        <p><strong>Inspection Note: </strong> {{ $data->Inspection_Notes }} </p>
-        <p><strong>Vendor Note:</strong> Pembayaran ke vendor menggunakan Virtual Account dengan batas waktu, sehingga
-            dana ditransfer ke rekening di atas dan dibayarkan melalui Virtual Account milik atas nama rekening
-            tersebut.</p>
-    </div>
-
-    <!-- Signature Section -->
-    <div class="signature-section">
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irvan Sandoval</p>
-            </b>
-            <p style="margin: 0!important">Purchasing</p>
+        <!-- Bank Information -->
+        <div class="bank-info">
+            <p>Dana dapat ditransfer ke nomor rekening:</p>
+            <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
         </div>
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irwandi</p>
-            </b>
-            <p style="margin: 0!important">Direktur</p>
+
+        <!-- Approval Section -->
+        <div class="approval">
+            <div class="approval-title">
+                <p><strong>Diketahui oleh</strong></p>
+                <p><strong>Disetujui oleh</strong></p>
+            </div>
+
+            <div class="approval-list">
+                <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
+                <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
+                <p><strong>Irwandi</strong><br><small>Direktur</small></p>
+                <p><strong>Charles Teo</strong><br></p>
+            </div>
         </div>
-        <div class="signature-box">
-            <b>
-                <p>{{ $data->vendors->CompanyName }}</p>
-            </b>
-            <br>
-            <br>
-            <p>________________________</p>
-        </div>
+
+        <div class="page-break"></div>
+
     </div>
 
 </body>

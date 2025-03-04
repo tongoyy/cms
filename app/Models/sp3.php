@@ -28,11 +28,11 @@ class sp3 extends Model
 
     public function purchaseRequestItems()
     {
-        return $this->belongsTo(PurchaseRequest::class, 'Purchase_Requests_ID');
+        return $this->hasMany(PurchaseRequestItem::class, 'Purchase_Requests_ID');
     }
 
     public function purchaseOrderItems()
     {
-        return $this->hasMany(PurchaseOrderItem::class, 'Purchase_Orders_Items_ID');
+        return $this->hasMany(PurchaseOrderItem::class, 'Purchase_Orders_ID');
     }
 }

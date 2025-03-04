@@ -314,6 +314,12 @@ class Sp3Resource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('pdf')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->url(fn(sp3 $record) => route('pdfSP3', $record))
+                    ->openUrlInNewTab()
+                    ->label('PDF')
+                    ->color('success'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

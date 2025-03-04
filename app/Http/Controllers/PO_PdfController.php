@@ -11,25 +11,27 @@ class PO_PdfController extends Controller
 {
     public function pdfPO($id)
     {
-        // 1. Retrieve the data based on the ID.
-        // $data = PurchaseRequest::find($id); // Or YourModel::findOrFail($id)
+        // Ambil nomor PO terakhir
+        $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
+        $desc = \App\Models\PurchaseOrder::latest()->value('PO_Name') ?? 'PurchaseOrder';
+        $nextNumber = str_pad($lastNumber, 5, '0', STR_PAD_LEFT);
+
+        // Ambil data Purchase Order beserta itemnya
         $data = PurchaseOrder::with('purchaseOrderItems')->find($id);
 
         if (!$data || !$data->purchaseOrderItems) {
             abort(404, 'Data or related items not found.');
         }
 
-        // 2. Pass the data to a view.
-        // $pdf = PDF::loadView('PurchaseRequestPDF', compact('data')); // 'pdf.invoice' is the name of your view.
-
+        // Render tampilan menjadi HTML
         $html = view('PurchaseOrderPDF', compact('data'))->render();
-        Browsershot::html($html)
-            ->save('#PO-0000' . $id . '.pdf');
-        return response()->download('#PO-0000' . $id . '.pdf');
-        // 3. (Optional) Set PDF options (e.g., orientation, paper size).
 
-        // 4. Return the PDF as a download or inline.
-        // return $pdf->download('#PR-000' . $id . '.pdf'); // Download the PDF.
-        // return $pdf->stream('invoice_' . $id . '.pdf'); // Display the PDF in the browser.
+        // Simpan sebagai PDF
+        $filename = "#PO-{$nextNumber}_" . $desc . '.pdf';
+        Browsershot::html($html)
+            ->format('A4') // Pastikan format halaman
+            ->save($filename);
+
+        return response()->download($filename);
     }
 }
