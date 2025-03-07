@@ -9,37 +9,92 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            font-size: 12px;
         }
 
         .container {
-            width: 90%;
+            width: 95%;
             margin: auto;
             border: 1px solid black;
-            padding: 20px;
+        }
+
+        .container-header {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid black;
+        }
+
+        .container-doc-info {
+            display: flex;
+            border: 1px solid black;
+            width: 27.5%;
+        }
+
+        .docs-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+        }
+
+        .text-infos td {
+            padding-bottom: 5%;
         }
 
         .header {
-            text-align: center;
+            display: flex;
             font-weight: bold;
-            margin-bottom: 20px;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            width: 45%;
+            font-size: 12px;
+            border: 1px solid black;
         }
 
         .logo {
             text-align: left;
-            margin-bottom: 10px;
+            border: 1px solid black;
+            width: 27.5%;
+            display: flex;
+            justify-content: center;
         }
 
-        .info-table,
-        .payment-table {
+        .info-table {
+            width: 100%;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            border: none;
+            padding: 2px;
+        }
+
+        .info-table-content {
+            display: flex;
+        }
+
+        .info-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
 
         .info-table td,
+        .payment-info-table td,
         .payment-table td {
-            border: 1px solid black;
-            padding: 8px;
+            padding: 5px;
+        }
+
+        .payment-table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+
+        .payment-tyoe tr,
+        .payment-tyoe td {
+            margin: 0 !important;
+            padding: 0 !important;
+            border-spacing: 0;
         }
 
         .bold {
@@ -61,45 +116,143 @@
 
 <body>
     <div class="container">
-        <div class="logo">
-            <img src="logo.png" alt="Audemars Indonesia" width="150">
+
+        <div class="container-header">
+            <div class="logo">
+                <img src="/public/images/aiweb.png" alt="Audemars Indonesia" width="130" height="75">
+            </div>
+            <div class="header">SURAT PERMINTAAN PROSES PEMBAYARAN</div>
+            <div class="container-doc-info">
+                <table class="docs-info">
+                    <tr class="text-infos">
+                        <td>Nomor Dokumen :</td>
+                        <td>AMI-F-FIN-P-01/01</td>
+                    </tr>
+                    <tr class="text-infos">
+                        <td>Revisi :</td>
+                        <td>02</td>
+                    </tr>
+                    <tr class="text-infos">
+                        <td>Tanggal Terbit :</td>
+                        <td>29 Juli 2024</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="header">SURAT PERMINTAAN PROSES PEMBAYARAN</div>
 
         <table class="info-table">
             <tr>
-                <td class="bold">SPPP No</td>
-                <td>00092/AMI-SP3/11/2023</td>
+                <td class="bold" width="100">SPPP No</td>
+                <td>: 00092/AMI-SP3/11/2023</td>
+                <td class="bold">KP</td>
+                <td>:</td>
+            </tr>
+            <tr>
                 <td class="bold">Date</td>
-                <td>15 Nov 2023</td>
+                <td>: 15 Nov 2023</td>
+                <td class="bold" width="100">Pemakaian</td>
+                <td>: Zona 4</td>
             </tr>
             <tr>
                 <td class="bold">To</td>
-                <td>KP</td>
-                <td class="bold">Pemakaian</td>
-                <td>Zona 4</td>
+                <td>:</td>
+                <td class="bold">Lokasi</td>
+                <td>: Cibitung</td>
+            </tr>
+            <tr>
+                <td class="bold">Fax</td>
+                <td>:</td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td class="bold">Dari</td>
+                <td>:</td>
                 <td></td>
-                <td class="bold">Lokasi</td>
-                <td>Cibitung</td>
+                <td></td>
             </tr>
         </table>
 
-        <div class="bold">Jenis Pembayaran:</div>
-        <ul>
-            <li>Nama Supplier: MOCHAMAD IRVAN SANDOVAL</li>
-            <li>No. Invoice:</li>
-            <li>No. Kwitansi:</li>
-            <li>No. Purchase Order: #PR-00091-2023-MANUFACTURE (Tgl: 15-11-2023)</li>
-            <li>No. Delivery Order:</li>
-            <li>No. Faktur Pajak:</li>
-            <li>Masa SSP:</li>
-        </ul>
+        <table class="payment-tyoe">
+            <tr>
+                <td class="bold"><strong>Jenis Pembayaran</strong></td>
+                <td>:</td>
+            </tr>
+        </table>
+        <br>
+        <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
 
-        <div class="bold">Untuk Pembayaran:</div>
-        <p>CASH ADVANCE: Renovasi mess Cibitung, termasuk cat, perbaikan furniture, peremajaan tools/perkakas</p>
+        <table class="payment-info-table" style="white-space: nowrap;"">
+            <tr>
+                <td class=" bold">1. Nama Supplier</td>
+            <td>: MOCHAMAD IRVAN SANDOVAL</td>
+            </tr>
+            <tr>
+                <td class="bold">2. No. Invoice</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">3. No. Kwitansi</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">4. No. Purchase Order</td>
+                <td>: #PR-00091-2023-MANUFACTURE</td>
+            </tr>
+            <tr>
+                <td class="bold">5. No. Delivery Order</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">6. No. Faktur Pajak</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">7. Masa SSP</td>
+                <td>:</td>
+            </tr>
+        </table>
+
+        <table class="payment-info-table" style="white-space: nowrap;">
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+            <tr>
+                <td class="bold">Tgl</td>
+                <td>:</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="bold">Untuk Pembayaran</td>
+                <td> : CASH ADVANCE : Renovasi mess Cibitung, termasuk cat, perbaikan
+                    furniture,
+                    peremajaan
+                    tools/perkakas</td>
+            </tr>
+        </table>
 
         <table class="payment-table">
             <tr>
