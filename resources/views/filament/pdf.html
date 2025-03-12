@@ -28,6 +28,7 @@
             display: flex;
             border: 1px solid black;
             width: 27.5%;
+            padding: 1%;
         }
 
         .docs-info {
@@ -67,7 +68,6 @@
 
         .info-table td {
             border: none;
-            padding: 2px;
         }
 
         .info-table-content {
@@ -101,6 +101,11 @@
             font-weight: bold;
         }
 
+        .bolds {
+            font-weight: bold;
+            width: 15px;
+        }
+
         .signature {
             display: flex;
             justify-content: space-between;
@@ -110,6 +115,40 @@
         .signature div {
             text-align: center;
             width: 30%;
+        }
+
+        .payment-table-details {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .payment-table-details td {
+            padding: 5px;
+        }
+
+        .payment-table-details .bold {
+            font-weight: bold;
+        }
+
+        .payment-table-details td:first-child {
+            text-align: left;
+        }
+
+        .payment-table-details td:nth-child(2) {
+            text-align: left;
+            width: 75px;
+        }
+
+        .payment-table-details td:nth-child(2):before {
+            font-weight: normal;
+        }
+
+        .payment-table-details .underline {
+            border-bottom: 1px solid black;
+            padding-top: 1rem;
+            margin-left: 50px;
+            display: block;
+            width: 25%;
         }
     </style>
 </head>
@@ -140,37 +179,41 @@
             </div>
         </div>
 
-        <table class="info-table">
-            <tr>
-                <td class="bold" width="100">SPPP No</td>
-                <td>: 00092/AMI-SP3/11/2023</td>
-                <td class="bold">KP</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Date</td>
-                <td>: 15 Nov 2023</td>
-                <td class="bold" width="100">Pemakaian</td>
-                <td>: Zona 4</td>
-            </tr>
-            <tr>
-                <td class="bold">To</td>
-                <td>:</td>
-                <td class="bold">Lokasi</td>
-                <td>: Cibitung</td>
-            </tr>
-            <tr>
-                <td class="bold">Fax</td>
-                <td>:</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="bold">Dari</td>
-                <td>:</td>
-                <td></td>
-                <td></td>
-            </tr>
+        <table class="info-table" style="padding: 10px 0;">
+            <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bold" width="100">SPPP No</td>
+                    <td>: 00092/AMI-SP3/11/2023</td>
+                </tr>
+                <tr>
+                    <td class="bold">Date</td>
+                    <td>: 15 Nov 2023</td>
+                </tr>
+                <tr>
+                    <td class="bold">To</td>
+                    <td>:</td>
+                    <td class="bold">KP</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Fax</td>
+                    <td>:</td>
+                    <td class="bold" width="100">Pemakaian</td>
+                    <td>: Zona 4</td>
+                </tr>
+                <tr>
+                    <td class="bold">Dari</td>
+                    <td>:</td>
+                    <td class="bold">Lokasi</td>
+                    <td>: Cibitung</td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
 
         <table class="payment-tyoe">
@@ -182,71 +225,82 @@
         <br>
         <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
 
-        <table class="payment-info-table" style="white-space: nowrap;"">
-            <tr>
-                <td class=" bold">1. Nama Supplier</td>
-            <td>: MOCHAMAD IRVAN SANDOVAL</td>
-            </tr>
-            <tr>
-                <td class="bold">2. No. Invoice</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">3. No. Kwitansi</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">4. No. Purchase Order</td>
-                <td>: #PR-00091-2023-MANUFACTURE</td>
-            </tr>
-            <tr>
-                <td class="bold">5. No. Delivery Order</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">6. No. Faktur Pajak</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">7. Masa SSP</td>
-                <td>:</td>
-            </tr>
-        </table>
+        <div style="display: flex;">
+            <table class="payment-info-table" style="white-space: nowrap;">
+                <tr>
+                    <td class="bold">1. Nama Supplier</td>
+                    <td style="padding-right: 5rem;">: MOCHAMAD IRVAN SANDOVAL</td>
+                </tr>
+                <tr>
+                    <td class="bold">2. No. Invoice</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">3. No. Kwitansi</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">4. No. Purchase Order</td>
+                    <td>: #PR-00091-2023-MANUFACTURE</td>
+                </tr>
+                <tr>
+                    <td class="bold">5. No. Delivery Order</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">6. No. Faktur Pajak</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">7. Masa SSP</td>
+                    <td>:</td>
+                </tr>
+            </table>
 
-        <table class="payment-info-table" style="white-space: nowrap;">
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-            <tr>
-                <td class="bold">Tgl</td>
-                <td>:</td>
-            </tr>
-        </table>
+            <table class="payment-info-table" style="white-space: nowrap;">
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>: 15-11-2023</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Tgl</td>
+                    <td>:</td>
+                </tr>
+            </table>
+        </div>
 
         <table>
             <tr>
-                <td class="bold">Untuk Pembayaran</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+
+        <table style="padding: 0px 25px 0px 0px;">
+            <tr>
+                <td class="bold" style="white-space: nowrap; padding: 0px 30px 0px 0px;">Untuk Pembayaran</td>
                 <td> : CASH ADVANCE : Renovasi mess Cibitung, termasuk cat, perbaikan
                     furniture,
                     peremajaan
@@ -254,49 +308,97 @@
             </tr>
         </table>
 
-        <table class="payment-table">
+        <table>
             <tr>
-                <td class="bold">Amount</td>
-                <td>Rp 2.000.000</td>
+                <td></td>
             </tr>
             <tr>
-                <td class="bold">PPN 11%</td>
-                <td>Rp</td>
+                <td></td>
             </tr>
             <tr>
-                <td class="bold">PPH 23 (2%)</td>
-                <td>Rp</td>
+                <td></td>
             </tr>
             <tr>
-                <td class="bold">Discount</td>
-                <td>Rp</td>
+                <td></td>
             </tr>
             <tr>
-                <td class="bold">Jumlah Total</td>
-                <td>Rp 2.000.000</td>
-            </tr>
-            <tr>
-                <td class="bold">Jumlah yang harus di transfer</td>
-                <td>Rp 2.000.000</td>
+                <td></td>
             </tr>
         </table>
 
-        <div class="bold">Terbilang: DUA JUTA RUPIAH</div>
-        <div class="bold">Rekening Bank: MANDIRI</div>
-        <div class="bold">Acc No: 1030006931402</div>
-        <div class="bold">A/N: MOCHAMAD IRVAN SANDOVAL</div>
+        <table class="payment-table-details">
+            <tr>
+                <td class="bolds" style="width: 30%;">Amount</td>
+                <td style="width: 12%;">Rp </td>
+                <td style="width: 50%;">2.000.000</td>
+            </tr>
+            <tr>
+                <td class="bolds">PPN 11%</td>
+                <td>Rp </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="bolds">PPH 23 (2%)</td>
+                <td>Rp </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="bolds">Discount</td>
+                <td>Rp </td>
+                <td class="underline" style="margin-left: -26px; width: 75px;"> </td>
+            </tr>
+            <tr>
+                <td class=" bolds" style="padding-top: 15px;">Jumlah Total</td>
+                <td style="padding-top: 15px;">Rp </td>
+                <td>2.000.000</td>
+            </tr>
+            <tr>
+                <td class="bolds">Jumlah yg harus di transfer</td>
+                <td>Rp </td>
+                <td>2.000.000</td>
+            </tr>
+        </table>
+        <br><br>
+        <table class="payment-table-details">
+            <tr>
+                <td class="bold" style="width: 25%;">Terbilang</td>
+                <td style="width: 2%;">:</td>
+                <td style="text-decoration: underline;">DUA JUTA RUPIAH</td>
+            </tr>
+            <tr>
+                <td class="bold">Rekening Bank</td>
+                <td>:</td>
+                <td>MANDIRI</td>
+            </tr>
+            <tr>
+                <td class="bold">Acc No.</td>
+                <td>:</td>
+                <td>1030006931402</td>
+            </tr>
+            <tr>
+                <td class="bold">A/N</td>
+                <td>:</td>
+                <td>MOCHAMAD IRVAN SANDOVAL</td>
+            </tr>
+        </table>
 
         <div class="signature">
             <div>
-                Dibuat Oleh<br><br><br>
+                <p style="">
+                    Dibuat Oleh
+                </p>
                 <b>Irvan Sandoval</b>
             </div>
             <div>
-                Diperiksa Oleh<br><br><br>
+                <p>
+                    Diperiksa Oleh
+                </p>
                 <b>Irwandi</b>
             </div>
             <div>
-                Diketahui Oleh<br><br><br>
+                <p>
+                    Diketahui Oleh
+                </p>
                 <b>Bong Tedy</b>
             </div>
         </div>
