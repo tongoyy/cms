@@ -44,7 +44,7 @@
             font-weight: bold;
             margin-top: 0;
             margin-bottom: 0;
-            font-size:14px;
+            font-size: 14px;
         }
 
         .info {
@@ -267,7 +267,7 @@
                             </td>
                             <td>
                                 <p>
-                                    <p>{{ $data->Description }}</p>
+                                <p>{{ $data->Description }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -287,27 +287,28 @@
                     </tr>
                     <tr>
                         <td>
-                            <strong>Department:</strong>
+                            <p style="margin-top: 10px; font-weight:bold">Department:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Department }}</p>
+                            <p style="margin-top: 10px;">{{ $data->Department }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>Date Created:</strong>
+                            <p style="margin-top: 5px; margin-bottom:5px; font-weight:bold">Date Created:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">
+                            <p style="margin-top: 5px; margin-bottom:5px;">
                                 {{ $data->created_at->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>Due Date:</strong>
+                            <p style="margin-top: 5px; margin-bottom: 5px; font-weight:bold">Due Date:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ \Carbon\Carbon::parse($data->DueDate)->format('d-m-Y') }}</p>
+                            <p style="margin-top: 5px; margin-bottom: 5px;">
+                                {{ \Carbon\Carbon::parse($data->DueDate)->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>

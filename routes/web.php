@@ -1,17 +1,23 @@
 <?php
 
-// use App\Http\Controllers\DownloadPdfController;
-
-use App\Http\Controllers\DownloadPdfController;
-use App\Http\Controllers\PR_PdfController;
-use App\Http\Controllers\PO_PdfController;
-use App\Http\Controllers\SP3_PdfController;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
-use Spatie\Browsershot\Browsershot;
+use App\Http\Controllers\PO_PdfController;
+use App\Http\Controllers\PR_PdfController;
+use App\Http\Controllers\SP3_PdfController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // routes/web.php
@@ -19,34 +25,6 @@ Route::get('/pdfPR/{id}', [PR_PdfController::class, 'pdfPR'])->name('pdfPR');
 
 Route::get('/pdfPO/{id}', [PO_PdfController::class, 'pdfPO'])->name('pdfPO');
 
-Route::get('/sp3/{id}/pdf', [Sp3_PdfController::class, 'pdfSP3'])->name('pdfSP3');
+Route::get('/pdfSP3/{id}', [SP3_PdfController::class, 'pdfSP3'])->name('pdfSP3');
 
-// Route::get('PdfDownload', function () {
-//     $html = view('pdfs.PurchaseRequestPDF')->render();
-
-//     $pdf = Browsershot::html($html)
-//         ->setIncludePath('services.browsershort.include_path')
-//         ->pdf();
-
-//     // return new Response($pdf, 200, [
-//     //     'Content-Type' => 'application/pdf',
-//     //     'Content-Disposition' => 'attachment; filename="example.pdf"',
-//     //     'Content-Length' => strlen($pdf)
-//     // ]);
-
-//     return new Response($pdf, 200, [
-//         'Content-Type' => 'application/pdf',
-//         'Content-Disposition' => 'inline; filename="Purchase Request.pdf"',
-//     ]);
-// })->name('PdfDownload');
-
-// Route::get('pdf', ['App\Http\Controllers\PdfController'::class, 'generatePdf']);
-
-// Route::get('/{record}/pdf', function ($record) {
-//     return view('pdf', compact($record));
-// });
-
-// Route::get('/{record}/pdf', [DownloadPdfController::class, 'download'])->name('purchase.pdf.download');
-// Route::get('pdf', [PdfController::class, 'generatePdf'])->name('purchase.pdf.download');
-
-// Route::get('/{record}/pdf', [DownloadPdfController::class, 'download'])->name('purchase_request.pdf.download');
+require __DIR__ . '/auth.php';
