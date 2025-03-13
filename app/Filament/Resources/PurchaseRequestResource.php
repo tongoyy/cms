@@ -18,6 +18,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -118,7 +119,7 @@ class PurchaseRequestResource extends Resource
                     ->locale('id')
                     ->displayFormat('D, d-M-Y H:i:s')
                     ->default(now()),
-                TextInput::make('Description'),
+                Textarea::make('Description')->nullable(),
 
                 /* Items Detail */
                 Repeater::make('purchaseRequestItems')->label('Items Detail')
@@ -139,11 +140,10 @@ class PurchaseRequestResource extends Resource
                             })->required(),
                         TextInput::make('Unit')->required(),
 
-                        Select::make('Tax')->label('Tax')
+                        Select::make('Tax')->label('Tax')->value('')
                             ->options([
                                 'PPH' => 'PPH (2%)',
                                 'PPN' => 'PPN (12%)',
-                                'Tanpa Pajak' => 'Tanpa Pajak'
                             ])
                             ->reactive()
                             ->live(debounce: 500)
@@ -214,7 +214,7 @@ class PurchaseRequestResource extends Resource
                 TextColumn::make('PurchaseType')->label('Purchase Type'),
                 TextColumn::make('Category'),
                 TextColumn::make('DueDate')->label('Due Date')->dateTime('D. d-M-y'),
-                TextColumn::make('Description'),
+                TextColumn::make('Description')->limit(35),
                 TextColumn::make('GrandTotal'),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')

@@ -161,7 +161,6 @@
 
 <body>
     <div class="containers">
-
         <div class="container-header">
             <div class="logo" style="vertical-align: middle;">
                 <img src="<?php echo $image; ?>" alt="Audemars Indonesia" width="130" height="75"
@@ -180,53 +179,54 @@
                     </tr>
                     <tr class="text-infos">
                         <td>Tanggal Terbit :</td>
-                        <td>29 Juli 2024</td>
+                        <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
                     </tr>
                 </table>
             </div>
         </div>
-
-        <table class="info-table" style="padding: 10px 0;">
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="bold" width="100">SPPP No</td>
-                    <td>: 00092/AMI-SP3/11/2023</td>
-                </tr>
-                <tr>
-                    <td class="bold">Date</td>
-                    <td>: 15 Nov 2023</td>
-                </tr>
-                <tr>
-                    <td class="bold">To</td>
-                    <td>:</td>
-                    <td class="bold">KP</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Fax</td>
-                    <td>:</td>
-                    <td class="bold" width="100">Pemakaian</td>
-                    <td>: Zona 4</td>
-                </tr>
-                <tr>
-                    <td class="bold">Dari</td>
-                    <td>:</td>
-                    <td class="bold">Lokasi</td>
-                    <td>: Cibitung</td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
+        @if ($sp3->purchaseRequest->isNotEmpty())
+            <table class="info-table" style="padding: 10px 0;">
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="bold" width="100">SPPP No</td>
+                        <td>{{ $sp3->SP3_Number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Date</td>
+                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">To</td>
+                        <td>:</td>
+                    </tr>
+                    @foreach ($sp3->purchaseRequest as $pr)
+                        <tr>
+                            <td class="bold">Fax</td>
+                            <td>:</td>
+                            <td class="bold" width="100">Pemakaian</td>
+                            <td>: {{ $sp3->pr->Project }}</td>
+                        </tr>
+                        <tr>
+                            <td class="bold">Dari</td>
+                            <td>:</td>
+                            <td class="bold">Lokasi</td>
+                            <td>: Cibitung</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                </tbody>
+        @endforeach
         </table>
-
+    @else
+        @endif
         <table class="payment-tyoe">
             <tr>
                 <td class="bold"><strong>Jenis Pembayaran</strong></td>
-                <td>:</td>
+                <td>: {{ $sp3->Jenis_Pembayaran }}</td>
             </tr>
         </table>
         <br>
@@ -234,64 +234,43 @@
 
         <div style="display: flex;">
             <table class="payment-info-table" style="white-space: nowrap;">
-                <tr>
-                    <td class="bold">1. Nama Supplier</td>
-                    <td style="padding-right: 5rem;">: &nbsp; MOCHAMAD IRVAN SANDOVAL</td>
-                </tr>
+                @if ($sp3->vendors->isNotEmpty())
+                    @foreach ($sp3->vendors as $vend)
+                        <tr>
+                            <td class="bold">1. Nama Supplier</td>
+                            <td style="padding-right: 5rem;">: &nbsp; {{ $sp->vend->CompanyName }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                @endif
                 <tr>
                     <td class="bold">2. No. Invoice</td>
-                    <td>: &nbsp;</td>
+                    <td>: &nbsp; </td>
                 </tr>
                 <tr>
                     <td class="bold">3. No. Kwitansi</td>
                     <td>: &nbsp;</td>
                 </tr>
-                <tr>
-                    <td class="bold">4. No. Purchase Order</td>
-                    <td>: &nbsp; #PR-00091-2023-MANUFACTURE</td>
-                </tr>
+                @if ($sp3->purchaseRequest->isNotEmpty())
+                    @foreach ($sp3->purchaseRequest as $pr)
+                        <tr>
+                            <td class="bold">4. No. Purchase Order</td>
+                            <td>: &nbsp; {{ $sp3->pr->PR_Code }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                @endif
                 <tr>
                     <td class="bold">5. No. Delivery Order</td>
-                    <td>: &nbsp;</td>
+                    <td>: &nbsp; {{ $sp3->No_Invoice }}</td>
                 </tr>
                 <tr>
                     <td class="bold">6. No. Faktur Pajak</td>
-                    <td>: &nbsp;</td>
+                    <td>: &nbsp; {{ $sp3->No_FP }}</td>
                 </tr>
                 <tr>
                     <td class="bold">7. Masa SSP</td>
-                    <td>: &nbsp;</td>
-                </tr>
-            </table>
-
-            <table class="payment-info-table" style="white-space: nowrap;">
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>: 15-11-2023</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Tgl</td>
-                    <td>:</td>
+                    <td>: &nbsp; </td>
                 </tr>
             </table>
         </div>
@@ -299,10 +278,7 @@
         <table style="padding: 0px 25px 0px 0px;">
             <tr>
                 <td class="bold" style="white-space: nowrap; padding: 0px 25px 0px 0px;">Untuk Pembayaran</td>
-                <td> : &nbsp; CASH ADVANCE : Renovasi mess Cibitung, termasuk cat, perbaikan
-                    furniture,
-                    peremajaan
-                    tools/perkakas</td>
+                <td> : &nbsp; {{ $sp3-> }}</td>
             </tr>
         </table>
 

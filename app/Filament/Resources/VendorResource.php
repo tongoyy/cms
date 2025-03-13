@@ -52,13 +52,13 @@ class VendorResource extends Resource
                     })
                     ->readOnly(),
                 Hidden::make('Number')->default($number++),
-                TextInput::make('CompanyName')->label('Company Name')->required(),
-                TextInput::make('NPWP')->label('NPWP')->required(),
-                TextInput::make('Phone')->label('Phone')->required()->numeric(),
-                TextInput::make('Email')->label('Email')->required()->email(),
-                Textarea::make('Address')->label('Address')->required(),
-                TextInput::make('RekeningBank')->label('Rekening Bank')->required(),
-                TextInput::make('NomorRekening')->label('Nomor Rekening')->required()->numeric(),
+                TextInput::make('CompanyName')->label('Company Name'),
+                TextInput::make('NPWP')->label('NPWP'),
+                TextInput::make('Phone')->label('Phone')->numeric(),
+                TextInput::make('Email')->label('Email')->email(),
+                Textarea::make('Address')->label('Address'),
+                TextInput::make('RekeningBank')->label('Rekening Bank'),
+                TextInput::make('NomorRekening')->label('Nomor Rekening')->numeric(),
             ]);
     }
 
@@ -71,8 +71,8 @@ class VendorResource extends Resource
                 TextColumn::make('NPWP')->label('NPWP'),
                 TextColumn::make('Phone')->label('Phone'),
                 TextColumn::make('Email')->label('Email'),
-                TextColumn::make('Address')->label('Address'),
-                TextColumn::make('RekeningBank')->label('RekeningBank'),
+                TextColumn::make('Address')->label('Address')->limit(35),
+                TextColumn::make('RekeningBank')->label('Rekening Bank'),
                 TextColumn::make('NomorRekening')->label('Nomor Rekening'),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Vendor!')

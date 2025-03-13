@@ -223,9 +223,6 @@
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>Requester:</strong>
-                            </td>
-                            <td>
                                 <p> Irvan Sandoval</p>
                             </td>
                         </tr>
@@ -247,18 +244,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <strong>Type:</strong>
-                            </td>
-                            <td>
                                 <p></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>RAB Ref:</strong>
-                            </td>
-                            <td>
-                                <p>Project</p>
                             </td>
                         </tr>
                         <tr>
@@ -272,8 +258,6 @@
                             </td>
                         </tr>
                     </table>
-                @else
-                @endif
             </div>
             <div class="right">
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
@@ -314,6 +298,8 @@
                 </table>
             </div>
         </div>
+    @else
+        @endif
 
         <!-- Table -->
         @if ($data->purchaseRequestItems->isNotEmpty())

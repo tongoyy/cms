@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('PurchaseType');
             $table->string('Category');
             $table->dateTime('DueDate');
-            $table->text('Description');
+            $table->text('Description')->nullable();
             $table->text('SubTotal');
             $table->text('GrandTotal');
             $table->timestamps();

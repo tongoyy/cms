@@ -22,7 +22,7 @@ return new class extends Migration
             $table->bigInteger('Quantity');
             $table->bigInteger('Price');
             $table->string('Unit');
-            $table->text('Tax');
+            $table->text('Tax')->nullable();
             $table->bigInteger('Tax_Amount');
             $table->bigInteger('Total');
             $table->timestamps();

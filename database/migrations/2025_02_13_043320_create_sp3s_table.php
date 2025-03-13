@@ -40,9 +40,9 @@ return new class extends Migration
             $table->text('Vendors');
             $table->date('Date_Created');
             $table->text('Nama_Supplier');
-            $table->text('No_Invoice');
+            $table->text('No_Invoice')->nullable();
             $table->date('Tanggal_Invoice');
-            $table->text('No_Kwitansi');
+            $table->text('No_Kwitansi')->nullable();
             $table->date('Tanggal_Kwitansi');
             $table->text('No_DO');
             $table->date('Tanggal_DO');
@@ -58,7 +58,7 @@ return new class extends Migration
             $table->bigInteger('Amount');
             $table->bigInteger('PPN');
             $table->bigInteger('PPH');
-            $table->bigInteger('Discount');
+            $table->bigInteger('Discount')->nullable();
             $table->bigInteger('Jumlah');
             $table->longText('Terbilang');
             $table->timestamps();

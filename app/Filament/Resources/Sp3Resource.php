@@ -18,6 +18,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -182,7 +183,7 @@ class Sp3Resource extends Resource
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
                                 TextInput::make('Nama_Supplier')->label('Nama Supplier')->required(),
-                                TextInput::make('No_Invoice')->label('Nomor Invoice')->required(),
+                                TextInput::make('No_Invoice')->label('Nomor Invoice')->nullable(),
                                 DateTimePicker::make('Tanggal_Invoice')->label('Tanggal Invoice')->required()
                                     ->native(false)
                                     ->firstDayOfWeek(1)
@@ -191,7 +192,7 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('No_Kwitansi')->label('Nomor Kwitansi')->required(),
+                                TextInput::make('No_Kwitansi')->label('Nomor Kwitansi')->nullable(),
                                 DateTimePicker::make('Tanggal_Kwitansi')->label('Tanggal Kwitansi')->required()
                                     ->native(false)
                                     ->firstDayOfWeek(1)
@@ -209,7 +210,6 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-
                             ])->columns(4)->columnSpan(2),
                         Fieldset::make()->label('Second Row')
                             ->schema([
@@ -228,7 +228,7 @@ class Sp3Resource extends Resource
                                         'Down Payment' => 'Down Payment',
                                         'Balance Payment' => 'Balance Payment',
                                     ]),
-                                TextInput::make('Untuk_Pembayaran'),
+                                Textarea::make('Untuk_Pembayaran')->nullable(),
                                 TextInput::make('Rekening_Bank')->label('Rekening Bank')->readOnly(true),
                                 TextInput::make('Nomor_Rekening')->label('Nomor Rekening')->readOnly(true),
                                 TextInput::make('Atas_Nama')->label('Atas Nama')->readOnly(true),
@@ -257,6 +257,7 @@ class Sp3Resource extends Resource
                                     ])->columns(1)->columnSpan(2),
 
                                 TextInput::make('Discount')
+                                    ->nullable()
                                     ->label('Discount')
                                     ->numeric()
                                     ->reactive()
