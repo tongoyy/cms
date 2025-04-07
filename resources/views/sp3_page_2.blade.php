@@ -184,49 +184,44 @@
                 </table>
             </div>
         </div>
-        @if ($sp3->purchaseRequest->isNotEmpty())
-            <table class="info-table" style="padding: 10px 0;">
-                <tbody>
-                    <tr>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td class="bold" width="100">SPPP No</td>
-                        <td>{{ $sp3->SP3_Number }}</td>
-                    </tr>
-                    <tr>
-                        <td class="bold">Date</td>
-                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td class="bold">To</td>
-                        <td>:</td>
-                    </tr>
-                    @foreach ($sp3->purchaseRequest as $pr)
-                        <tr>
-                            <td class="bold">Fax</td>
-                            <td>:</td>
-                            <td class="bold" width="100">Pemakaian</td>
-                            <td>: {{ $sp3->pr->Project }}</td>
-                        </tr>
-                        <tr>
-                            <td class="bold">Dari</td>
-                            <td>:</td>
-                            <td class="bold">Lokasi</td>
-                            <td>: Cibitung</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                </tbody>
-        @endforeach
+        <table class="info-table" style="padding: 10px 0;">
+            <tbody>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bold" width="100">SPPP No</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bold">Date</td>
+                    <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">To</td>
+                    <td>:</td>
+                </tr>
+                <tr>
+                    <td class="bold">Fax</td>
+                    <td>:</td>
+                    <td class="bold" width="100">Pemakaian</td>
+                    <td>: </td>
+                </tr>
+                <tr>
+                    <td class="bold">Dari</td>
+                    <td>:</td>
+                    <td class="bold">Lokasi</td>
+                    <td>: Cibitung</td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
-    @else
-        @endif
         <table class="payment-tyoe">
             <tr>
                 <td class="bold"><strong>Jenis Pembayaran</strong></td>
-                <td>: {{ $sp3->Jenis_Pembayaran }}</td>
+                <td>: </td>
             </tr>
         </table>
         <br>
@@ -234,15 +229,10 @@
 
         <div style="display: flex;">
             <table class="payment-info-table" style="white-space: nowrap;">
-                @if ($sp3->vendors->isNotEmpty())
-                    @foreach ($sp3->vendors as $vend)
-                        <tr>
-                            <td class="bold">1. Nama Supplier</td>
-                            <td style="padding-right: 5rem;">: &nbsp; {{ $sp->vend->CompanyName }}</td>
-                        </tr>
-                    @endforeach
-                @else
-                @endif
+                <tr>
+                    <td class="bold">1. Nama Supplier</td>
+                    <td style="padding-right: 5rem;">: &nbsp;</td>
+                </tr>
                 <tr>
                     <td class="bold">2. No. Invoice</td>
                     <td>: &nbsp; </td>
@@ -251,22 +241,17 @@
                     <td class="bold">3. No. Kwitansi</td>
                     <td>: &nbsp;</td>
                 </tr>
-                @if ($sp3->purchaseRequest->isNotEmpty())
-                    @foreach ($sp3->purchaseRequest as $pr)
-                        <tr>
-                            <td class="bold">4. No. Purchase Order</td>
-                            <td>: &nbsp; {{ $sp3->pr->PR_Code }}</td>
-                        </tr>
-                    @endforeach
-                @else
-                @endif
+                <tr>
+                    <td class="bold">4. No. Purchase Order</td>
+                    <td>: &nbsp;</td>
+                </tr>
                 <tr>
                     <td class="bold">5. No. Delivery Order</td>
-                    <td>: &nbsp; {{ $sp3->No_Invoice }}</td>
+                    <td>: &nbsp;</td>
                 </tr>
                 <tr>
                     <td class="bold">6. No. Faktur Pajak</td>
-                    <td>: &nbsp; {{ $sp3->No_FP }}</td>
+                    <td>: &nbsp;</td>
                 </tr>
                 <tr>
                     <td class="bold">7. Masa SSP</td>
@@ -278,7 +263,7 @@
         <table style="padding: 0px 25px 0px 0px;">
             <tr>
                 <td class="bold" style="white-space: nowrap; padding: 0px 25px 0px 0px;">Untuk Pembayaran</td>
-                <td> : &nbsp; {{ $sp3-> }}</td>
+                <td> : &nbsp;</td>
             </tr>
         </table>
 
