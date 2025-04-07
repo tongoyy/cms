@@ -281,8 +281,7 @@ class Sp3Resource extends Resource
             ->columns([
                 TextColumn::make('SP3_Number')->label('SP3 Number'),
                 TextColumn::make('Nama_Supplier')->label('Nama Supplier'),
-                // TextColumn::make('purchaseRequestPR_Code')->label('PR Code'),
-                // TextColumn::make('purchaseRequest.PO_Code')->label('PO Code'),
+
                 TextColumn::make('purchaseRequest.PR_Code')
                     ->label('PR Number')
                     ->sortable()
@@ -295,9 +294,11 @@ class Sp3Resource extends Resource
                     ->searchable()
                     ->formatStateUsing(fn($record) => $record->purchaseOrder?->PO_Code ?? '-'),
 
-                TextColumn::make('Date_Created')->label('Order Date'),
+                TextColumn::make('Date_Created')
+                    ->label('Order Date')
+                    ->date('d-M-Y'),
                 TextColumn::make('vendors.CompanyName')->label('Vendor'),
-                TextColumn::make('Jumlah')->label('Total'),
+                TextColumn::make('Jumlah')->label('Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan SP3 baru.')

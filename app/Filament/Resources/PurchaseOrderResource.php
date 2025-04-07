@@ -373,10 +373,10 @@ class PurchaseOrderResource extends Resource
             ->columns([
                 TextColumn::make('PO_Code')->label('PR Code'),
                 TextColumn::make('PO_Name')->label('PR Name'),
-                TextColumn::make('Vendors')->label('Vendors'),
-                TextColumn::make('Order_Date')->label('Order_Date'),
+                TextColumn::make('vendors.CompanyName')->label('Vendors'),
+                TextColumn::make('Order_Date')->label('Order_Date')->date('d-M-Y'),
                 TextColumn::make('Project')->label('Purchase Type'),
-                TextColumn::make('Grand_Total'),
+                TextColumn::make('Grand_Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Order')

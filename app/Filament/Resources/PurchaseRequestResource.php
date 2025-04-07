@@ -19,6 +19,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -126,7 +127,7 @@ class PurchaseRequestResource extends Resource
                     ->relationship()
                     ->schema([
                         TextInput::make('Item_Name')->required(),
-                        TextInput::make('Item_Description')->required(),
+                        TextInput::make('Item_Description')->nullable(),
                         TextInput::make('Quantity')->numeric()->required()->live(debounce: 500)
                             ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Price');
@@ -136,14 +137,25 @@ class PurchaseRequestResource extends Resource
                             ->reactive()->live(debounce: 500)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
+                                $formattedPrice = number_format($state, 0, ',', '.');
+                                $set('Price', $formattedPrice);
                                 $set('Total', $state * $vHarga);
                             })->required(),
+
+                        // TextInput::make('Price')->numeric()->prefix('Rp.')->required()
+                        //     ->reactive()->live(debounce: 500)
+                        //     ->afterStateUpdated(function (Set $set, $state, Get $get) {
+                        //         $vHarga = $get('Quantity');
+                        //         $set('Total', $state * $vHarga);
+                        //     })->required(),
+
                         TextInput::make('Unit')->required(),
 
-                        Select::make('Tax')->label('Tax')->value('')
+                        Select::make('Tax')->label('Tax')->default('')->nullable()
                             ->options([
                                 'PPH' => 'PPH (2%)',
                                 'PPN' => 'PPN (12%)',
+                                '' => '',
                             ])
                             ->reactive()
                             ->live(debounce: 500)
@@ -207,15 +219,15 @@ class PurchaseRequestResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('PR_Code')->label('PR Code'),
+                TextColumn::make('PR_Code')->label('PR Code')->visibleFrom('md'),
                 TextColumn::make('PR_Name')->label('PR Name'),
                 TextColumn::make('Project'),
                 TextColumn::make('Department'),
                 TextColumn::make('PurchaseType')->label('Purchase Type'),
                 TextColumn::make('Category'),
-                TextColumn::make('DueDate')->label('Due Date')->dateTime('D. d-M-y'),
+                TextColumn::make('DueDate')->label('Due Date')->date('d-M-Y'),
                 TextColumn::make('Description')->limit(35),
-                TextColumn::make('GrandTotal'),
+                TextColumn::make('GrandTotal')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Request')
