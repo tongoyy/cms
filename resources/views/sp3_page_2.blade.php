@@ -184,144 +184,154 @@
                 </table>
             </div>
         </div>
-        <table class="info-table" style="padding: 10px 0;">
-            <tbody>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="bold" width="100">SPPP No</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="bold">Date</td>
-                    <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
-                </tr>
-                <tr>
-                    <td class="bold">To</td>
-                    <td>:</td>
-                </tr>
-                <tr>
-                    <td class="bold">Fax</td>
-                    <td>:</td>
-                    <td class="bold" width="100">Pemakaian</td>
-                    <td>: </td>
-                </tr>
-                <tr>
-                    <td class="bold">Dari</td>
-                    <td>:</td>
-                    <td class="bold">Lokasi</td>
-                    <td>: Cibitung</td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="payment-tyoe">
-            <tr>
-                <td class="bold"><strong>Jenis Pembayaran</strong></td>
-                <td>: </td>
-            </tr>
-        </table>
-        <br>
-        <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
+        @if ($sp3)
+            <table class="info-table" style="padding: 10px 0;">
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="bold" width="100">SPPP No</td>
+                        <td> : {{ $sp3->SP3_Number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Date</td>
+                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">To</td>
+                        <td>:</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Fax</td>
+                        <td>:</td>
+                        <td class="bold" width="100">Pemakaian</td>
+                        <td>: </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Dari</td>
+                        <td>:</td>
+                        <td class="bold">Lokasi</td>
+                        <td>: Cibitung</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        @else
+        @endif
 
-        <div style="display: flex;">
-            <table class="payment-info-table" style="white-space: nowrap;">
+        @if ($sp3)
+            <table class="payment-tyoe">
                 <tr>
-                    <td class="bold">1. Nama Supplier</td>
-                    <td style="padding-right: 5rem;">: &nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="bold">2. No. Invoice</td>
-                    <td>: &nbsp; </td>
-                </tr>
-                <tr>
-                    <td class="bold">3. No. Kwitansi</td>
-                    <td>: &nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="bold">4. No. Purchase Order</td>
-                    <td>: &nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="bold">5. No. Delivery Order</td>
-                    <td>: &nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="bold">6. No. Faktur Pajak</td>
-                    <td>: &nbsp;</td>
-                </tr>
-                <tr>
-                    <td class="bold">7. Masa SSP</td>
-                    <td>: &nbsp; </td>
+                    <td class="bold"><strong>Jenis Pembayaran</strong></td>
+                    <td> : {{ $sp3->Jenis_Pembayaran }}</td>
                 </tr>
             </table>
-        </div>
+            <br>
+            <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
 
-        <table style="padding: 0px 25px 0px 0px;">
-            <tr>
-                <td class="bold" style="white-space: nowrap; padding: 0px 25px 0px 0px;">Untuk Pembayaran</td>
-                <td> : &nbsp;</td>
-            </tr>
-        </table>
+            <div style="display: flex;">
+                <table class="payment-info-table" style="white-space: nowrap;">
+                    <tr>
+                        <td class="bold">1. Nama Supplier</td>
+                        <td style="padding-right: 5rem;">: &nbsp; {{ $sp3->Nama_Supplier }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">2. No. Invoice</td>
+                        <td>: &nbsp; {{ $sp3->No_Invoice }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">3. No. Kwitansi</td>
+                        <td>: &nbsp; {{ $sp3->No_Kwitansi }} </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">4. No. Purchase Order</td>
+                        <td>: &nbsp; {{ $sp3->purchaseRequest->PR_Code }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">5. No. Delivery Order</td>
+                        <td>: &nbsp; {{ $sp3->No_DO }} </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">6. No. Faktur Pajak</td>
+                        <td>: &nbsp; {{ $sp3->No_FP }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">7. Masa SSP</td>
+                        <td>: &nbsp; {{ $sp3->Tanggal_FP }}</td>
+                    </tr>
+                </table>
+            </div>
+        @else
+        @endif
 
-        <table class="payment-table-details">
-            <tr>
-                <td class="bolds" style="width: 30%;">Amount</td>
-                <td style="width: 12%;">Rp </td>
-                <td style="width: 50%;">2.000.000</td>
-            </tr>
-            <tr>
-                <td class="bolds">PPN 11%</td>
-                <td>Rp </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="bolds">PPH 23 (2%)</td>
-                <td>Rp </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="bolds">Discount</td>
-                <td>Rp </td>
-                <td class="underline" style="margin-left: -26px; width: 75px;"> </td>
-            </tr>
-            <tr>
-                <td class=" bolds">Jumlah Total</td>
-                <td>Rp </td>
-                <td>2.000.000</td>
-            </tr>
-            <tr>
-                <td class="bolds">Jumlah yg harus di transfer</td>
-                <td>Rp </td>
-                <td>2.000.000</td>
-            </tr>
-        </table>
-        <br><br>
-        <table class="payment-table-details">
-            <tr>
-                <td class="bold" style="width: 25%;">Terbilang</td>
-                <td style="width: 2%;">:</td>
-                <td style="text-decoration: underline;">DUA JUTA RUPIAH</td>
-            </tr>
-            <tr>
-                <td class="bold">Rekening Bank</td>
-                <td>:</td>
-                <td>MANDIRI</td>
-            </tr>
-            <tr>
-                <td class="bold">Acc No.</td>
-                <td>:</td>
-                <td>1030006931402</td>
-            </tr>
-            <tr>
-                <td class="bold">A/N</td>
-                <td>:</td>
-                <td>MOCHAMAD IRVAN SANDOVAL</td>
-            </tr>
-        </table>
+        @if ($sp3)
+            <table style="padding: 0px 25px 0px 0px;">
+                <tr>
+                    <td class="bold" style="white-space: nowrap; padding: 0px 25px 0px 0px;">Untuk Pembayaran</td>
+                    <td> : &nbsp; {{ $sp3->Untuk_Pembayaran }} </td>
+                </tr>
+            </table>
+
+            <table class="payment-table-details">
+                <tr>
+                    <td class="bolds" style="width: 30%;">Amount</td>
+                    <td style="width: 12%;">Rp </td>
+                    <td style="width: 50%;">{{ number_format($sp3->Amount, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td class="bolds">PPN 11%</td>
+                    <td>Rp </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bolds">PPH 23 (2%)</td>
+                    <td>Rp </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bolds">Discount</td>
+                    <td>Rp </td>
+                    <td class="underline" style="margin-left: -26px; width: 75px;"> </td>
+                </tr>
+                <tr>
+                    <td class=" bolds">Jumlah Total</td>
+                    <td>Rp </td>
+                    <td>{{ number_format($sp3->Jumlah, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td class="bolds">Jumlah yg harus di transfer</td>
+                    <td>Rp </td>
+                    <td>{{ number_format($sp3->Jumlah, 0, ',', '.') }}</td>
+                </tr>
+            </table>
+            <br><br>
+            <table class="payment-table-details">
+                <tr>
+                    <td class="bold" style="width: 25%;">Terbilang</td>
+                    <td style="width: 2%;">:</td>
+                    <td style="text-decoration: underline;">{{ $sp3->Terbilang }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Rekening Bank</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Rekening_Bank }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Acc No.</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Nomor_Rekening }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">A/N</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Atas_Nama }}</td>
+                </tr>
+            </table>
+        @else
+        @endif
 
         <div class="signature">
             <div>
