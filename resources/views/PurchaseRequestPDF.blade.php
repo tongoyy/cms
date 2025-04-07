@@ -223,6 +223,9 @@
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
+                                <strong>Requester:</strong>
+                            </td>
+                            <td>
                                 <p> Irvan Sandoval</p>
                             </td>
                         </tr>
