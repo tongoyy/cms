@@ -7,8 +7,9 @@ use App\Http\Controllers\SP3_PdfController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('filament.admin.auth.login');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

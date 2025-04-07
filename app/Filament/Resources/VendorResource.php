@@ -52,11 +52,11 @@ class VendorResource extends Resource
                     })
                     ->readOnly(),
                 Hidden::make('Number')->default($number++),
-                TextInput::make('CompanyName')->label('Company Name'),
+                TextInput::make('CompanyName')->label('Company Name')->required(),
                 TextInput::make('NPWP')->label('NPWP'),
-                TextInput::make('Phone')->label('Phone')->numeric(),
+                TextInput::make('Phone')->label('Phone')->numeric()->required(),
                 TextInput::make('Email')->label('Email')->email(),
-                Textarea::make('Address')->label('Address'),
+                Textarea::make('Address')->label('Address')->required(),
                 TextInput::make('RekeningBank')->label('Rekening Bank'),
                 TextInput::make('NomorRekening')->label('Nomor Rekening')->numeric(),
             ]);

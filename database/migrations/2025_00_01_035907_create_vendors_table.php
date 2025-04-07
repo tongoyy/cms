@@ -16,12 +16,12 @@ return new class extends Migration
             $table->bigInteger('Number');
             $table->text('VendorCode');
             $table->text('CompanyName');
-            $table->text('NPWP');
+            $table->text('NPWP')->nullable();
             $table->text('Phone');
-            $table->text('Email');
+            $table->text('Email')->nullable();
             $table->text('Address');
-            $table->text('RekeningBank');
-            $table->text('NomorRekening');
+            $table->text('RekeningBank')->nullable();
+            $table->text('NomorRekening')->nullable();
             $table->timestamps();
         });
     }
