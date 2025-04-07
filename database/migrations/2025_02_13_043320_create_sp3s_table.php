@@ -41,13 +41,13 @@ return new class extends Migration
             $table->date('Date_Created');
             $table->text('Nama_Supplier');
             $table->text('No_Invoice')->nullable();
-            $table->date('Tanggal_Invoice');
+            $table->date('Tanggal_Invoice')->nullable();;
             $table->text('No_Kwitansi')->nullable();
-            $table->date('Tanggal_Kwitansi');
+            $table->date('Tanggal_Kwitansi')->nullable();;
             $table->text('No_DO');
-            $table->date('Tanggal_DO');
+            $table->date('Tanggal_DO')->nullable();;
             $table->text('No_FP');
-            $table->date('Tanggal_FP');
+            $table->date('Tanggal_FP')->nullable();;
             $table->text('Jenis_Pembayaran');
             $table->text('Untuk_Pembayaran');
             $table->text('Rekening_Bank');

@@ -193,7 +193,7 @@ class Sp3Resource extends Resource
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
                                 TextInput::make('No_Kwitansi')->label('Nomor Kwitansi')->nullable(),
-                                DateTimePicker::make('Tanggal_Kwitansi')->label('Tanggal Kwitansi')->required()
+                                DateTimePicker::make('Tanggal_Kwitansi')->label('Tanggal Kwitansi')
                                     ->native(false)
                                     ->firstDayOfWeek(1)
                                     ->closeOnDateSelection()
@@ -201,8 +201,8 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('No_DO')->label('No Delivery Order')->required(),
-                                DateTimePicker::make('Tanggal_DO')->label('Tanggal DO')->required()
+                                TextInput::make('No_DO')->label('No Delivery Order'),
+                                DateTimePicker::make('Tanggal_DO')->label('Tanggal DO')
                                     ->native(false)
                                     ->firstDayOfWeek(1)
                                     ->closeOnDateSelection()
@@ -214,7 +214,7 @@ class Sp3Resource extends Resource
                         Fieldset::make()->label('Second Row')
                             ->schema([
                                 TextInput::make('No_FP')->label('No Faktur Pajak'),
-                                DateTimePicker::make('Tanggal_FP')->label('Tanggal FP')->required()
+                                DateTimePicker::make('Tanggal_FP')->label('Tanggal FP')
                                     ->native(false)
                                     ->firstDayOfWeek(1)
                                     ->closeOnDateSelection()

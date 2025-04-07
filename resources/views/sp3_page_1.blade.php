@@ -228,14 +228,6 @@
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>Requester:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->purchaseRequest->Requester }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <strong>Project:</strong>
                             </td>
                             <td>
@@ -252,22 +244,6 @@
                         </tr>
                         <tr>
                             <td>
-                                <strong>Type:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->purchaseRequest->Type }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>RAB Ref:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->purchaseRequest->RAB_Ref }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 <strong>Description:</strong>
                             </td>
                             <td>
@@ -275,48 +251,48 @@
                             </td>
                         </tr>
                     </table>
-                @else
-                @endif
             </div>
             <div class="right">
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <strong>Purchase Type:</strong>
+                            <p style="margin-top: 7px; font-weight:bold">Purchase Type:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->PurchaseType }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 10px; margin-bottom:5px; font-weight:bold">Department:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 10px; margin-bottom:5px;">{{ $sp3->Department }}</p>
+                            <p style="margin-top: 7px;">{{ $sp3->purchaseRequest->PurchaseType }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p style="margin-top: 5px; margin-bottom:5px; font-weight:bold">Date Created:</p>
+                            <p style="margin-top: 11px; margin-bottom:3px; font-weight:bold">Department:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5px; margin-bottom:5px;">
+                            <p style="margin-top: 11px; margin-bottom:3px">{{ $sp3->purchaseRequest->Department }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style="margin-top: 10px; font-weight:bold">Date Created:</p>
+                        </td>
+                        <td>
+                            <p style="margin-top: 10px;">
                                 {{ $sp3->created_at->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p style="margin-top: 5px; margin-bottom:5px; font-weight:bold">Due Date:</p>
+                            <p style="margin-top: 14px; font-weight:bold">Due Date:</p>
                         </td>
                         <td>
-                            <p style="margin-top: 5px; margin-bottom:5px;">
+                            <p style="margin-top: 14px;">
                                 {{ \Carbon\Carbon::parse($sp3->DueDate)->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
+    @else
+        @endif
 
         <!-- Table -->
         @if (!empty($sp3->purchaseRequestItems))
@@ -340,11 +316,11 @@
                             <td>1</td>
                             <td>{{ $item->Item_Name }}</td>
                             <td>{{ $item->Item_Description }}</td>
-                            <td>{{ $item->Price }}</td>
+                            <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
                             <td>{{ $item->Quantity }}</td>
                             <td>{{ $item->Unit }}</td>
                             <td>{{ $item->Tax }}</td>
-                            <td>{{ $item->Total }}</td>
+                            <td>{{ 'Rp' . number_format($item->Total, 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 @endforeach
