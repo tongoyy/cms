@@ -43,11 +43,11 @@ class AdminPanelProvider extends PanelProvider
             ->font('Poppins')
             ->defaultThemeMode(ThemeMode::Light)
             ->colors([
-                'danger' => Color::Rose,
-                'gray' => Color::Gray,
-                'info' => Color::Blue,
-                'primary' => Color::Indigo,
-                'success' => Color::Emerald,
+                // 'danger' => Color::Rose,
+                // 'gray' => Color::Gray,
+                // 'info' => Color::Blue,
+                // 'primary' => Color::Indigo,
+                // 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
             /* Vite */
