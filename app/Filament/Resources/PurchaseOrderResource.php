@@ -197,7 +197,7 @@ class PurchaseOrderResource extends Resource
                                 } else {
                                     $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
                                 }
-                            }),
+                            })->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
                         TextInput::make('Unit')->required(),
                         Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->required()
                             ->options([

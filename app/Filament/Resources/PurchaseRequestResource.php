@@ -140,7 +140,7 @@ class PurchaseRequestResource extends Resource
                                 $numericPrice = (float) str_replace('.', '', $state); // Remove formatting for calculation
                                 $set('Price', $numericPrice);
                                 $set('Total', $numericPrice * $vHarga);
-                            })->required(),
+                            })->required()->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
 
                         // TextInput::make('Price')->numeric()->prefix('Rp.')->required()
                         //     ->reactive()->live(debounce: 500)
