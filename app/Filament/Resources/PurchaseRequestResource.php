@@ -89,7 +89,7 @@ class PurchaseRequestResource extends Resource
                         'Manufacture' => 'Manufacture',
                     ])
                     ->reactive()
-                    ->live(debounce: 200)
+                    ->live(debounce: 1000)
                     ->afterStateUpdated(function (Set $set, Get $get, $state) {
                         $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
@@ -128,18 +128,18 @@ class PurchaseRequestResource extends Resource
                     ->schema([
                         TextInput::make('Item_Name')->required(),
                         TextInput::make('Item_Description')->nullable(),
-                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 500)
+                        TextInput::make('Quantity')->numeric()->required()->live(debounce: 1000)
                             ->reactive()->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Price');
                                 $set('Total', $state * $vHarga);
                             }),
                         TextInput::make('Price')->numeric()->prefix('Rp.')->required()
-                            ->reactive()->live(debounce: 500)
+                            ->reactive()->live(debounce: 1000)
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                 $vHarga = $get('Quantity');
-                                $formattedPrice = number_format($state, 0, ',', '.');
-                                $set('Price', $formattedPrice);
-                                $set('Total', $state * $vHarga);
+                                $numericPrice = (float) str_replace('.', '', $state); // Remove formatting for calculation
+                                $set('Price', $numericPrice);
+                                $set('Total', $numericPrice * $vHarga);
                             })->required(),
 
                         // TextInput::make('Price')->numeric()->prefix('Rp.')->required()
@@ -158,7 +158,7 @@ class PurchaseRequestResource extends Resource
                                 '' => '',
                             ])
                             ->reactive()
-                            ->live(debounce: 500)
+                            ->live(debounce: 1000)
                             ->afterStateUpdated(function (Set $set, Get $get) {
                                 $total = (float) $get('Total');
                                 $taxType = $get('Tax');
