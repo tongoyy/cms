@@ -211,7 +211,6 @@ class PurchaseRequestResource extends Resource
                                 }
                             })->readOnly(true),
                     ])
-
             ]);
     }
 

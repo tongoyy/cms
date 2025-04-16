@@ -201,7 +201,7 @@ class Sp3Resource extends Resource
                                     ->locale('id')
                                     ->displayFormat('D, d-M-Y H:i:s')
                                     ->default(now()),
-                                TextInput::make('No_DO')->label('No Delivery Order'),
+                                TextInput::make('No_DO')->label('No Delivery Order')->nullable(),
                                 DateTimePicker::make('Tanggal_DO')->label('Tanggal DO')
                                     ->native(false)
                                     ->firstDayOfWeek(1)
