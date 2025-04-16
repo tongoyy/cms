@@ -44,9 +44,9 @@ return new class extends Migration
             $table->date('Tanggal_Invoice')->nullable();;
             $table->text('No_Kwitansi')->nullable();
             $table->date('Tanggal_Kwitansi')->nullable();;
-            $table->text('No_DO');
+            $table->text('No_DO')->nullable();
             $table->date('Tanggal_DO')->nullable();;
-            $table->text('No_FP');
+            $table->text('No_FP')->nullable();
             $table->date('Tanggal_FP')->nullable();;
             $table->text('Jenis_Pembayaran');
             $table->text('Untuk_Pembayaran');
