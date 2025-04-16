@@ -295,7 +295,7 @@
         @endif
 
         <!-- Table -->
-        @if (!empty($sp3->purchaseRequestItems))
+        @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -310,7 +310,7 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($sp3->purchaseRequestItems as $item)
+                @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
                     <tbody>
                         <tr>
                             <td>1</td>

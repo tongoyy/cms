@@ -318,7 +318,7 @@
                 @foreach ($data->purchaseRequestItems as $item)
                     <tbody>
                         <tr>
-                            <td>1</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->Item_Name }}</td>
                             <td>{{ $item->Item_Description }}</td>
                             <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
