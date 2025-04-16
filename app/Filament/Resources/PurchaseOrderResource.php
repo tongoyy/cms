@@ -168,7 +168,7 @@ class PurchaseOrderResource extends Resource
                     ->relationship()
                     ->schema([
                         TextInput::make('Item_Name')->required(),
-                        TextInput::make('Item_Description')->required(),
+                        TextInput::make('Item_Description')->nullable(),
                         TextInput::make('Quantity')
                             ->numeric()
                             ->required()
@@ -199,7 +199,7 @@ class PurchaseOrderResource extends Resource
                                 }
                             })->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
                         TextInput::make('Unit')->required(),
-                        Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->required()
+                        Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->nullable()
                             ->options([
                                 'PPH' => 'PPH (2%)',
                                 'PPN' => 'PPN (12%)',
@@ -299,6 +299,7 @@ class PurchaseOrderResource extends Resource
                                 ->options([
                                     'Amount' => 'Amount',
                                     'Percent' => '%',
+                                    '' => '',
                                 ])
                                 ->reactive()
                                 ->afterStateUpdated(function (Set $set, Get $get) {
@@ -326,6 +327,9 @@ class PurchaseOrderResource extends Resource
                             TextInput::make('Total_Discount')->label('Total Discount')->readOnly(true),
 
                             TextInput::make('Shipping_Fee')
+                                ->default(function (Get $get) {
+                                    return $get('Discount') ?? 0;
+                                })
                                 ->required()
                                 ->label('Shipping Fee')
                                 ->numeric()

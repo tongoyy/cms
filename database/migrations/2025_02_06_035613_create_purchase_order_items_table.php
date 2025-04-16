@@ -18,12 +18,12 @@ return new class extends Migration
                 ->constrained(table: 'purchase_orders')
                 ->onDelete('set null');
             $table->text('Item_Name');
-            $table->text('Item_Description');
+            $table->text('Item_Description')->nullable();
             $table->bigInteger('Quantity');
             $table->bigInteger('Price');
             $table->text('Unit');
-            $table->text('Tax');
-            $table->bigInteger('Tax_Amount');
+            $table->text('Tax')->nullable();
+            $table->bigInteger('Tax_Amount')->nullable();
             $table->bigInteger('Discount')->nullable();
             $table->bigInteger('Total');
             $table->timestamps();

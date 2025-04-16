@@ -38,10 +38,10 @@ return new class extends Migration
             $table->text('Project');
             $table->text('Payment_Mode');
             $table->bigInteger('Sub_Total');
-            $table->bigInteger('Discounts');
+            $table->bigInteger('Discounts')->nullable();
             $table->enum('Discount_Type', ['amount', 'percent']);
             $table->bigInteger('Total_Discount');
-            $table->bigInteger('Shipping_Fee');
+            $table->bigInteger('Shipping_Fee')->nullable();
             $table->bigInteger('Grand_Total');
             $table->text('Terbilang');
             $table->text('Delivery_Time');
