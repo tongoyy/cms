@@ -50,6 +50,17 @@
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
+  'codewithdennis/filament-simple-map' => 
+  array (
+    'aliases' => 
+    array (
+      'SimpleMap' => 'CodeWithDennis\\SimpleMap\\Facades\\SimpleMap',
+    ),
+    'providers' => 
+    array (
+      0 => 'CodeWithDennis\\SimpleMap\\SimpleMapServiceProvider',
+    ),
+  ),
   'diogogpinto/filament-auth-ui-enhancer' => 
   array (
     'aliases' => 
@@ -115,6 +126,13 @@
     'providers' => 
     array (
       0 => 'Filament\\Widgets\\WidgetsServiceProvider',
+    ),
+  ),
+  'guava/calendar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Guava\\Calendar\\CalendarServiceProvider',
     ),
   ),
   'joaopaulolndev/filament-pdf-viewer' => 
