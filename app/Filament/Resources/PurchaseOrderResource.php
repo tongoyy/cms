@@ -58,20 +58,14 @@ class PurchaseOrderResource extends Resource
                 TextInput::make('PO_Code')
                     ->label('Purchase Order Code')
                     ->default(function (Get $get) {
-                        // Ambil nomor PO terakhir
                         $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-
-                        // Ambil ID Vendor dari select
                         $vendorId = $get('Vendors');
                         $vendorCode = \App\Models\Vendors::where('id', $vendorId)->value('VendorCode') ?? '000';
-
-                        // Format PO Code
                         return "#PO-{$nextNumber}-" . date('Y') . "-VC-{$vendorCode}";
                     })
                     ->readOnly(),
 
-                /* Number */
                 Hidden::make('Number')->label('Number')->default($number + 1),
 
                 TextInput::make('PO_Name')->label('Purchase Order Name')->required(),
@@ -81,17 +75,10 @@ class PurchaseOrderResource extends Resource
                     ->reactive()
                     ->searchable()
                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                        // Ambil nomor PO terakhir
                         $lastNumber = \App\Models\PurchaseOrder::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
-
-                        // Ambil kode vendor berdasarkan ID yang dipilih
                         $vendorCode = \App\Models\Vendors::where('id', $state)->value('VendorCode') ?? '000';
-
-                        // Format PO Code
                         $poCode = "#PO-{$nextNumber}-" . date('Y') . "-{$vendorCode}";
-
-                        // Set PO_Code ke field
                         $set('PO_Code', $poCode);
                     }),
                 Select::make('Purchase_Request')->required()->label('Purchase Request')->live()->reactive()
@@ -111,14 +98,12 @@ class PurchaseOrderResource extends Resource
                                     'Total' => $item->Total,
                                 ];
                             })->toArray();
-
                             $set('purchaseOrderItems', $items);
                         } else {
                             $set('purchaseOrderItems', []);
                         }
                     })
                     ->required(),
-                // ->relationship(name: 'purchaseRequest', titleAttribute: 'PR_Code'),
                 DateTimePicker::make('Order_Date')->label('Order Date')->required()
                     ->native(false)
                     ->firstDayOfWeek(1)
@@ -126,12 +111,6 @@ class PurchaseOrderResource extends Resource
                     ->timezone('Asia/Jakarta')
                     ->displayFormat('D, d-M-Y H:i:s')
                     ->default(now()),
-                // Select::make('Department')->required()
-                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Department')->label('Department'),
-                // Select::make('Category')->required()
-                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Category')->label('Category'),
-                // Select::make('Project')->required()
-                //     ->relationship(name: 'purchaseRequest', titleAttribute: 'Project')->label('Project'),
                 Select::make('Department')->required()->label('Department')
                     ->placeholder('Pilih Departemen')
                     ->options([
@@ -162,7 +141,6 @@ class PurchaseOrderResource extends Resource
                         'Balance Payment' => 'Balance Payment',
                     ]),
 
-                /* Order Item Details */
                 Repeater::make('purchaseOrderItems')
                     ->label('Items Detail')
                     ->relationship()
@@ -174,13 +152,13 @@ class PurchaseOrderResource extends Resource
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $totalAwal = $state * $get('Price'); // Hitung total awal
-                                $diskon = $get('Discount'); // Ambil nilai diskon
+                                $totalAwal = $state * $get('Price');
+                                $diskon = $get('Discount');
                                 if ($diskon > 0) {
-                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100)); // Hitung total setelah diskon
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100));
                                     $set('Total', $totalSetelahDiskon);
                                 } else {
-                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
+                                    $set('Total', $totalAwal);
                                 }
                             }),
                         TextInput::make('Price')
@@ -189,13 +167,13 @@ class PurchaseOrderResource extends Resource
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $totalAwal = $state * $get('Quantity'); // Hitung total awal
-                                $diskon = $get('Discount'); // Ambil nilai diskon
+                                $totalAwal = $state * $get('Quantity');
+                                $diskon = $get('Discount');
                                 if ($diskon > 0) {
-                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100)); // Hitung total setelah diskon
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($diskon / 100));
                                     $set('Total', $totalSetelahDiskon);
                                 } else {
-                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
+                                    $set('Total', $totalAwal);
                                 }
                             })->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
                         TextInput::make('Unit')->required(),
@@ -209,21 +187,17 @@ class PurchaseOrderResource extends Resource
                             ->afterStateUpdated(function (Set $set, Get $get) {
                                 $total = (float) $get('Total');
                                 $taxType = $get('Tax');
-
                                 if ($taxType === 'PPH') {
-                                    $taxAmount = 0.02 * $total; // 2% dari Total
+                                    $taxAmount = 0.02 * $total;
                                 } elseif ($taxType === 'PPN') {
-                                    $taxAmount = 0.12 * $total; // 12% dari Total
+                                    $taxAmount = 0.12 * $total;
                                 } else {
                                     $taxAmount = 0;
                                 }
-
                                 $set('Tax_Amount', $taxAmount);
                                 $set('Total', $total + $taxAmount);
                             }),
-
                         Hidden::make('Tax_Amount'),
-
                         TextInput::make('Discount')
                             ->default(function (Get $get) {
                                 return $get('Discount') ?? 0;
@@ -233,12 +207,12 @@ class PurchaseOrderResource extends Resource
                             ->numeric()
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, $state, Get $get) {
-                                $totalAwal = $get('Price') * $get('Quantity'); // Hitung total awal
+                                $totalAwal = $get('Price') * $get('Quantity');
                                 if ($state > 0) {
-                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($state / 100)); // Hitung total setelah diskon
+                                    $totalSetelahDiskon = $totalAwal - ($totalAwal * ($state / 100));
                                     $set('Total', $totalSetelahDiskon);
                                 } else {
-                                    $set('Total', $totalAwal); // Kembalikan ke total awal jika diskon 0 atau kosong
+                                    $set('Total', $totalAwal);
                                 }
                             }),
                         TextInput::make('Total')->numeric()->readOnly(),
@@ -250,17 +224,18 @@ class PurchaseOrderResource extends Resource
                     ->collapsible()
                     ->cloneable(),
 
-                /* Result */
                 Fieldset::make()->columns(1)->columnSpan(1)->columnStart(2)->label('Result')
                     ->schema([
-                        /* Total */
                         TextInput::make('Sub_Total')
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
                                 $set('Sub_Total', $SubTotal ?? 0);
-                            })->readOnly(true)->debounce(1000),
+                            })->readOnly(true)->debounce(1000)
+                            ->afterStateUpdated(function (Set $set, Get $get) {
+                                $subTotal = (float) $get('Sub_Total');
+                                $set('Terbilang', ucwords(terbilang($subTotal)) . " Rupiah");
+                            }),
 
-                        /* Discount */
                         Grid::make()->schema([
                             TextInput::make('Discounts')
                                 ->default(function (Get $get) {
@@ -275,8 +250,6 @@ class PurchaseOrderResource extends Resource
                                     $subTotal = (float) $get('Sub_Total');
                                     $discountType = $get('Discount_Type');
                                     $shippingFee = (float) $get('Shipping_Fee');
-
-                                    // Hitung Total Discount
                                     if ($discountType === 'Amount') {
                                         $totalDiscount = min($discount, $subTotal);
                                     } elseif ($discountType === 'Percent') {
@@ -284,12 +257,10 @@ class PurchaseOrderResource extends Resource
                                     } else {
                                         $totalDiscount = 0;
                                     }
-
-                                    // Hitung Grand Total setelah diskon dan Shipping Fee
                                     $grandTotal = max(($subTotal - $totalDiscount) - $shippingFee, 0);
-
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
+                                    $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
                                 })->debounce(1000),
 
                             Select::make('Discount_Type')
@@ -299,7 +270,7 @@ class PurchaseOrderResource extends Resource
                                 ->options([
                                     'Amount' => 'Amount',
                                     'Percent' => '%',
-                                    '' => '',
+                                    '' => 'Tanpa Diskon',
                                 ])
                                 ->reactive()
                                 ->afterStateUpdated(function (Set $set, Get $get) {
@@ -307,8 +278,6 @@ class PurchaseOrderResource extends Resource
                                     $subTotal = (float) $get('Sub_Total');
                                     $discountType = $get('Discount_Type');
                                     $shippingFee = (float) $get('Shipping_Fee');
-
-                                    // Hitung Total Discount
                                     if ($discountType === 'Amount') {
                                         $totalDiscount = min($discount, $subTotal);
                                     } elseif ($discountType === 'Percent') {
@@ -316,21 +285,16 @@ class PurchaseOrderResource extends Resource
                                     } else {
                                         $totalDiscount = 0;
                                     }
-
-                                    // Hitung Grand Total setelah diskon dan Shipping Fee
                                     $grandTotal = max(($subTotal - $totalDiscount) - $shippingFee, 0);
-
                                     $set('Total_Discount', $totalDiscount);
                                     $set('Grand_Total', $grandTotal);
+                                    $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
                                 })->debounce(1000),
 
                             TextInput::make('Total_Discount')->label('Total Discount')->readOnly(true),
 
                             TextInput::make('Shipping_Fee')
-                                ->default(function (Get $get) {
-                                    return $get('Discount') ?? 0;
-                                })
-                                ->required()
+                                ->nullable()
                                 ->label('Shipping Fee')
                                 ->numeric()
                                 ->reactive()
@@ -338,19 +302,12 @@ class PurchaseOrderResource extends Resource
                                     $subTotal = (float) $get('Sub_Total');
                                     $totalDiscount = (float) $get('Total_Discount');
                                     $shippingFee = (float) $get('Shipping_Fee');
-
-                                    // Hitung Grand Total
                                     $grandTotal = max(($subTotal - $totalDiscount) + $shippingFee, 0);
-
-                                    // Set Grand Total
                                     $set('Grand_Total', $grandTotal);
-
-                                    // Konversi Grand Total ke terbilang
                                     $set('Terbilang', ucwords(terbilang($grandTotal)) . " Rupiah");
                                 })->debounce(1000),
                         ]),
 
-                        /* Grand Total */
                         TextInput::make('Grand_Total')
                             ->label('Grand Total')
                             ->reactive()

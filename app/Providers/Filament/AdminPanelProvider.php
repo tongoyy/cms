@@ -20,6 +20,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Enums\ThemeMode;
+use Nuxtifyts\DashStackTheme\DashStackThemePlugin;
 use Illuminate\Support\Facades\Blade;
 
 class AdminPanelProvider extends PanelProvider
@@ -28,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->plugin(DashStackThemePlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
@@ -46,9 +48,9 @@ class AdminPanelProvider extends PanelProvider
                 // 'danger' => Color::Rose,
                 // 'gray' => Color::Gray,
                 // 'info' => Color::Blue,
-                // 'primary' => Color::Indigo,
+                'primary' => Color::Yellow,
                 // 'success' => Color::Emerald,
-                'warning' => Color::Orange,
+                // 'warning' => Color::Orange,
             ])
             /* Vite */
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

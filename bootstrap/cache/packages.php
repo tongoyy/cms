@@ -195,6 +195,13 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'nuxtifyts/dash-stack-theme' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Nuxtifyts\\DashStackTheme\\DashStackThemeServiceProvider',
+    ),
+  ),
   'pestphp/pest-plugin-laravel' => 
   array (
     'providers' => 
