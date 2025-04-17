@@ -50,6 +50,17 @@
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
+  'diogogpinto/filament-auth-ui-enhancer' => 
+  array (
+    'aliases' => 
+    array (
+      'AuthUIEnhancer' => 'DiogoGPinto\\AuthUIEnhancer\\Facades\\AuthUIEnhancer',
+    ),
+    'providers' => 
+    array (
+      0 => 'DiogoGPinto\\AuthUIEnhancer\\AuthUIEnhancerServiceProvider',
+    ),
+  ),
   'filament/actions' => 
   array (
     'providers' => 

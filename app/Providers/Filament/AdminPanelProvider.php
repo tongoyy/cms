@@ -21,6 +21,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Enums\ThemeMode;
 use Nuxtifyts\DashStackTheme\DashStackThemePlugin;
+use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use Illuminate\Support\Facades\Blade;
 
 class AdminPanelProvider extends PanelProvider
@@ -29,10 +30,20 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+
+            /* Dash UI */
             ->plugin(DashStackThemePlugin::make())
+
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
+
+            /* Auth UI */
+            // ->viteTheme('resources/css/filament/admin/theme.css')
+            // ->plugins([
+            //     AuthUIEnhancerPlugin::make(),
+            // ])
+
             ->passwordReset()
             ->registration() // Enable registration
             ->spa()
@@ -76,6 +87,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+        ;
     }
 }
