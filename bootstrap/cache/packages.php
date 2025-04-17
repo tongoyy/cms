@@ -213,6 +213,13 @@
       0 => 'Nuxtifyts\\DashStackTheme\\DashStackThemeServiceProvider',
     ),
   ),
+  'oriondevelops/filament-greeter' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Orion\\FilamentGreeter\\GreeterPluginServiceProvider',
+    ),
+  ),
   'pestphp/pest-plugin-laravel' => 
   array (
     'providers' => 

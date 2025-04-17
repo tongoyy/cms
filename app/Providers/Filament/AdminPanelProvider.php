@@ -22,7 +22,13 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Enums\ThemeMode;
 use Nuxtifyts\DashStackTheme\DashStackThemePlugin;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
+use Filament\Actions\Action;
 use Illuminate\Support\Facades\Blade;
+use Orion\FilamentBackup\BackupPlugin;
+use Orion\FilamentGreeter\GreeterPlugin;
+use Orion\FilamentFeedback\FeedbackPlugin;
+use Orion\FilamentSettings\SettingsPlugin;
+use Orion\FilamentSupport\FilamentSupportPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
