@@ -265,7 +265,13 @@
                                 <strong>Address:</strong>
                             </td>
                             <td>
-                                <p>{{ $sp3->vendors->Address }}</p>
+                                @php
+                                    $addressWords = explode(' ', $sp3->vendors->Address);
+                                    $chunkedAddress = array_chunk($addressWords, 5);
+                                @endphp
+                                @foreach ($chunkedAddress as $line)
+                                    <p>{{ implode(' ', $line) }}</p>
+                                @endforeach
                             </td>
                         </tr>
                         <tr>
@@ -290,7 +296,7 @@
                             </td>
                             <td>
                                 <p>
-                                <p>{{ $sp3->PO_Name }}</p>
+                                <p>{{ $sp3->purchaseOrder->PO_Name }}</p>
                                 </p>
                             </td>
                         </tr>
@@ -300,13 +306,14 @@
                             </td>
                             <td>
                                 <p>
-                                <p>{{ $sp3->PO_Code }}</p>
+                                <p>{{ $sp3->purchaseOrder->PO_Code }}</p>
                                 </p>
                             </td>
                         </tr>
                     </table>
                 @else
                 @endif
+
             </div>
             <div class="right">
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
@@ -315,7 +322,7 @@
                             <strong>Jenis Pembayaran:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->Payment_Mode }}</p>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->purchaseOrder->Payment_Mode }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -332,7 +339,7 @@
         </div>
 
         <!-- Table -->
-        @if (!empty($sp3->purchaseOrderItems))
+        @if ($sp3->purchaseOrder->purchaseOrderItems->count() > 0)
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -347,17 +354,17 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($sp3->purchaseOrderItems as $sp3Items)
+                @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>{{ $sp3Items->Item_Name }}</td>
-                            <td>{{ $sp3Items->Item_Description }}</td>
-                            <td>{{ $sp3Items->Price }}</td>
-                            <td>{{ $sp3Items->Quantity }}</td>
-                            <td>{{ $sp3Items->Unit }}</td>
-                            <td>{{ $sp3Items->Tax }}</td>
-                            <td>{{ $sp3Items->Total }}</td>
+                            <td>{{ $item->Item_Name }}</td>
+                            <td>{{ $item->Item_Description }}</td>
+                            <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
+                            <td>{{ $item->Quantity }}</td>
+                            <td>{{ $item->Unit }}</td>
+                            <td>{{ $item->Tax }}</td>
+                            <td>{{ 'Rp' . number_format($item->Total, 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -365,28 +372,29 @@
         @else
         @endif
 
+
+
         <!-- Total -->
         <div class="total">
             <div class="subtotal">
                 <p>Subtotal</p>
                 <p>
-                    {{ 'Rp' . number_format($sp3->Sub_Total, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Sub_Total, 0, ',', '.') }}
                 </p>
             </div>
             <div class="shipping-fee">
                 <p>Shipping Fee</p>
                 <p>
-                    {{ 'Rp' . number_format($sp3->Shipping_Fee, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Shipping_Fee, 0, ',', '.') }}
                 </p>
             </div>
             <div class="final-total">
                 <p>Total</p>
                 <p>
-                    {{ 'Rp' . number_format($sp3->Grand_Total, 0, ',', '.') }}
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Grand_Total, 0, ',', '.') }}
                 </p>
             </div>
         </div>
-
     </div>
 
 

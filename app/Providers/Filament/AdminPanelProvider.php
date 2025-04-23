@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
 
             /* Dash UI */
-            ->plugin(DashStackThemePlugin::make())
+            // ->plugin(DashStackThemePlugin::make())
 
             ->id('admin')
             ->path('admin')

@@ -179,9 +179,9 @@ class PurchaseOrderResource extends Resource
                         TextInput::make('Unit')->required(),
                         Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->nullable()
                             ->options([
-                                'PPH' => 'PPH (2%)',
-                                'PPN' => 'PPN (12%)',
-                                'None' => 'Tanpa Pajak'
+                                'PPH (2%)' => 'PPH (2%)',
+                                'PPN (12%)' => 'PPN (12%)',
+                                '' => ''
                             ])
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, Get $get) {

@@ -153,9 +153,9 @@ class PurchaseRequestResource extends Resource
 
                         Select::make('Tax')->label('Tax')->default('')->nullable()
                             ->options([
-                                'PPH' => 'PPH (2%)',
-                                'PPN' => 'PPN (12%)',
-                                '' => '',
+                                'PPH (2%)' => 'PPH (2%)',
+                                'PPN (12%)' => 'PPN (12%)',
+                                '' => ''
                             ])
                             ->reactive()
                             ->live(debounce: 1000)

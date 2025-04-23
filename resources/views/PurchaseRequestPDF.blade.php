@@ -138,13 +138,14 @@
 
         .approval-title {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-evenly;
+            text-align: center;
             padding-bottom: 10%;
         }
 
         .approval-list {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-evenly;
         }
 
         .inside tr td {
@@ -345,16 +346,16 @@
             </div>
         </div>
 
-        <!-- Bank Information -->
+        {{-- <!-- Bank Information -->
         <div class="bank-info">
             <p>Dana dapat ditransfer ke nomor rekening:</p>
             <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
-        </div>
+        </div> --}}
 
         <!-- Approval Section -->
         <div class="approval">
             <div class="approval-title">
-                <p><strong>Diketahui oleh</strong></p>
+                <p style="padding-left: 15%; padding-right:20%"><strong>Diketahui oleh</strong></p>
                 <p><strong>Disetujui oleh</strong></p>
             </div>
 
@@ -362,7 +363,7 @@
                 <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
                 <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
                 <p><strong>Irwandi</strong><br><small>Direktur</small></p>
-                <p><strong>Charles Teo</strong><br></p>
+                {{-- <p><strong>Charles Teo</strong><br></p> --}}
             </div>
         </div>
 
