@@ -135,6 +135,13 @@
       0 => 'Guava\\Calendar\\CalendarServiceProvider',
     ),
   ),
+  'hasnayeen/themes' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Hasnayeen\\Themes\\ThemesServiceProvider',
+    ),
+  ),
   'joaopaulolndev/filament-pdf-viewer' => 
   array (
     'aliases' => 

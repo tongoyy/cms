@@ -294,6 +294,7 @@
     @else
         @endif
 
+        
         <!-- Table -->
         @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
             {{-- Check if there are any posts --}}

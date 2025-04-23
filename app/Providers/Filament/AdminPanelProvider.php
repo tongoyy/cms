@@ -38,7 +38,20 @@ class AdminPanelProvider extends PanelProvider
             ->default()
 
             /* Dash UI */
-            // ->plugin(DashStackThemePlugin::make())
+            ->plugin(DashStackThemePlugin::make())
+
+            /* Themes */
+            // ->plugin(
+            //     \Hasnayeen\Themes\ThemesPlugin::make()
+            //         ->canViewThemesPage(fn() => auth()->user()?->is_admin)
+            // )
+            // ->middleware([
+            //     \Hasnayeen\Themes\Http\Middleware\SetTheme::class
+            // ])
+            // // or in `tenantMiddleware` if you're using multi-tenancy
+            // ->tenantMiddleware([
+            //     \Hasnayeen\Themes\Http\Middleware\SetTheme::class
+            // ])
 
             ->id('admin')
             ->path('admin')
