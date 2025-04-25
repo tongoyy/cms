@@ -21,6 +21,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Enums\ThemeMode;
 use Nuxtifyts\DashStackTheme\DashStackThemePlugin;
+use Awcodes\LightSwitch\LightSwitchPlugin;
+use TomatoPHP\FilamentMenus\FilamentMenus\FilamentMenusPlugin;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 use DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin;
 use Filament\Actions\Action;
 use Illuminate\Support\Facades\Blade;
@@ -37,22 +40,16 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
 
+            /* Lightswitch */
+            ->plugins([
+                LightSwitchPlugin::make(),
+            ])
+
+            /* Icon Replacement */
+            // ->plugin(\Filafly\PhosphorIconReplacement::make())
+
             /* Dash UI */
             ->plugin(DashStackThemePlugin::make())
-
-            /* Themes */
-            // ->plugin(
-            //     \Hasnayeen\Themes\ThemesPlugin::make()
-            //         ->canViewThemesPage(fn() => auth()->user()?->is_admin)
-            // )
-            // ->middleware([
-            //     \Hasnayeen\Themes\Http\Middleware\SetTheme::class
-            // ])
-            // // or in `tenantMiddleware` if you're using multi-tenancy
-            // ->tenantMiddleware([
-            //     \Hasnayeen\Themes\Http\Middleware\SetTheme::class
-            // ])
-
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
@@ -63,6 +60,23 @@ class AdminPanelProvider extends PanelProvider
             //     AuthUIEnhancerPlugin::make(),
             // ])
 
+            /* Calendar */
+            // ->plugin(
+            //     FilamentFullCalendarPlugin::make()
+            //         ->schedulerLicenseKey()
+            //         ->selectable()
+            //         ->editable()
+            //         ->timezone()
+            //         ->locale()
+            //         ->plugins()
+            //         ->config()
+            // )
+
+            /* FileManager */
+            // ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
+
+            /* Menus */
+            ->plugins([\Filament\SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'ar'])])
             ->passwordReset()
             ->registration() // Enable registration
             ->spa()
@@ -88,7 +102,7 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -106,6 +120,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+
+            /* Theme */
+            ->middleware([
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
+            ])
+            ->tenantMiddleware([
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
         ;
     }

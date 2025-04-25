@@ -30,12 +30,15 @@ use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use Joaopaulolndev\FilamentPdfViewer\Forms\Components\PdfViewerField;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 use PhpParser\Node\Stmt\Label;
+use PrintFilament\Print\Infolists\Components\PrintComponent;
 use Spatie\Browsershot\Browsershot;
 use Torgodly\Html2Media\Tables\Actions\Html2MediaAction;
 
@@ -60,6 +63,7 @@ class PurchaseRequestResource extends Resource
         $number = PurchaseRequest::latest()->value('Number');
         return $form
             ->schema([
+                // Map::make('location'),
                 TextInput::make('PR_Code')
                     ->label('Purchase Request Code')
                     ->default(function (Get $get) {

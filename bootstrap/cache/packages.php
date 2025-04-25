@@ -24,6 +24,13 @@
       0 => 'Ariaieboy\\FilamentCurrency\\FilamentCurrencyServiceProvider',
     ),
   ),
+  'awcodes/light-switch' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Awcodes\\LightSwitch\\LightSwitchServiceProvider',
+    ),
+  ),
   'barryvdh/laravel-dompdf' => 
   array (
     'aliases' => 
@@ -48,6 +55,13 @@
     'providers' => 
     array (
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
+    ),
+  ),
+  'codeat3/blade-phosphor-icons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Codeat3\\BladePhosphorIcons\\BladePhosphorIconsServiceProvider',
     ),
   ),
   'codewithdennis/filament-simple-map' => 
@@ -105,6 +119,13 @@
     'providers' => 
     array (
       0 => 'Filament\\Notifications\\NotificationsServiceProvider',
+    ),
+  ),
+  'filament/spatie-laravel-translatable-plugin' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Filament\\SpatieLaravelTranslatablePluginServiceProvider',
     ),
   ),
   'filament/support' => 
@@ -199,6 +220,13 @@
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
+  'livewire-filemanager/filemanager' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LivewireFilemanager\\Filemanager\\FilemanagerServiceProvider',
+    ),
+  ),
   'livewire/livewire' => 
   array (
     'aliases' => 
@@ -208,6 +236,17 @@
     'providers' => 
     array (
       0 => 'Livewire\\LivewireServiceProvider',
+    ),
+  ),
+  'mokhosh/filament-kanban' => 
+  array (
+    'aliases' => 
+    array (
+      'FilamentKanban' => 'Mokhosh\\FilamentKanban\\Facades\\FilamentKanban',
+    ),
+    'providers' => 
+    array (
+      0 => 'Mokhosh\\FilamentKanban\\FilamentKanbanServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
@@ -252,6 +291,17 @@
       0 => 'Pest\\Laravel\\PestServiceProvider',
     ),
   ),
+  'print-filament/print' => 
+  array (
+    'aliases' => 
+    array (
+      'Print' => 'PrintFilament\\Print\\Facades\\PrintFilament',
+    ),
+    'providers' => 
+    array (
+      0 => 'PrintFilament\\Print\\PrintServiceProvider',
+    ),
+  ),
   'ryangjchandler/blade-capture-directive' => 
   array (
     'aliases' => 
@@ -261,6 +311,62 @@
     'providers' => 
     array (
       0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
+    ),
+  ),
+  'saade/filament-fullcalendar' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
+    ),
+  ),
+  'spatie/laravel-medialibrary' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\MediaLibrary\\MediaLibraryServiceProvider',
+    ),
+  ),
+  'spatie/laravel-translatable' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Translatable\\TranslatableServiceProvider',
+    ),
+  ),
+  'tomatophp/console-helpers' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\ConsoleHelpers\\ConsoleHelpersServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-icons' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentIcons\\FilamentIconsServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-media-manager' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentMediaManager\\FilamentMediaManagerServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-menus' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentMenus\\FilamentMenusServiceProvider',
+    ),
+  ),
+  'tomatophp/filament-translation-component' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'TomatoPHP\\FilamentTranslationComponent\\FilamentTranslationComponentServiceProvider',
     ),
   ),
   'torgodly/html2media' => 

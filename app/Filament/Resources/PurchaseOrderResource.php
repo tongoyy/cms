@@ -104,7 +104,7 @@ class PurchaseOrderResource extends Resource
                         }
                     })
                     ->required(),
-                DateTimePicker::make('Order_Date')->label('Order Date')->required()
+                DateTimePicker::make('Order_Date')->required()
                     ->native(false)
                     ->firstDayOfWeek(1)
                     ->closeOnDateSelection()
@@ -335,7 +335,7 @@ class PurchaseOrderResource extends Resource
                 TextColumn::make('PO_Code')->label('PR Code'),
                 TextColumn::make('PO_Name')->label('PR Name'),
                 TextColumn::make('vendors.CompanyName')->label('Vendors'),
-                TextColumn::make('Order_Date')->label('Order_Date')->date('d-M-Y'),
+                TextColumn::make('Order_Date')->label('Order Date')->date('d-M-Y'),
                 TextColumn::make('Project')->label('Purchase Type'),
                 TextColumn::make('Grand_Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
             ])->searchable()
