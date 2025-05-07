@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseRequest;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Doctrine\DBAL\Schema\View;
 use Spatie\Browsershot\Browsershot;
 
 class PR_PdfController extends Controller
@@ -27,8 +26,8 @@ class PR_PdfController extends Controller
 
         $html = view('PurchaseRequestPDF', compact('data'))->render();
         Browsershot::html($html)
-            ->save('#PR-0000' . $id . '.pdf');
-        return response()->download('#PR-0000' . $id . '.pdf');
+            ->save('#MR-0000' . $id . '.pdf');
+        return response()->download('#MR-0000' . $id . '.pdf');
         // 3. (Optional) Set PDF options (e.g., orientation, paper size).
         // $pdf->setOptions(['defaultFont' => 'sans-serif']);
 

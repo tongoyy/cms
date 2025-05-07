@@ -21,13 +21,23 @@ return new class extends Migration
                 ->constrained('purchase_requests')
                 ->onDelete('set null');
 
+            // Foreign key ke vendors
+            $table->unsignedBigInteger('Vendors_ID')->nullable(); // 1. Definisikan kolom
+            $table->foreign('Vendors_ID') // 2. Baru tambahkan foreign key
+                ->references('id')
+                ->on('vendors')
+                ->onDelete('set null');
+
             $table->bigInteger('Number')->nullable();
             $table->text('PR_Name');
             $table->string('Project');
             $table->string('Department');
+            $table->string('Vendors');
+            $table->string('CompanyName');
             $table->string('PurchaseType');
             $table->string('Category');
             $table->dateTime('DueDate');
+            $table->string('RequestedBy')->nullable();
             $table->text('Description')->nullable();
             $table->text('SubTotal');
             $table->text('GrandTotal');

@@ -7,6 +7,7 @@ use Spatie\Browsershot\Browsershot;
 use App\Models\PurchaseRequest;
 use App\Models\PurchaseOrder;
 use App\Models\sp3;
+use Illuminate\Support\Facades\Log;
 
 // class SP3_PdfController extends Controller
 // {
@@ -40,6 +41,8 @@ class SP3_PdfController extends Controller
         // Ambil data SP3 beserta relasinya
         $sp3 = Sp3::with(['purchaseRequestItems', 'purchaseOrderItems'])->findOrFail($id);
 
+        $start = microtime(true);
+
         // Pilih view sesuai kondisi:
         // Jika Purchase_Request tidak kosong, render view untuk purchase request items
         if (!empty($sp3->Purchase_Request)) {
@@ -49,9 +52,16 @@ class SP3_PdfController extends Controller
 
             // Gunakan Browsershot untuk menghasilkan PDF dari HTML yang sudah dirender
             Browsershot::html($html)
+                ->disableJavascript()
+                ->dismissDialogs()
+                ->waitUntilNetworkIdle()
+
                 ->format('A4')
                 ->margins(0, 0, 0, 0)
                 ->savePdf($pdfPath);
+
+            $renderTime = microtime(true) - $start;
+            Log::info(str_pad($id, 2) . ': ' . number_format($renderTime, 3) . ' seconds');
         }
         // Jika Purchase_Request kosong dan Purchase_Order tidak kosong, render view untuk purchase order items
         elseif (!empty($sp3->Purchase_Order)) {
@@ -59,11 +69,20 @@ class SP3_PdfController extends Controller
             // Tentukan path penyimpanan PDF
             $pdfPath = storage_path("app/public/sp3-{$id}.pdf");
 
+            $start = microtime(true);
+
             // Gunakan Browsershot untuk menghasilkan PDF dari HTML yang sudah dirender
             Browsershot::html($html)
+                ->disableJavascript()
+                ->dismissDialogs()
+                ->waitUntilNetworkIdle()
+
                 ->format('A4')
                 ->margins(10, 10, 10, 10)
                 ->savePdf($pdfPath);
+
+            $renderTime = microtime(true) - $start;
+            Log::info(str_pad($id, 2) . ': ' . number_format($renderTime, 3) . ' seconds');
         }
 
         // Langsung unduh file PDF yang dihasilkan

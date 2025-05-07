@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Request (MR)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            border: 1px solid #000;
+        }
+
+        .header {
+            display: flex;
+            border-bottom: 1px solid #000;
+        }
+
+        .logo-section {
+            width: 33%;
+            border-right: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .title-section {
+            width: 33%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .doc-info-section {
+            width: 34%;
+            border-left: 1px solid #000;
+        }
+
+        .doc-info-row {
+            display: flex;
+            border-bottom: 1px solid #000;
+        }
+
+        .doc-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .doc-info-label {
+            width: 50%;
+            padding: 5px;
+            border-right: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .doc-info-value {
+            width: 50%;
+            padding: 5px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+
+        .mr-info {
+            display: flex;
+            padding: 10px 0;
+            margin: 20px 0;
+        }
+
+        .mr-info-left {
+            width: 50%;
+        }
+
+        .mr-info-right {
+            width: 50%;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            width: 100px;
+            font-weight: normal;
+        }
+
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .main-table th,
+        .main-table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .main-table th {
+            background-color: #fff;
+        }
+
+        .signature-section {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        .signature-box {
+            width: 25%;
+            border: 1px solid #000;
+            height: 130px;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .orange-logo {
+            color: #FF7700;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <!-- Orange logo with text -->
+                <div style="text-align: center;">
+                    <div style="font-size: 32px; color: #FF7700;">▲</div>
+                    <div style="display: flex; justify-content: center;">
+                        <div style="font-size: 20px; color: #FF7700; margin-right: 2px;">///</div>
+                        <div style="font-size: 20px; color: #FF7700; margin-left: 2px;">\\\\</div>
+                    </div>
+                    <div class="orange-logo">AUDEMARS</div>
+                    <div class="orange-logo">INDONESIA</div>
+                    <div style="display: flex; justify-content: center; margin-top: 5px;">
+                        <div style="font-size: 20px; color: #FF7700; margin-right: 2px;">///</div>
+                        <div style="font-size: 20px; color: #FF7700; margin-left: 2px;">\\\\</div>
+                    </div>
+                </div>
+            </div>
+            <div class="title-section">
+                MATERIAL REQUEST (MR)
+            </div>
+            <div class="doc-info-section">
+                <div class="doc-info-row">
+                    <div class="doc-info-label">NOMOR DOKUMEN</div>
+                    <div class="doc-info-value">AMI-F-PROC-P-01/01</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">REVISI</div>
+                    <div class="doc-info-value">00</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">TANGGAL TERBIT</div>
+                    <div class="doc-info-value">13 Februari 2017</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">HALAMAN</div>
+                    <div class="doc-info-value">1/1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mr-info">
+            <div class="mr-info-left">
+                <div class="info-row">
+                    <div class="info-label">MR NUMBER</div>
+                    <div>: MR20112700026</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">DATE</div>
+                    <div>: 2020-11-27</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">FAX</div>
+                    <div>:</div>
+                </div>
+            </div>
+            <div class="mr-info-right">
+                <div class="info-row">
+                    <div class="info-label">PAGE NO</div>
+                    <div>: PAGE 1 OF 1</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">LOCATION</div>
+                    <div>: AUDEMARS BUILDING</div>
+                </div>
+            </div>
+        </div>
+
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th>NO</th>
+                    <th>PART<br>NUMBER/SIZE</th>
+                    <th>ITEMS DESCRIPTION</th>
+                    <th>QTY</th>
+                    <th>UNIT</th>
+                    <th>ON<br>HAND</th>
+                    <th colspan="3">LAST RECEIVED</th>
+                    <th>REMARKS</th>
+                </tr>
+                <tr>
+                    <th colspan="6"></th>
+                    <th>DATE</th>
+                    <th>QTY</th>
+                    <th>UNIT</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="signature-section">
+            <div class="signature-box">
+                Prepare By
+            </div>
+            <div class="signature-box">
+                Check By
+            </div>
+            <div class="signature-box">
+                Aprroved By
+            </div>
+            <div class="signature-box">
+                Receive By
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PurchaseRequestResource\Pages;
 use App\Filament\Resources\PurchaseRequestResource\RelationManagers;
 use App\Models\PurchaseRequest;
+use App\Models\Vendors;
 use AutoIncrementTextInput;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -70,7 +71,7 @@ class PurchaseRequestResource extends Resource
                         $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
                         $department = strtoupper(str_replace(' ', '', $get('Department') ?? '')); // Ambil Department tanpa spasi
-                        return "#PR-" . $nextNumber . '-' . date('Y') . '-' . $department;
+                        return "#MR-" . $nextNumber . '-' . date('Y') . '-' . $department;
                     })
                     ->reactive()
                     ->readOnly(),
@@ -98,11 +99,21 @@ class PurchaseRequestResource extends Resource
                         $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
                         $nextNumber = str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
                         $department = strtoupper(str_replace(' ', '', $state)); // Ambil Department tanpa spasi
-                        $prCode = "#PR-" . $nextNumber . '-' . date('Y') . '-' . $department;
+                        $prCode = "#MR-" . $nextNumber . '-' . date('Y') . '-' . $department;
 
                         // Set PR_Code dengan format baru
                         $set('PR_Code', $prCode);
                     }),
+                Select::make('Vendors')->required()
+                    ->relationship(name: 'vendors', titleAttribute: 'CompanyName')
+                    ->options(Vendors::pluck('CompanyName', 'id'))
+                    ->reactive()
+                    ->searchable()
+                    ->afterStateUpdated(function (Set $set, $state) {
+                        $vendor = Vendors::find($state);
+                        $set('CompanyName', $vendor ? $vendor->CompanyName : null);
+                    }),
+                TextInput::make('CompanyName')->label('Company Name')->readOnly(),
                 Select::make('PurchaseType')->required()
                     ->options([
                         'Barang' => 'Barang',
@@ -116,15 +127,19 @@ class PurchaseRequestResource extends Resource
                         'Manufaktur' => 'Manufaktur',
                         'Project' => 'Project',
                     ]),
-                DateTimePicker::make('DueDate')->label('Due Date')->required()
-                    ->native(false)
-                    ->firstDayOfWeek(1)
-                    ->closeOnDateSelection()
-                    ->timezone('Asia/Jakarta')
-                    ->locale('id')
-                    ->displayFormat('D, d-M-Y H:i:s')
-                    ->default(now()),
-                Textarea::make('Description')->nullable(),
+                Fieldset::make()
+                    ->schema([
+                        DateTimePicker::make('DueDate')->label('Due Date')->required()
+                            ->native(false)
+                            ->firstDayOfWeek(1)
+                            ->closeOnDateSelection()
+                            ->timezone('Asia/Jakarta')
+                            ->locale('id')
+                            ->displayFormat('D, d-M-Y H:i:s')
+                            ->default(now()),
+                        TextInput::make('RequestedBy')->label('Requested By')->nullable(),
+                    ]),
+                Textarea::make('Description')->nullable()->ColumnSpan(2),
 
                 /* Items Detail */
                 Repeater::make('purchaseRequestItems')->label('Items Detail')

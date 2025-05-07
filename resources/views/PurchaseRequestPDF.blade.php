@@ -1,374 +1,332 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Request</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Request</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            padding: 5% !important;
-            font-size: 12px;
-        }
-
-        .container {
+            font-size: 8px;
             margin: 0;
             padding: 0;
+            padding-top: 2%;
         }
 
-        .header {
+        .containers {
+            padding-top: 1%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 2%;
+        }
+
+        .headers {
+            display: flex;
+            border: 1px solid #000;
+        }
+
+        .logo-section {
+            width: 30%;
+            border-right: 1px solid #000;
+            text-align: center;
+        }
+
+        .title-section {
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .doc-info-section {
+            width: 34%;
+            font-size: 8px;
+            border-left: 1px solid #000;
+        }
+
+        .doc-info-row {
+            display: flex;
+            border-bottom: 1px solid #000;
+        }
+
+        .doc-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .doc-info-label {
+            width: 50%;
+            padding: 5px;
+            border-right: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .doc-info-value {
+            width: 50%;
+            padding: 5px;
+        }
+
+        .content-table {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
-            margin-top: 5px;
+            padding: 20px 80px;
         }
 
-        .logo {
-            width: 15%;
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
-        .document-info {
-            text-align: right;
+        .content-info {
+            display: flex;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* TABLE */
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
             font-size: 9px;
+            overflow: hidden;
+            word-break: normal;
         }
 
-        .title {
-            text-align: center;
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
             font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 0;
-            font-size: 14px;
+            overflow: hidden;
+            word-break: normal;
         }
 
-        .info {
+        .tg .tg-0pky {
+            border-color: inherit;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: center;
+        }
+
+        .tg .tg-0lax {
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: center;
+        }
+
+        .signature-section {
             display: flex;
-            justify-content: space-between;
-        }
-
-        .inside {
-            width: 100%;
-            border-collapse: collapse;
             margin-top: 20px;
         }
 
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-        }
-
-        .left {
-            padding: 0px;
-            text-align: left;
-        }
-
-        .right {
-            padding: 0px;
-            text-align: left;
-        }
-
-        th {
-            -webkit-print-color-adjust: exact;
-            color-adjust: exact;
-            background-color: rgb(54, 54, 54) !important;
-            color: white;
-        }
-
-        @media print {
-            th {
-                background-color: rgb(56, 56, 56);
-                color: white;
-            }
-        }
-
-        .total {
-            display: flexbox;
-            justify-items: flex-end;
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .subtotal {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 35%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .final-total {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 32%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .bank-info {
-            text-align: left;
-            margin-top: 30px;
-            font-size: 0.8rem;
-        }
-
-        .approval {
-            display: inline-block;
-            justify-content: space-between;
-            margin-top: 50px;
+        .signature-box {
+            width: 25%;
+            border: 1px solid #000;
+            height: 70px;
             text-align: center;
-            width: 100%;
+            padding-top: 10px;
         }
 
-        .approval p {
-            margin-bottom: 5px;
-        }
-
-        .approval small {
-            font-size: 14px;
-            color: gray;
-        }
-
-        .approval-title {
-            display: flex;
-            justify-content: space-evenly;
-            text-align: center;
-            padding-bottom: 10%;
-        }
-
-        .approval-list {
-            display: flex;
-            justify-content: space-evenly;
-        }
-
-        .inside tr td {
-            border: 1px solid black;
-            border-spacing: 0px;
-            vertical-align: top;
-        }
-
-        .left tr td {
-            padding-top: 3px;
-            padding-bottom: 3px;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
-
-        .right tr td {
-            padding-top: 0px;
-            padding-bottom: 0px;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
-
-        p {
-            margin-top: 1%;
-            margin-bottom: 1%;
-        }
-
-        strong {
-            text-wrap: nowrap;
+        .page-break {
+            page-break-before: always;
+            /* Memastikan konten setelah ini ada di halaman kedua */
         }
     </style>
 </head>
 
 <body>
+    <div class="containers">
 
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo">
-            <div class="document-info">
-                <table>
-                    <tr>
-                        <td class="doc-info">
-                            Nomor Dokumen:
-                        </td>
-                        <td class="doc-info">
-                            AMI-F-PROC-P-01/01
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Revisi:
-                        </td>
-                        <td class="doc-info">
-                            02
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Tanggal Terbit:
-                        </td>
-                        <td class="doc-info">
-                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
-                        </td>
-                    </tr>
-                </table>
+        <div class="headers">
+            <div class="logo-section">
+                <center>
+                    <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo"
+                        style="max-width: 82%; min-width:80%; border:none;">
+                </center>
+            </div>
+            <div class="title-section">
+                MATERIAL REQUEST (MR)
+            </div>
+            <div class="doc-info-section">
+                <div class="doc-info-row">
+                    <div class="doc-info-label">NOMOR DOKUMEN</div>
+                    <div class="doc-info-value">AMI-F-PROC-P-01/01</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">REVISI</div>
+                    <div class="doc-info-value">00</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">TANGGAL TERBIT</div>
+                    <div class="doc-info-value">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
+                    </div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">HALAMAN</div>
+                    <div class="doc-info-value">1/1</div>
+                </div>
             </div>
         </div>
 
-        <h2 class="title">PURCHASE REQUEST</h2>
-
-        <!-- Detail Information -->
-        <div class="info">
-            <div class="left">
-                @if ($data)
-                    <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
+        @if ($data)
+            <div class="content">
+                <div class="content-left">
+                    <table>
                         <tr>
                             <td>
-                                <strong>Requester:</strong>
+                                <p style="margin: 0px 0px;"><b>Mr Number </b></p>
                             </td>
                             <td>
-                                <p> Irvan Sandoval</p>
+                                <p style="margin: 0px 0px;">: {{ $data->PR_Code }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Project:</strong>
+                                <p style="margin: 0px 0px;"><b>Date </b></p>
                             </td>
                             <td>
-                                <p>{{ $data->Project }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>PR Number:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->PR_Code }}</p>
+                                <p style="margin: 0px 0px;"> :
+                                    {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Description:</strong>
+                                <p style="margin: 0px 0px;"><b>Location</b></p>
                             </td>
                             <td>
-                                <p>{{ $data->Description }}</p>
+                                <p style="margin: 0px 0px;">: Jakarta</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Page No</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: 1/1</p>
                             </td>
                         </tr>
                     </table>
-            </div>
-            <div class="right">
-                <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td>
-                            <p style="margin-top:7px; font-weight:bold;">Purchase Type:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top:7px;">{{ $data->PurchaseType }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top:10px; font-weight:bold">Department:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top:10px;">{{ $data->Department }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top:10px; font-weight:bold">Date Created:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top:10px;">
-                                {{ $data->created_at->format('d-m-Y') }}
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top:10px; font-weight:bold">Due Date:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top:10px;">
-                                {{ \Carbon\Carbon::parse($data->DueDate)->format('d-m-Y') }}
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    @else
-        @endif
-
-        <!-- Table -->
-        @if ($data->purchaseRequestItems->isNotEmpty())
-            {{-- Check if there are any posts --}}
-            <table class="inside">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th style="width:15%">Items</th>
-                        <th>Item Description</th>
-                        <th>Unit Price</th>
-                        <th>Qty</th>
-                        <th>Unit</th>
-                        <th>Tax</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                @foreach ($data->purchaseRequestItems as $item)
-                    <tbody>
+                    <div class="content-info">
+                    </div>
+                    <div class="content-info">
+                    </div>
+                </div>
+                <div class="content-right"">
+                    <table>
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->Item_Name }}</td>
-                            <td>{{ $item->Item_Description }}</td>
-                            <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
-                            <td>{{ $item->Quantity }}</td>
-                            <td>{{ $item->Unit }}</td>
-                            <td>{{ $item->Tax }}</td>
-                            <td>{{ 'Rp' . number_format($item->Total, 0, ',', '.') }}</td>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Location</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: Jakarta</p>
+                            </td>
                         </tr>
-                    </tbody>
-                @endforeach
-            </table>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Page No</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: 1/1</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Requested By</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: {{ $data->Department }}</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+            </div>
         @else
         @endif
 
-        <!-- Total -->
-        <div class="total">
-            <div class="subtotal">
-                <p>Subtotal</p>
-                {{ 'Rp' . number_format($data->SubTotal, 0, ',', '.') }}
-            </div>
-            <div class="final-total">
-                <p>Total</p>
-                {{ 'Rp' . number_format($data->GrandTotal, 0, ',', '.') }}
-            </div>
-        </div>
+        <center>
+            @if ($data->purchaseRequestItems->isNotEmpty())
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">NO</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 12%">PART NUMBER/SIZE</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 38%" style="">ITEMS DESCRIPTION</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">QTY</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">UNIT</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">ON <br> HAND</th>
+                            <th class="tg-0pky" colspan="3" style="width: 20%">LAST RECEIVED</th>
+                            <th class="tg-0lax" rowspan="2" style="width: 25%;">REMARKS</th>
+                        </tr>
+                        <tr>
+                            <th class="tg-0pky">DATE</th>
+                            <th class="tg-0pky">QTY</th>
+                            <th class="tg-0lax">UNIT</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center;">
+                        @foreach ($data->purchaseRequestItems as $item)
+                            <tr>
+                                <td class="tg-0pky">{{ $loop->iteration }}</td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky" style="text-align: left;">{{ $item->Item_Name }}</td>
+                                <td class="tg-0pky">{{ $item->Quantity }}</td>
+                                <td class="tg-0pky">{{ $item->Unit }}</td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0lax"></td>
+                                @if ($loop->first)
+                                    <td class="tg-0lax" rowspan="{{ $data->purchaseRequestItems->count() }}">
+                                        {{ $data->CompanyName }}
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+            @endif
+        </center>
 
-        {{-- <!-- Bank Information -->
-        <div class="bank-info">
-            <p>Dana dapat ditransfer ke nomor rekening:</p>
-            <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
-        </div> --}}
-
-        <!-- Approval Section -->
-        <div class="approval">
-            <div class="approval-title">
-                <p style="padding-left: 15%; padding-right:20%"><strong>Diketahui oleh</strong></p>
-                <p><strong>Disetujui oleh</strong></p>
+        <div class="signature-section">
+            <div class="signature-box">
+                Prepare By
+                <p style="padding-top: 22%">Irvan Sandoval</p>
             </div>
-
-            <div class="approval-list">
-                <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
-                <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
-                <p><strong>Irwandi</strong><br><small>Direktur</small></p>
-                {{-- <p><strong>Charles Teo</strong><br></p> --}}
+            <div class="signature-box">
+                Check By
+            </div>
+            <div class="signature-box">
+                Aprroved By
+                <p style="padding-top: 22%">Irwandi</p>
+            </div>
+            <div class="signature-box">
+                Receive By
             </div>
         </div>
 
     </div>
-
 </body>
 
 </html>

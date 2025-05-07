@@ -39,15 +39,15 @@ return new class extends Migration
             $table->text('Payment_Mode');
             $table->bigInteger('Sub_Total');
             $table->bigInteger('Discounts')->nullable();
-            $table->enum('Discount_Type', ['amount', 'percent']);
-            $table->bigInteger('Total_Discount');
+            $table->enum('Discount_Type', ['amount', 'percent'])->nullable();
+            $table->bigInteger('Total_Discount')->nullable();
             $table->bigInteger('Shipping_Fee')->nullable();
             $table->bigInteger('Grand_Total');
-            $table->text('Terbilang');
-            $table->text('Delivery_Time');
-            $table->text('Payment_Terms');
-            $table->text('Inspection_Notes');
-            $table->text('Vendor_Notes');
+            $table->text('Terbilang')->nullable();
+            $table->text('Delivery_Time')->nullable();
+            $table->text('Payment_Terms')->nullable();
+            $table->text('Inspection_Notes')->nullable();
+            $table->text('Vendor_Notes')->nullable();
             $table->timestamps();
         });
     }

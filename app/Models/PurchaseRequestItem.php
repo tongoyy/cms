@@ -20,4 +20,9 @@ class PurchaseRequestItem extends Model
     {
         return $this->belongsTo(PurchaseRequest::class, 'Purchase_Requests_ID');
     }
+
+    public function vendors()
+    {
+        return $this->belongsTo(Vendors::class, 'Vendors_ID');
+    }
 }

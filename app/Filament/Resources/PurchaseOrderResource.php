@@ -224,12 +224,14 @@ class PurchaseOrderResource extends Resource
                     ->collapsible()
                     ->cloneable(),
 
+                /* Result */
                 Fieldset::make()->columns(1)->columnSpan(1)->columnStart(2)->label('Result')
                     ->schema([
                         TextInput::make('Sub_Total')
                             ->placeholder(function (Set $set, Get $get) {
                                 $SubTotal = collect($get('purchaseOrderItems'))->pluck('Total')->sum();
                                 $set('Sub_Total', $SubTotal ?? 0);
+                                $set('Terbilang', ucwords(terbilang($SubTotal)) . " Rupiah");
                             })->readOnly(true)->debounce(1000)
                             ->afterStateUpdated(function (Set $set, Get $get) {
                                 $subTotal = (float) $get('Sub_Total');
@@ -319,7 +321,10 @@ class PurchaseOrderResource extends Resource
 
                 Fieldset::make()->columns(1)
                     ->schema([
-                        TextInput::make('Terbilang')->label('Terbilang')->readOnly(),
+                        TextInput::make('Terbilang')
+                            ->label('Terbilang')
+                            ->default('Nol Rupiah')
+                            ->readOnly(),
                         TextInput::make('Delivery_Time')->label('Delivery Time')->nullable(),
                         Textarea::make('Payment_Terms')->label('Payment Terms')->nullable(),
                         Textarea::make('Inspection_Notes')->label('Inspection Notes')->nullable(),

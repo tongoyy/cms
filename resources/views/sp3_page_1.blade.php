@@ -1,179 +1,150 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Request</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Request</title>
 
     <style>
-        .container {
+        body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            padding: 5% !important;
-            font-size: 12px;
-        }
-
-        .container {
+            font-size: 8px;
             margin: 0;
             padding: 0;
+            padding-top: 10%;
+        }
+
+        .containers {
+            padding-top: 5%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 2%;
         }
 
         .headers {
             display: flex;
+            border: 1px solid #000;
+        }
+
+        .logo-section {
+            width: 30%;
+            border-right: 1px solid #000;
+            text-align: center;
+        }
+
+        .title-section {
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .doc-info-section {
+            width: 34%;
+            font-size: 8px;
+            border-left: 1px solid #000;
+        }
+
+        .doc-info-row {
+            display: flex;
+            border-bottom: 1px solid #000;
+        }
+
+        .doc-info-row:last-child {
+            border-bottom: none;
+        }
+
+        .doc-info-label {
+            width: 50%;
+            padding: 5px;
+            border-right: 1px solid #000;
+            font-weight: bold;
+        }
+
+        .doc-info-value {
+            width: 50%;
+            padding: 5px;
+        }
+
+        .content-table {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
-            margin-top: 5px;
+            padding: 20px 80px;
         }
 
-        .logos {
-            width: 15%;
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
-        .document-info {
-            text-align: right;
+        .content-info {
+            display: flex;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* TABLE */
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
             font-size: 9px;
+            overflow: hidden;
+            word-break: normal;
         }
 
-        .title {
-            text-align: center;
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 9px;
             font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 0;
-            font-size: 14px;
+            overflow: hidden;
+            word-break: normal;
         }
 
-        .info {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .inside {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-        }
-
-        .left {
-            padding: 0px;
-            text-align: left;
-        }
-
-        .right {
-            padding: 0px;
-            text-align: left;
-        }
-
-        th {
-            -webkit-print-color-adjust: exact;
-            color-adjust: exact;
-            background-color: rgb(54, 54, 54) !important;
-            color: white;
-        }
-
-        @media print {
-            th {
-                background-color: rgb(56, 56, 56);
-                color: white;
-            }
-        }
-
-        .total {
-            display: flexbox;
-            justify-items: flex-end;
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .subtotal {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 35%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .final-total {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 32%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .bank-info {
-            text-align: left;
-            margin-top: 30px;
-            font-size: 0.8rem;
-        }
-
-        .approval {
-            display: inline-block;
-            justify-content: space-between;
-            margin-top: 50px;
+        .tg .tg-0pky {
+            border-color: inherit;
             text-align: center;
-            width: 100%;
+            white-space: nowrap;
+            vertical-align: center;
         }
 
-        .approval p {
-            margin-bottom: 5px;
+        .tg .tg-0lax {
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: center;
         }
 
-        .approval small {
-            font-size: 14px;
-            color: gray;
-        }
-
-        .approval-title {
+        .signature-section {
             display: flex;
-            justify-content: space-around;
-            padding-bottom: 10%;
+            margin-top: 20px;
         }
 
-        .approval-list {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .inside tr td {
-            border: 1px solid black;
-            border-spacing: 0px;
-            vertical-align: top;
-        }
-
-        .left tr td {
-            padding-top: 3px;
-            padding-bottom: 3px;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
-
-        .right tr td {
-            padding-top: 0px;
-            padding-bottom: 0px;
-            border-spacing: 0;
-            border-collapse: collapse;
-        }
-
-        p {
-            margin-top: 1%;
-            margin-bottom: 1%;
-        }
-
-        strong {
-            text-wrap: nowrap;
+        .signature-box {
+            width: 25%;
+            border: 1px solid #000;
+            height: 70px;
+            text-align: center;
+            padding-top: 10px;
         }
 
         .page-break {
@@ -184,190 +155,178 @@
 </head>
 
 <body>
+    <div class="containers">
 
-    <div class="container">
-        <!-- Header -->
         <div class="headers">
-            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logos">
-            <div class="document-info">
-                <table>
-                    <tr>
-                        <td class="doc-info">
-                            Nomor Dokumen:
-                        </td>
-                        <td class="doc-info">
-                            AMI-F-PROC-P-01/01
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Revisi:
-                        </td>
-                        <td class="doc-info">
-                            02
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Tanggal Terbit:
-                        </td>
-                        <td class="doc-info">
-                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
-                        </td>
-                    </tr>
-                </table>
+            <div class="logo-section">
+                <center>
+                    <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo"
+                        style="max-width: 95%; min-width:90%; border:none;">
+                </center>
+            </div>
+            <div class="title-section">
+                MATERIAL REQUEST (MR)
+            </div>
+            <div class="doc-info-section">
+                <div class="doc-info-row">
+                    <div class="doc-info-label">NOMOR DOKUMEN</div>
+                    <div class="doc-info-value">AMI-F-PROC-P-01/01</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">REVISI</div>
+                    <div class="doc-info-value">00</div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">TANGGAL TERBIT</div>
+                    <div class="doc-info-value">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
+                    </div>
+                </div>
+                <div class="doc-info-row">
+                    <div class="doc-info-label">HALAMAN</div>
+                    <div class="doc-info-value">1/1</div>
+                </div>
             </div>
         </div>
 
-        <h2 class="title">PURCHASE REQUEST</h2>
-
-        <!-- Detail Information -->
-        <div class="info">
-            <div class="left">
-                @if ($sp3)
-                    <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
+        @if ($sp3)
+            <div class="content">
+                <div class="content-left">
+                    <table>
                         <tr>
                             <td>
-                                <strong>Project:</strong>
+                                <p style="margin: 0px 0px;"><b>Mr Number </b></p>
                             </td>
                             <td>
-                                <p>{{ $sp3->purchaseRequest->Project }}</p>
+                                <p style="margin: 0px 0px;">: {{ $sp3->purchaseRequest->PR_Code }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>PR Number:</strong>
+                                <p style="margin: 0px 0px;"><b>Date </b></p>
                             </td>
                             <td>
-                                <p>{{ $sp3->purchaseRequest->PR_Code }}</p>
+                                <p style="margin: 0px 0px;"> :
+                                    {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Description:</strong>
+                                <p style="margin: 0px 0px;"><b>Location</b></p>
                             </td>
                             <td>
-                                <p>{{ $sp3->purchaseRequest->Description }}</p>
+                                <p style="margin: 0px 0px;">: Jakarta</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Page No</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: 1/1</p>
                             </td>
                         </tr>
                     </table>
-            </div>
-            <div class="right">
-                <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td>
-                            <p style="margin-top: 7px; font-weight:bold">Purchase Type:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 7px;">{{ $sp3->purchaseRequest->PurchaseType }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 11px; margin-bottom:3px; font-weight:bold">Department:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 11px; margin-bottom:3px">{{ $sp3->purchaseRequest->Department }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 10px; font-weight:bold">Date Created:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 10px;">
-                                {{ $sp3->created_at->format('d-m-Y') }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 14px; font-weight:bold">Due Date:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 14px;">
-                                {{ \Carbon\Carbon::parse($sp3->DueDate)->format('d-m-Y') }}</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    @else
-        @endif
-
-        
-        <!-- Table -->
-        @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
-            {{-- Check if there are any posts --}}
-            <table class="inside">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th style="width:15%">Items</th>
-                        <th>Item Description</th>
-                        <th>Unit Price</th>
-                        <th>Qty</th>
-                        <th>Unit</th>
-                        <th>Tax</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
-                    <tbody>
+                    <div class="content-info">
+                    </div>
+                    <div class="content-info">
+                    </div>
+                </div>
+                <div class="content-right"">
+                    <table>
                         <tr>
-                            <td>1</td>
-                            <td>{{ $item->Item_Name }}</td>
-                            <td>{{ $item->Item_Description }}</td>
-                            <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
-                            <td>{{ $item->Quantity }}</td>
-                            <td>{{ $item->Unit }}</td>
-                            <td>{{ $item->Tax }}</td>
-                            <td>{{ 'Rp' . number_format($item->Total, 0, ',', '.') }}</td>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Location</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: Jakarta</p>
+                            </td>
                         </tr>
-                    </tbody>
-                @endforeach
-            </table>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Page No</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: 1/1</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="margin: 0px 0px;"><b>Requested By</b></p>
+                            </td>
+                            <td>
+                                <p style="margin: 0px 0px;">: {{ $sp3->purchaseRequest->Department }}</p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </div>
+            </div>
         @else
         @endif
 
-        <!-- Total -->
-        <div class="total">
-            <div class="subtotal">
-                <p>Subtotal</p>
-                {{ 'Rp' . number_format($sp3->purchaseRequest->SubTotal, 0, ',', '.') }}
+        <center>
+            @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th class="tg-0pky" rowspan="2">NO</th>
+                            <th class="tg-0pky" rowspan="2">PART NUMBER/SIZE</th>
+                            <th class="tg-0pky" rowspan="2" style="">ITEMS DESCRIPTION</th>
+                            <th class="tg-0pky" rowspan="2">QTY</th>
+                            <th class="tg-0pky" rowspan="2">UNIT</th>
+                            <th class="tg-0pky" rowspan="2">ON HAND</th>
+                            <th class="tg-0pky" colspan="3">LAST RECEIVED</th>
+                            <th class="tg-0lax" rowspan="2">REMARKS</th>
+                        </tr>
+                        <tr>
+                            <th class="tg-0pky">DATE</th>
+                            <th class="tg-0pky">QTY</th>
+                            <th class="tg-0lax">UNIT</th>
+                        </tr>
+                    </thead>
+                    @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
+                        <tbody style="text-align: center;">
+                            <tr>
+                                <td class="tg-0pky">{{ $loop->iteration }}</td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky">{{ $item->Item_Name }}</td>
+                                <td class="tg-0pky">{{ $item->Quantity }}</td>
+                                <td class="tg-0pky">{{ $item->Unit }}</td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0pky"></td>
+                                <td class="tg-0lax"></td>
+                                <td class="tg-0lax">{{ $sp3->Atas_Nama }}</td>
+                            </tr>
+                        </tbody>
+                    @endforeach
+                </table>
+            @else
+            @endif
+        </center>
+
+        <div class="signature-section">
+            <div class="signature-box">
+                Prepare By
+                <p style="padding-top: 22%">Irvan Sandoval</p>
             </div>
-            <div class="final-total">
-                <p>Total</p>
-                {{ 'Rp' . number_format($sp3->purchaseRequest->GrandTotal, 0, ',', '.') }}
+            <div class="signature-box">
+                Check By
             </div>
-        </div>
-
-        {{-- <!-- Bank Information -->
-        <div class="bank-info">
-            <p>Dana dapat ditransfer ke nomor rekening:</p>
-            <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
-        </div> --}}
-
-        <!-- Approval Section -->
-        <div class="approval">
-            <div class="approval-title">
-                <p style="padding-left: 18%; padding-right:22%"><strong>Diketahui oleh</strong></p>
-                <p><strong>Disetujui oleh</strong></p>
+            <div class="signature-box">
+                Aprroved By
+                <p style="padding-top: 22%">Irwandi</p>
             </div>
-
-            <div class="approval-list">
-                <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
-                <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
-                <p><strong>Irwandi</strong><br><small>Direktur</small></p>
-                {{-- <p><strong>Charles Teo</strong><br></p> --}}
+            <div class="signature-box">
+                Receive By
             </div>
-        </div>
-
-        <div class="page-break">
-
         </div>
 
     </div>
 
+    <div class="page-break">
+
+    </div>
 </body>
 
 </html>
