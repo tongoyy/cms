@@ -8,7 +8,7 @@
   array (
     'name' => 'Laravel',
     'env' => 'local',
-    'debug' => true,
+    'debug' => false,
     'url' => 'http://localhost:8000',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,

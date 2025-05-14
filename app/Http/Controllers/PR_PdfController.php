@@ -12,6 +12,10 @@ class PR_PdfController extends Controller
 
     public function pdfPR($id)
     {
+
+        $lastNumber = \App\Models\PurchaseRequest::latest()->value('Number') ?? 0;
+        $desc = \App\Models\PurchaseRequest::latest()->value('PR_Code') ?? 'PurchaseRequest';
+
         // 1. Retrieve the data based on the ID.
         // $data = PurchaseRequest::find($id); // Or YourModel::findOrFail($id)
         $data = PurchaseRequest::with('purchaseRequestItems')->find($id);
@@ -23,11 +27,11 @@ class PR_PdfController extends Controller
 
         // 2. Pass the data to a view.
         // $pdf = PDF::loadView('PurchaseRequestPDF', compact('data')); // 'pdf.invoice' is the name of your view.
-
+        $filename = $desc . '.pdf';
         $html = view('PurchaseRequestPDF', compact('data'))->render();
         Browsershot::html($html)
-            ->save('#MR-0000' . $id . '.pdf');
-        return response()->download('#MR-0000' . $id . '.pdf');
+            ->save($filename);
+        return response()->download($filename);
         // 3. (Optional) Set PDF options (e.g., orientation, paper size).
         // $pdf->setOptions(['defaultFont' => 'sans-serif']);
 

@@ -365,13 +365,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/livewire/livewire.js' => 
+      '/livewire/livewire.min.js' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::fKKfnLGoqzeCwPNw',
+            '_route' => 'generated::gpCEwFVp3pNvQJYM',
           ),
           1 => NULL,
           2 => 
@@ -391,7 +391,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::G36PlbXKhjBGLUDM',
+            '_route' => 'generated::MmWqDJS6dvUJOW7V',
           ),
           1 => NULL,
           2 => 
@@ -430,7 +430,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::sBRtBFz5D9ZO9LFd',
+            '_route' => 'generated::AXqjpE3GcaqP9VV7',
           ),
           1 => NULL,
           2 => 
@@ -450,7 +450,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::0HYpAZY5NLUuBsxU',
+            '_route' => 'generated::PBAdfBIsAlh5J6k4',
           ),
           1 => NULL,
           2 => 
@@ -844,7 +844,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::b3vHb8arQs3zb6n8',
+            '_route' => 'generated::qbQuxyzAPmYaZ0C7',
           ),
           1 => 
           array (
@@ -928,7 +928,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::p2dKshN91RNLkNV2',
+            '_route' => 'generated::bbbPZKh9lbRibmwi',
           ),
           1 => 
           array (
@@ -1096,7 +1096,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Ve6fma34H9KZgs1D',
+            '_route' => 'generated::JBZ0gAaaMbgk1Ioe',
           ),
           1 => 
           array (
@@ -2400,19 +2400,19 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::fKKfnLGoqzeCwPNw' => 
+    'generated::gpCEwFVp3pNvQJYM' => 
     array (
       'methods' => 
       array (
         0 => 'GET',
         1 => 'HEAD',
       ),
-      'uri' => 'livewire/livewire.js',
+      'uri' => 'livewire/livewire.min.js',
       'action' => 
       array (
         'uses' => 'Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@returnJavaScriptAsFile',
         'controller' => 'Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@returnJavaScriptAsFile',
-        'as' => 'generated::fKKfnLGoqzeCwPNw',
+        'as' => 'generated::gpCEwFVp3pNvQJYM',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2428,7 +2428,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::G36PlbXKhjBGLUDM' => 
+    'generated::MmWqDJS6dvUJOW7V' => 
     array (
       'methods' => 
       array (
@@ -2440,7 +2440,7 @@ app('router')->setCompiledRoutes(
       array (
         'uses' => 'Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@maps',
         'controller' => 'Livewire\\Mechanisms\\FrontendAssets\\FrontendAssets@maps',
-        'as' => 'generated::G36PlbXKhjBGLUDM',
+        'as' => 'generated::MmWqDJS6dvUJOW7V',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2511,7 +2511,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::sBRtBFz5D9ZO9LFd' => 
+    'generated::AXqjpE3GcaqP9VV7' => 
     array (
       'methods' => 
       array (
@@ -2539,8 +2539,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'C:\\\\Users\\\\Lenovo\\\\Herd\\\\cms\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000010960000000000000000";}}',
-        'as' => 'generated::sBRtBFz5D9ZO9LFd',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000010100000000000000000";}}',
+        'as' => 'generated::AXqjpE3GcaqP9VV7',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2556,7 +2556,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::0HYpAZY5NLUuBsxU' => 
+    'generated::PBAdfBIsAlh5J6k4' => 
     array (
       'methods' => 
       array (
@@ -2572,13 +2572,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:75:"function () {
     return \\redirect()->route(\'filament.admin.auth.login\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000109b0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000010150000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::0HYpAZY5NLUuBsxU',
+        'as' => 'generated::PBAdfBIsAlh5J6k4',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2612,7 +2612,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:46:"function () {
     return \\view(\'dashboard\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000109d0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000010170000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -2933,7 +2933,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::b3vHb8arQs3zb6n8' => 
+    'generated::qbQuxyzAPmYaZ0C7' => 
     array (
       'methods' => 
       array (
@@ -2954,7 +2954,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::b3vHb8arQs3zb6n8',
+        'as' => 'generated::qbQuxyzAPmYaZ0C7',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3008,7 +3008,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::p2dKshN91RNLkNV2' => 
+    'generated::bbbPZKh9lbRibmwi' => 
     array (
       'methods' => 
       array (
@@ -3029,7 +3029,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::p2dKshN91RNLkNV2',
+        'as' => 'generated::bbbPZKh9lbRibmwi',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3349,7 +3349,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Ve6fma34H9KZgs1D' => 
+    'generated::JBZ0gAaaMbgk1Ioe' => 
     array (
       'methods' => 
       array (
@@ -3370,7 +3370,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Ve6fma34H9KZgs1D',
+        'as' => 'generated::JBZ0gAaaMbgk1Ioe',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3476,7 +3476,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000010a70000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000010210000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,

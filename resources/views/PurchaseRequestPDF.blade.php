@@ -254,7 +254,7 @@
                                 <p style="margin: 0px 0px;"><b>Requested By</b></p>
                             </td>
                             <td>
-                                <p style="margin: 0px 0px;">: {{ $data->Department }}</p>
+                                <p style="margin: 0px 0px;">: {{ $data->RequestedBy }}</p>
                             </td>
                         </tr>
                     </table>
@@ -296,11 +296,14 @@
                                 <td class="tg-0pky"></td>
                                 <td class="tg-0pky"></td>
                                 <td class="tg-0lax"></td>
-                                @if ($loop->first)
+                                {{-- @if ($loop->first)
                                     <td class="tg-0lax" rowspan="{{ $data->purchaseRequestItems->count() }}">
-                                        {{ $data->CompanyName }}
+                                        {{ $data->Item_Description }}
                                     </td>
-                                @endif
+                                @endif --}}
+                                <td class="tg-0lax">
+                                    {{ $item->Item_Description }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

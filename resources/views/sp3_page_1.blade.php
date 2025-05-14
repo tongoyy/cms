@@ -254,7 +254,7 @@
                                 <p style="margin: 0px 0px;"><b>Requested By</b></p>
                             </td>
                             <td>
-                                <p style="margin: 0px 0px;">: {{ $sp3->purchaseRequest->Department }}</p>
+                                <p style="margin: 0px 0px;">: {{ $sp3->purchaseRequest->RequestedBy }}</p>
                             </td>
                         </tr>
                     </table>
@@ -265,18 +265,18 @@
         @endif
 
         <center>
-            @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
+            @if ($sp3->purchaseRequest->purchaseRequestItems->isNotEmpty())
                 <table class="tg">
                     <thead>
                         <tr>
-                            <th class="tg-0pky" rowspan="2">NO</th>
-                            <th class="tg-0pky" rowspan="2">PART NUMBER/SIZE</th>
-                            <th class="tg-0pky" rowspan="2" style="">ITEMS DESCRIPTION</th>
-                            <th class="tg-0pky" rowspan="2">QTY</th>
-                            <th class="tg-0pky" rowspan="2">UNIT</th>
-                            <th class="tg-0pky" rowspan="2">ON HAND</th>
-                            <th class="tg-0pky" colspan="3">LAST RECEIVED</th>
-                            <th class="tg-0lax" rowspan="2">REMARKS</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">NO</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 12%">PART NUMBER/SIZE</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 38%" style="">ITEMS DESCRIPTION</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">QTY</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">UNIT</th>
+                            <th class="tg-0pky" rowspan="2" style="width: 3%">ON <br> HAND</th>
+                            <th class="tg-0pky" colspan="3" style="width: 20%">LAST RECEIVED</th>
+                            <th class="tg-0lax" rowspan="2" style="width: 25%;">REMARKS</th>
                         </tr>
                         <tr>
                             <th class="tg-0pky">DATE</th>
@@ -284,22 +284,29 @@
                             <th class="tg-0lax">UNIT</th>
                         </tr>
                     </thead>
-                    @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
-                        <tbody style="text-align: center;">
+                    <tbody style="text-align: center;">
+                        @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
                             <tr>
                                 <td class="tg-0pky">{{ $loop->iteration }}</td>
                                 <td class="tg-0pky"></td>
-                                <td class="tg-0pky">{{ $item->Item_Name }}</td>
+                                <td class="tg-0pky" style="text-align: left;">{{ $item->Item_Name }}</td>
                                 <td class="tg-0pky">{{ $item->Quantity }}</td>
                                 <td class="tg-0pky">{{ $item->Unit }}</td>
                                 <td class="tg-0pky"></td>
                                 <td class="tg-0pky"></td>
                                 <td class="tg-0pky"></td>
                                 <td class="tg-0lax"></td>
-                                <td class="tg-0lax">{{ $sp3->Atas_Nama }}</td>
+                                {{-- @if ($loop->first)
+                                    <td class="tg-0lax" rowspan="{{ $sp3->purchaseRequestItems->count() }}">
+                                        {{ $sp3->purchaseRequest->Item_Description }}
+                                    </td>
+                                @endif --}}
+                                <td class="tg-0lax">
+                                    {{ $item->Item_Description }}
+                                </td>
                             </tr>
-                        </tbody>
-                    @endforeach
+                        @endforeach
+                    </tbody>
                 </table>
             @else
             @endif
