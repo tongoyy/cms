@@ -1,4 +1,6 @@
-<h1>Aplikasi ini saya buat berdasarkan Request dari manajemen finance di kantor saya.</h1>
+Aplikasi ini saya buat berdasarkan Request dari manajemen finance di kantor saya.
+
+<h1>Aplikasi Purchasing ini menggunakan Laravel Filament</h1>
 
 Apps ini terdiri dari :
 - Purchase Request
