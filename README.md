@@ -14,6 +14,7 @@ Apps ini terdiri dari :
 git clone https://github.com/tongoyy/cms.git <br>
 delete composer.lock <br>
 composer install <br>
+npm install <br>
 php artisan key:generate <br>
 php artisan migrate <br>
 php artisan serve <br>
