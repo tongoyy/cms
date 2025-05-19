@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    @include('sp3_page_1')
+    @include('sp3_PR_page_1')
 
     {{-- <div style="page-break-after: always;"></div> --}}
 
-    @include('sp3_page_2')
+    @include('sp3_PR_page_2')
 </body>
 
 </html>

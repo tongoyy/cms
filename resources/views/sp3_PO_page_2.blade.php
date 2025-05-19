@@ -1,5 +1,5 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
 
 <!DOCTYPE html>
@@ -7,22 +7,22 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Request</title>
+    <title>Purchase Order</title>
 
     <style>
-        .container {
+        body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
-            padding: 5% !important;
-            font-size: 12px;
+            padding: 0.5% !important;
+            font-size: 13px;
         }
 
         .container {
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
-        .headers {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -30,7 +30,7 @@
             margin-top: 5px;
         }
 
-        .logos {
+        .logo {
             width: 15%;
         }
 
@@ -43,13 +43,14 @@
             text-align: center;
             font-weight: bold;
             margin-top: 0;
-            margin-bottom: 0;
-            font-size: 14px;
+            margin-bottom: 5%;
+            font-size: 16px;
         }
 
         .info {
             display: flex;
             justify-content: space-between;
+            padding-bottom: 2%;
         }
 
         .inside {
@@ -104,11 +105,19 @@
             padding-bottom: 0.1rem;
         }
 
+        .shipping-fee {
+            display: flex;
+            justify-content: space-between;
+            text-align: left;
+            width: 38.9%;
+            padding-bottom: 0.1rem;
+        }
+
         .final-total {
             display: flex;
             justify-content: space-between;
             text-align: left;
-            width: 32%;
+            width: 32.5%;
             padding-top: 0.1rem;
             padding-bottom: 0.1rem;
         }
@@ -180,6 +189,23 @@
             page-break-before: always;
             /* Memastikan konten setelah ini ada di halaman kedua */
         }
+
+        .signature-section {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .signature-box {
+            display: inline-block;
+            width: 30%;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .signature-box p {
+            margin-top: 40px;
+            /* Jarak untuk tanda tangan */
+        }
     </style>
 </head>
 
@@ -187,8 +213,8 @@
 
     <div class="container">
         <!-- Header -->
-        <div class="headers">
-            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logos">
+        <div class="header">
+            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo">
             <div class="document-info">
                 <table>
                     <tr>
@@ -219,84 +245,101 @@
             </div>
         </div>
 
-        <h2 class="title">PURCHASE REQUEST</h2>
+        <h2 class="title">PURCHASE ORDER</h2>
 
         <!-- Detail Information -->
         <div class="info">
             <div class="left">
-                @if ($sp3)
+                @if ($sp3->vendors)
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>Project:</strong>
+                                <strong>To:</strong>
                             </td>
                             <td>
-                                <p>{{ $sp3->purchaseRequest->Project }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>PR Number:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->purchaseRequest->PR_Code }}</p>
+                                <p> {{ $sp3->vendors->CompanyName }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Description:</strong>
+                                <strong>Address:</strong>
                             </td>
                             <td>
-                                <p>{{ $sp3->purchaseRequest->Description }}</p>
+                                @php
+                                    $addressWords = explode(' ', $sp3->vendors->Address);
+                                    $chunkedAddress = array_chunk($addressWords, 5);
+                                @endphp
+                                @foreach ($chunkedAddress as $line)
+                                    <p>{{ implode(' ', $line) }}</p>
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>NPWP:</strong>
+                            </td>
+                            <td>
+                                <p>{{ $sp3->vendors->NPWP }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Telephone:</strong>
+                            </td>
+                            <td>
+                                <p>{{ $sp3->vendors->Phone }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Subject:</strong>
+                            </td>
+                            <td>
+                                <p>
+                                <p>{{ $sp3->purchaseOrder->PO_Name }}</p>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>PO No:</strong>
+                            </td>
+                            <td>
+                                <p>
+                                <p>{{ $sp3->purchaseOrder->PO_Code }}</p>
+                                </p>
                             </td>
                         </tr>
                     </table>
+                @else
+                @endif
+
             </div>
             <div class="right">
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <p style="margin-top: 7px; font-weight:bold">Purchase Type:</p>
+                            <strong>Jenis Pembayaran:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 7px;">{{ $sp3->purchaseRequest->PurchaseType }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 11px; margin-bottom:3px; font-weight:bold">Department:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 11px; margin-bottom:3px">{{ $sp3->purchaseRequest->Department }}</p>
+                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->purchaseOrder->Payment_Mode }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p style="margin-top: 10px; font-weight:bold">Date Created:</p>
+                            <strong>Date:</strong>
                         </td>
                         <td>
-                            <p style="margin-top: 10px;">
+                            <p style="margin-top: 5%; margin-bottom: 5%;">
                                 {{ $sp3->created_at->format('d-m-Y') }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p style="margin-top: 14px; font-weight:bold">Due Date:</p>
-                        </td>
-                        <td>
-                            <p style="margin-top: 14px;">
-                                {{ \Carbon\Carbon::parse($sp3->DueDate)->format('d-m-Y') }}</p>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
-    @else
-        @endif
 
-        
         <!-- Table -->
-        @if ($sp3->purchaseRequest->purchaseRequestItems->count() > 0)
+        @if ($sp3->purchaseOrder->purchaseOrderItems->count() > 0)
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -311,7 +354,7 @@
                         <th>Total</th>
                     </tr>
                 </thead>
-                @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
+                @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
                     <tbody>
                         <tr>
                             <td>1</td>
@@ -329,43 +372,90 @@
         @else
         @endif
 
+
+
         <!-- Total -->
         <div class="total">
             <div class="subtotal">
                 <p>Subtotal</p>
-                {{ 'Rp' . number_format($sp3->purchaseRequest->SubTotal, 0, ',', '.') }}
+                <p>
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Sub_Total, 0, ',', '.') }}
+                </p>
+            </div>
+            <div class="shipping-fee">
+                <p>Shipping Fee</p>
+                <p>
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Shipping_Fee, 0, ',', '.') }}
+                </p>
             </div>
             <div class="final-total">
                 <p>Total</p>
-                {{ 'Rp' . number_format($sp3->purchaseRequest->GrandTotal, 0, ',', '.') }}
+                <p>
+                    {{ 'Rp' . number_format($sp3->purchaseOrder->Grand_Total, 0, ',', '.') }}
+                </p>
             </div>
         </div>
+    </div>
 
-        {{-- <!-- Bank Information -->
-        <div class="bank-info">
-            <p>Dana dapat ditransfer ke nomor rekening:</p>
-            <p><strong>Mochamad Irvan Sandoval 1030006931402</strong></p>
-        </div> --}}
 
-        <!-- Approval Section -->
-        <div class="approval">
-            <div class="approval-title">
-                <p style="padding-left: 18%; padding-right:22%"><strong>Diketahui oleh</strong></p>
-                <p><strong>Disetujui oleh</strong></p>
-            </div>
 
-            <div class="approval-list">
-                <p><strong>Irvan Sandoval</strong><br><small>Verifikator</small></p>
-                <p><strong>Faisal Akbar</strong><br><small>Operation Manager</small></p>
-                <p><strong>Irwandi</strong><br><small>Direktur</small></p>
-                {{-- <p><strong>Charles Teo</strong><br></p> --}}
-            </div>
+    <!-- Page Break untuk Halaman Kedua -->
+    <div class="page-break"></div>
+
+    <!-- Halaman Kedua -->
+    <div>
+        <p><strong>Terbilang:</strong> {{ $sp3->Terbilang }}</p>
+        <br>
+        <p><strong><u>Vendor Bank Details</u></strong></p>
+        <p><strong>Bank:</strong> Mandiri</p>
+        <p><strong>Account No:</strong> 1030006931402</p>
+        <p><strong>Name:</strong> MOCHAMAD IRVAN SANDO</p>
+        <br>
+        <p><strong><u>NPWP Information of PT Audemars Indonesia</u></strong></p>
+        <p><strong>NPWP:</strong> 03.262.362.1-047.000</p>
+        <p><strong>Delivery Address:</strong> Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa
+            Barat, 17530</p>
+        <p><strong>Phone Number:</strong> 021-7195519</p>
+        <p><strong>Payment Terms:</strong> {{ $sp3->Payment_Terms }} </p>
+        <p><strong>Delivery Times: </strong> {{ $sp3->Delivery_Time }} </p>
+        <p><strong>Inspection Note: </strong> {{ $sp3->Inspection_Notes }} </p>
+        <p><strong>Vendor Note:</strong> Pembayaran ke vendor menggunakan Virtual Account dengan batas waktu, sehingga
+            dana ditransfer ke rekening di atas dan dibayarkan melalui Virtual Account milik atas nama rekening
+            tersebut.</p>
+    </div>
+
+    <!-- Signature Section -->
+    <div class="signature-section">
+        <div class="signature-box">
+            <strong>
+                <p>PT Audemars Indonesia</p>
+            </strong>
+            <br>
+            <br>
+            <b>
+                <p style="margin-bottom: 1rem!important">Irvan Sandoval</p>
+            </b>
+            <p style="margin: 0!important">Purchasing</p>
         </div>
-
-        <div class="page-break">
-
+        <div class="signature-box">
+            <strong>
+                <p>PT Audemars Indonesia</p>
+            </strong>
+            <br>
+            <br>
+            <b>
+                <p style="margin-bottom: 1rem!important">Irwandi</p>
+            </b>
+            <p style="margin: 0!important">Direktur</p>
         </div>
-
+        <div class="signature-box">
+            <b>
+                <p>{{ $sp3->vendors->CompanyName }}</p>
+            </b>
+            <br>
+            <br>
+            <p>________________________</p>
+        </div>
     </div>
 
 </body>

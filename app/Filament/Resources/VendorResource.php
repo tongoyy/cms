@@ -7,6 +7,7 @@ use App\Filament\Resources\VendorResource\RelationManagers;
 use App\Models\Vendor;
 use App\Models\Vendors;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -57,8 +58,11 @@ class VendorResource extends Resource
                 TextInput::make('Phone')->label('Phone')->numeric()->required(),
                 TextInput::make('Email')->label('Email')->email(),
                 Textarea::make('Address')->label('Address')->required(),
-                TextInput::make('RekeningBank')->label('Rekening Bank'),
-                TextInput::make('NomorRekening')->label('Nomor Rekening')->numeric(),
+                Fieldset::make()->schema([
+                    TextInput::make('RekeningBank')->label('Rekening Bank'),
+                    TextInput::make('NomorRekening')->label('Nomor Rekening')->numeric(),
+                    TextInput::make('AtasNama')->label('Atas Nama'),
+                ])->columns(3)->label('Bank Account Information'),
             ]);
     }
 

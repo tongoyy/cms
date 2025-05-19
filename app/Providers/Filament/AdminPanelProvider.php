@@ -76,7 +76,6 @@ class AdminPanelProvider extends PanelProvider
             // ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
 
             /* Menus */
-            ->plugins([\Filament\SpatieLaravelTranslatablePlugin::make()->defaultLocales(['en', 'ar'])])
             ->passwordReset()
             ->registration() // Enable registration
             ->spa()

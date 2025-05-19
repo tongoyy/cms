@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('Address');
             $table->text('RekeningBank')->nullable();
             $table->text('NomorRekening')->nullable();
+            $table->text('AtasNama')->nullable();
             $table->timestamps();
         });
     }

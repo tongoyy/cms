@@ -50,8 +50,8 @@ return new class extends Migration
             $table->date('Tanggal_FP')->nullable();;
             $table->text('Jenis_Pembayaran');
             $table->text('Untuk_Pembayaran');
-            $table->text('Rekening_Bank');
-            $table->bigInteger('Nomor_Rekening');
+            $table->text('Rekening_Bank')->nullable();
+            $table->bigInteger('Nomor_Rekening')->nullable();
             $table->text('Atas_Nama');
             $table->text('Lokasi');
             $table->text('Paid_Status');
