@@ -1,5 +1,5 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
 
 <!DOCTYPE html>
@@ -7,27 +7,26 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Request</title>
+    <title>Purchase Order</title>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Helvetica, sans-serif;
             background-color: #ffffff;
-            padding: 0.5% !important;
-            font-size: 13px;
+            font-size: 11px;
         }
 
         .container {
-            margin: 0 !important;
-            padding: 0 !important;
+            padding-top: 5%;
+            padding-bottom: 5%;
+            padding-left: 3%;
+            padding-right: 3%;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0;
-            margin-top: 5px;
         }
 
         .logo {
@@ -43,8 +42,8 @@
             text-align: center;
             font-weight: bold;
             margin-top: 0;
-            margin-bottom: 5%;
-            font-size: 16px;
+            margin-bottom: 3%;
+            font-size: 12px;
         }
 
         .info {
@@ -66,12 +65,10 @@
         }
 
         .left {
-            padding: 0px;
             text-align: left;
         }
 
         .right {
-            padding: 0px;
             text-align: left;
         }
 
@@ -100,16 +97,8 @@
             display: flex;
             justify-content: space-between;
             text-align: left;
-            width: 35%;
+            width: 38%;
             padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .shipping-fee {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 38.9%;
             padding-bottom: 0.1rem;
         }
 
@@ -117,9 +106,36 @@
             display: flex;
             justify-content: space-between;
             text-align: left;
-            width: 32.5%;
+            width: 35.5%;
             padding-top: 0.1rem;
             padding-bottom: 0.1rem;
+        }
+
+        .row {
+            display: flex;
+            margin-bottom: 6px;
+        }
+
+        .label {
+            font-weight: normal;
+            width: 150px;
+            padding-right: 10px;
+            vertical-align: top;
+        }
+
+        .value {
+            flex: 1;
+        }
+
+        .section-header {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            text-decoration: underline;
+        }
+
+        .italic-text {
+            font-style: italic;
         }
 
         .bank-info {
@@ -157,14 +173,15 @@
         }
 
         .inside tr td {
+            font-size: 14px;
             border: 1px solid black;
             border-spacing: 0px;
             vertical-align: top;
         }
 
         .left tr td {
-            padding-top: 3px;
-            padding-bottom: 3px;
+            padding-top: 0px;
+            padding-bottom: 0px;
             border-spacing: 0;
             border-collapse: collapse;
         }
@@ -174,11 +191,6 @@
             padding-bottom: 0px;
             border-spacing: 0;
             border-collapse: collapse;
-        }
-
-        p {
-            margin-top: 1%;
-            margin-bottom: 1%;
         }
 
         strong {
@@ -254,54 +266,42 @@
                     <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <strong>To:</strong>
+                                <p style="margin:3px; padding:3px;"><strong>To:</strong></p>
                             </td>
                             <td>
-                                <p> {{ $data->vendors->CompanyName }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Address:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->vendors->Address }}</p>
+                                <p style="margin:3px; padding:3px;">{{ $data->vendors->CompanyName }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>NPWP:</strong>
+                                <p style="margin:3px; padding:3px;"><strong>Address:</strong></p>
                             </td>
                             <td>
-                                <p>{{ $data->vendors->NPWP }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Telephone:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $data->vendors->Phone }}</p>
+                                <p style="margin:3px; padding:3px;">{{ $data->vendors->Address }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>Subject:</strong>
+                                <p style="margin:3px; padding:3px;"><strong>NPWP:</strong></p>
                             </td>
                             <td>
-                                <p>
-                                <p>{{ $data->PO_Name }}</p>
-                                </p>
+                                <p style="margin:3px; padding:3px;">{{ $data->vendors->NPWP }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <strong>PO No:</strong>
+                                <p style="margin:3px; padding:3px;"><strong>Subject:</strong></p>
                             </td>
                             <td>
-                                <p>
-                                <p>{{ $data->PO_Code }}</p>
-                                </p>
+                                <p style="margin:3px; padding:3px;">{{ $data->PO_Name }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="margin:3px; padding:3px;"><strong>PO No:</strong></p>
+                            </td>
+                            <td>
+                                <p style="margin:3px; padding:3px;">{{ $data->PO_Code }}</p>
                             </td>
                         </tr>
                     </table>
@@ -312,19 +312,34 @@
                 <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <strong>Jenis Pembayaran:</strong>
+                            <p style="margin:3px; padding:3px;"><strong>Jenis Pembayaran:</strong></p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $data->Payment_Mode }}</p>
+                            <p style="margin:3px; padding:3px;">{{ $data->Payment_Mode }}</p>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>Date:</strong>
+                            <p style="margin:3px; padding:3px;"><strong>Date:</strong></p>
                         </td>
                         <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">
-                                {{ $data->created_at->format('d-m-Y') }}</p>
+                            <p style="margin:3px; padding:3px;">{{ $data->created_at->format('d-m-Y') }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style="margin:3px; padding:3px;"><strong>Kategori:</strong></p>
+                        </td>
+                        <td>
+                            <p style="margin:3px; padding:3px;">{{ $data->Department }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style="margin:3px; padding:3px;"><strong>Telephone:</strong></p>
+                        </td>
+                        <td>
+                            <p style="margin:3px; padding:3px;">{{ $data->vendors->Phone }}</p>
                         </td>
                     </tr>
                 </table>
@@ -337,27 +352,25 @@
             <table class="inside">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th style="width:15%">Items</th>
-                        <th>Item Description</th>
-                        <th>Unit Price</th>
-                        <th>Qty</th>
-                        <th>Unit</th>
-                        <th>Tax</th>
-                        <th>Total</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width: 5%">NO</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">ITEMS</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:30%">DESCRIPTION</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">UNIT PRICE</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:5%">QTY</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:10%">UNIT</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">TOTAL</th>
                     </tr>
                 </thead>
                 @foreach ($data->purchaseOrderItems as $poItems)
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>{{ $poItems->Item_Name }}</td>
-                            <td>{{ $poItems->Item_Description }}</td>
-                            <td>{{ $poItems->Price }}</td>
-                            <td>{{ $poItems->Quantity }}</td>
-                            <td>{{ $poItems->Unit }}</td>
-                            <td>{{ $poItems->Tax }}</td>
-                            <td>{{ $poItems->Total }}</td>
+                            <td style="padding:2px;">{{ $loop->iteration }}</td>
+                            <td style="padding:2px;">{{ $poItems->Item_Name }}</td>
+                            <td style="padding:2px;">{{ $poItems->Item_Description }}</td>
+                            <td style="padding:2px;">{{ $poItems->Price }}</td>
+                            <td style="padding:2px;">{{ $poItems->Quantity }}</td>
+                            <td style="padding:2px;">{{ $poItems->Unit }}</td>
+                            <td style="padding:2px;">{{ $poItems->Total }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -368,87 +381,115 @@
         <!-- Total -->
         <div class="total">
             <div class="subtotal">
-                <p>Subtotal</p>
-                <p>
+                <p style="padding: 1%; margin: 1%;">Subtotal</p>
+                <p style="padding: 1%; margin: 1%;">
                     {{ 'Rp' . number_format($data->Sub_Total, 0, ',', '.') }}
                 </p>
             </div>
-            <div class="shipping-fee">
-                <p>Shipping Fee</p>
-                <p>
-                    {{ 'Rp' . number_format($data->Shipping_Fee, 0, ',', '.') }}
-                </p>
-            </div>
             <div class="final-total">
-                <p>Total</p>
-                <p>
+                <p style="padding: 1%; margin: 1%;">Total</p>
+                <p style="padding: 1%; margin: 1%;">
                     {{ 'Rp' . number_format($data->Grand_Total, 0, ',', '.') }}
                 </p>
             </div>
         </div>
 
-    </div>
-
-
-
-    <!-- Page Break untuk Halaman Kedua -->
-    <div class="page-break"></div>
-
-    <!-- Halaman Kedua -->
-    <div>
-        <p><strong>Terbilang:</strong> {{ $data->Terbilang }}</p>
-        <br>
-        <p><strong><u>Vendor Bank Details</u></strong></p>
-        <p><strong>Bank:</strong> Mandiri</p>
-        <p><strong>Account No:</strong> 1030006931402</p>
-        <p><strong>Name:</strong> MOCHAMAD IRVAN SANDO</p>
-        <br>
-        <p><strong><u>NPWP Information of PT Audemars Indonesia</u></strong></p>
-        <p><strong>NPWP:</strong> 03.262.362.1-047.000</p>
-        <p><strong>Delivery Address:</strong> Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa
-            Barat, 17530</p>
-        <p><strong>Phone Number:</strong> 021-7195519</p>
-        <p><strong>Payment Terms:</strong> {{ $data->Payment_Terms }} </p>
-        <p><strong>Delivery Times: </strong> {{ $data->Delivery_Time }} </p>
-        <p><strong>Inspection Note: </strong> {{ $data->Inspection_Notes }} </p>
-        <p><strong>Vendor Note:</strong> Pembayaran ke vendor menggunakan Virtual Account dengan batas waktu, sehingga
-            dana ditransfer ke rekening di atas dan dibayarkan melalui Virtual Account milik atas nama rekening
-            tersebut.</p>
-    </div>
-
-    <!-- Signature Section -->
-    <div class="signature-section">
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irvan Sandoval</p>
-            </b>
-            <p style="margin: 0!important">Purchasing</p>
+        <div class="row" style="margin-top: 40px">
+            <div class="label"><strong>Terbilang:</strong></div>
+            <div class="value">TUJUH JUTA TUJUH RATUS DELAPAN PULUH RIBU RUPIAH</div>
         </div>
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irwandi</p>
-            </b>
-            <p style="margin: 0!important">Direktur</p>
+
+        <div class="section-header">Vendor Bank Details</div>
+
+        <div class="row">
+            <div class="label">Bank:</div>
+            <div class="value">Mandiri</div>
         </div>
-        <div class="signature-box">
-            <b>
-                <p>{{ $data->vendors->CompanyName }}</p>
-            </b>
-            <br>
-            <br>
-            <p>________________________</p>
+
+        <div class="row">
+            <div class="label">Account No:</div>
+            <div class="value">1260006101603</div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="label">Name:</div>
+            <div class="value">KUI LIAN</div>
+        </div>
+
+        <div class="section-header">NPWP Information of PT Audemars Indonesia</div>
+
+        <div class="row">
+            <div class="label">NPWP:</div>
+            <div class="value">03.262.362.1-047.000</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Delivery Address:</div>
+            <div class="value">Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa Barat, 17530</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Phone Number:</div>
+            <div class="value">021-7195519</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Payment Terms:</div>
+            <div class="value">Barang diproses setelah dana masuk</div>
+        </div>
+
+        <div class="row">
+            <div class="label">Delivery Time:</div>
+            <div class="value"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Delivery Point:</div>
+            <div class="value"></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Inspection Terms:</div>
+            <div class="value italic-text" style="line-height: 2;">
+                Every supplied goods meet the stated goods specifications upon delivery, the goods will <br>
+                be inspected. Those goods that did not meet requirement or damage will be rejected <br>
+                and returned to the supplier for replacement.
+            </div>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature-section" style="margin-top: 10px;">
+            <div class="signature-box">
+                <strong>
+                    <p>PT Audemars Indonesia</p>
+                </strong>
+                <br>
+                <br>
+                <b>
+                    <p style="margin-bottom: 0!important">Irvan Sandoval</p>
+                </b>
+                <p style="margin: 0!important">Purchasing</p>
+            </div>
+            <div class="signature-box">
+                <strong>
+                    <p>PT Audemars Indonesia</p>
+                </strong>
+                <br>
+                <br>
+                <b>
+                    <p style="margin-bottom: 0!important">Irwandi</p>
+                </b>
+                <p style="margin: 0!important">Direktur</p>
+            </div>
+            <div class="signature-box">
+                <b>
+                    <p>{{ $data->vendors->CompanyName }}</p>
+                </b>
+                <br>
+                <br>
+                <p>________________________</p>
+            </div>
+        </div>
 
 </body>
 

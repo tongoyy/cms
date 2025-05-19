@@ -1,5 +1,5 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
 
 <!DOCTYPE html>
