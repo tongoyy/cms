@@ -7,7 +7,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Order</title>
+    <title>SPPP_PO</title>
 
     <style>
         body {
@@ -29,7 +29,7 @@
             align-items: center;
         }
 
-        .logo {
+        .logos {
             width: 15%;
         }
 
@@ -56,12 +56,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-        }
-
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
         }
 
         .left {
@@ -227,7 +221,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo">
+            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logos">
             <div class="document-info">
                 <table>
                     <tr>
@@ -294,7 +288,7 @@
                                 <p style="margin:3px; padding:3px;"><strong>Subject:</strong></p>
                             </td>
                             <td>
-                                <p style="margin:3px; padding:3px;">{{ $sp3->PO_Name }}</p>
+                                <p style="margin:3px; padding:3px;">{{ $sp3->purchaseOrder->PO_Name }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -302,7 +296,7 @@
                                 <p style="margin:3px; padding:3px;"><strong>PO No:</strong></p>
                             </td>
                             <td>
-                                <p style="margin:3px; padding:3px;">{{ $sp3->PO_Code }}</p>
+                                <p style="margin:3px; padding:3px;">{{ $sp3->purchaseOrder->PO_Code }}</p>
                             </td>
                         </tr>
                     </table>
@@ -491,6 +485,8 @@
                 <p>________________________</p>
             </div>
         </div>
+
+        <div class="page-break"></div>
 
 </body>
 

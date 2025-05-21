@@ -6,458 +6,451 @@
 <html lang="id">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Purchase Order</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Permintaan Proses Pembayaran</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            padding: 0.5% !important;
-            font-size: 13px;
-        }
-
-        .container {
+        .containers {
+            font-family: Helvetica, sans-serif;
+            margin: 20px;
+            font-size: 10px;
             margin: 0 !important;
             padding: 0 !important;
         }
 
-        .header {
+        .containers {
+            width: 92%;
+            margin: auto;
+            border: 1px solid black;
+        }
+
+        .container-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 0;
-            margin-top: 5px;
         }
 
-        .logo {
-            width: 15%;
+        .container-doc-info {
+            display: flex;
+            width: 27.5%;
+            padding: 1%;
+            font-size: 10px;
         }
 
-        .document-info {
-            text-align: right;
+        .docs-info {
+            display: flex;
+            justify-content: space-between;
             font-size: 9px;
         }
 
-        .title {
-            text-align: center;
+        .text-infos td {
+            padding-bottom: 5%;
+        }
+
+        .headers {
+            display: flex;
             font-weight: bold;
-            margin-top: 0;
-            margin-bottom: 5%;
-            font-size: 16px;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            width: 45%;
+            font-size: 13px;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
         }
 
-        .info {
+        .logo {
+            text-align: left;
+            border-left: 1px solid black;
+            width: 27.5%;
             display: flex;
-            justify-content: space-between;
-            padding-bottom: 2%;
+            justify-content: center;
         }
 
-        .inside {
+        .info-table {
+            width: 100%;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            border: none;
+        }
+
+        .info-table-content {
+            display: flex;
+        }
+
+        .info-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
 
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
+        .info-table td,
+        .payment-info-table td,
+        .payment-table td {
+            padding-top: 5px;
         }
 
-        .left {
-            padding: 0px;
-            text-align: left;
-        }
-
-        .right {
-            padding: 0px;
-            text-align: left;
-        }
-
-        th {
-            -webkit-print-color-adjust: exact;
-            color-adjust: exact;
-            background-color: rgb(54, 54, 54) !important;
-            color: white;
-        }
-
-        @media print {
-            th {
-                background-color: rgb(56, 56, 56);
-                color: white;
-            }
-        }
-
-        .total {
-            display: flexbox;
-            justify-items: flex-end;
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .subtotal {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 35%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .shipping-fee {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 38.9%;
-            padding-bottom: 0.1rem;
-        }
-
-        .final-total {
-            display: flex;
-            justify-content: space-between;
-            text-align: left;
-            width: 32.5%;
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-        }
-
-        .bank-info {
-            text-align: left;
-            margin-top: 30px;
-            font-size: 0.8rem;
-        }
-
-        .approval {
-            display: inline-block;
-            justify-content: space-between;
-            margin-top: 50px;
-            text-align: center;
-            width: 100%;
-        }
-
-        .approval p {
-            margin-bottom: 5px;
-        }
-
-        .approval small {
-            font-size: 14px;
-            color: gray;
-        }
-
-        .approval-title {
-            display: flex;
-            justify-content: space-around;
-            padding-bottom: 10%;
-        }
-
-        .approval-list {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .inside tr td {
-            border: 1px solid black;
-            border-spacing: 0px;
-            vertical-align: top;
-        }
-
-        .left tr td {
-            padding-top: 3px;
-            padding-bottom: 3px;
-            border-spacing: 0;
+        .payment-table {
+            width: 70%;
             border-collapse: collapse;
         }
 
-        .right tr td {
-            padding-top: 0px;
-            padding-bottom: 0px;
+        .payment-tyoe tr,
+        .payment-tyoe td {
+            margin: 0 !important;
+            padding: 0 !important;
             border-spacing: 0;
-            border-collapse: collapse;
         }
 
-        p {
-            margin-top: 1%;
-            margin-bottom: 1%;
+        .bold {
+            font-weight: bold;
         }
 
-        strong {
-            text-wrap: nowrap;
+        .bolds {
+            font-weight: bold;
+            width: 15px;
         }
 
-        .page-break {
-            page-break-before: always;
-            /* Memastikan konten setelah ini ada di halaman kedua */
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 42px;
         }
 
-        .signature-section {
+        .signature div {
             text-align: center;
-            margin-top: 50px;
-        }
-
-        .signature-box {
-            display: inline-block;
             width: 30%;
-            text-align: center;
-            vertical-align: top;
         }
 
-        .signature-box p {
-            margin-top: 40px;
-            /* Jarak untuk tanda tangan */
+        .payment-table-details {
+            width: 75%;
+            border-collapse: collapse;
+        }
+
+        .payment-table-details td {
+            padding-top: 5px;
+        }
+
+        .payment-table-details .bold {
+            font-weight: bold;
+        }
+
+        .payment-table-details td:first-child {
+            text-align: left;
+        }
+
+        .payment-table-details td:nth-child(2) {
+            text-align: left;
+            width: 75px;
+        }
+
+        .payment-table-details td:nth-child(2):before {
+            font-weight: normal;
+        }
+
+        .payment-table-details .underline {
+            border-bottom: 1px solid black;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            margin-left: 50px;
+            display: block;
+            width: 25%;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo">
-            <div class="document-info">
-                <table>
-                    <tr>
-                        <td class="doc-info">
-                            Nomor Dokumen:
-                        </td>
-                        <td class="doc-info">
-                            AMI-F-PROC-P-01/01
-                        </td>
+    <div class="containers">
+        <div class="container-header">
+            <div class="logo" style="vertical-align: middle;">
+                <img src="<?php echo $image; ?>" alt="Audemars Indonesia" width="130" height="75"
+                    style="vertical-align: middle;">
+            </div>
+            <div class="headers">SURAT PERMINTAAN PROSES PEMBAYARAN</div>
+            <div class="container-doc-info">
+                <table class="docs-info">
+                    <tr class="text-infos">
+                        <td>Nomor Dokumen :</td>
+                        <td>AMI-F-FIN-P-01/01</td>
                     </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Revisi:
-                        </td>
-                        <td class="doc-info">
-                            02
-                        </td>
+                    <tr class="text-infos">
+                        <td>Revisi :</td>
+                        <td>02</td>
                     </tr>
-                    <tr>
-                        <td class="doc-info">
-                            Tanggal Terbit:
-                        </td>
-                        <td class="doc-info">
-                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
-                        </td>
+                    <tr class="text-infos">
+                        <td>Tanggal Terbit :</td>
+                        <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
                     </tr>
                 </table>
             </div>
         </div>
-
-        <h2 class="title">PURCHASE ORDER</h2>
-
-        <!-- Detail Information -->
-        <div class="info">
-            <div class="left">
-                @if ($sp3->vendors)
-                    <table class="left-tables" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td>
-                                <strong>To:</strong>
-                            </td>
-                            <td>
-                                <p> {{ $sp3->vendors->CompanyName }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Address:</strong>
-                            </td>
-                            <td>
-                                @php
-                                    $addressWords = explode(' ', $sp3->vendors->Address);
-                                    $chunkedAddress = array_chunk($addressWords, 5);
-                                @endphp
-                                @foreach ($chunkedAddress as $line)
-                                    <p>{{ implode(' ', $line) }}</p>
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>NPWP:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->vendors->NPWP }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Telephone:</strong>
-                            </td>
-                            <td>
-                                <p>{{ $sp3->vendors->Phone }}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>Subject:</strong>
-                            </td>
-                            <td>
-                                <p>
-                                <p>{{ $sp3->purchaseOrder->PO_Name }}</p>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <strong>PO No:</strong>
-                            </td>
-                            <td>
-                                <p>
-                                <p>{{ $sp3->purchaseOrder->PO_Code }}</p>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                @else
-                @endif
-
-            </div>
-            <div class="right">
-                <table class="right-tables" border="0" cellspacing="0" cellpadding="0">
+        @if ($sp3)
+            <table class="info-table" style="padding: 10px 0;">
+                <tbody>
                     <tr>
-                        <td>
-                            <strong>Jenis Pembayaran:</strong>
-                        </td>
-                        <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">{{ $sp3->purchaseOrder->Payment_Mode }}</p>
-                        </td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td>
-                            <strong>Date:</strong>
-                        </td>
-                        <td>
-                            <p style="margin-top: 5%; margin-bottom: 5%;">
-                                {{ $sp3->created_at->format('d-m-Y') }}</p>
-                        </td>
+                        <td class="bold" width="100">SPPP No</td>
+                        <td> : {{ $sp3->SP3_Number }}</td>
                     </tr>
-                </table>
-            </div>
-        </div>
-
-        <!-- Table -->
-        @if ($sp3->purchaseOrder->purchaseOrderItems->count() > 0)
-            {{-- Check if there are any posts --}}
-            <table class="inside">
-                <thead>
                     <tr>
-                        <th>No</th>
-                        <th style="width:15%">Items</th>
-                        <th>Item Description</th>
-                        <th>Unit Price</th>
-                        <th>Qty</th>
-                        <th>Unit</th>
-                        <th>Tax</th>
-                        <th>Total</th>
+                        <td class="bold">Date</td>
+                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }} </td>
                     </tr>
-                </thead>
-                @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>{{ $item->Item_Name }}</td>
-                            <td>{{ $item->Item_Description }}</td>
-                            <td>{{ 'Rp' . number_format($item->Price, 0, ',', '.') }}</td>
-                            <td>{{ $item->Quantity }}</td>
-                            <td>{{ $item->Unit }}</td>
-                            <td>{{ $item->Tax }}</td>
-                            <td>{{ 'Rp' . number_format($item->Total, 0, ',', '.') }}</td>
-                        </tr>
-                    </tbody>
-                @endforeach
+                    <tr>
+                        <td class="bold">To</td>
+                        <td>:</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Fax</td>
+                        <td>:</td>
+                        <td class="bold" width="100">Pemakaian</td>
+                        <td>: </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Dari</td>
+                        <td>:</td>
+                        <td class="bold">Lokasi</td>
+                        <td>: Cibitung</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
         @else
         @endif
 
+        @if ($sp3)
+            <table class="payment-tyoe">
+                <tr>
+                    <td class="bold" style="width: 55%">Jenis Pembayaran</td>
+                    <td> &nbsp; &nbsp; : {{ $sp3->Jenis_Pembayaran }}</td>
+                </tr>
+            </table>
 
+            <br>
 
-        <!-- Total -->
-        <div class="total">
-            <div class="subtotal">
-                <p>Subtotal</p>
+            <div>
+                <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 20px; ">1.</td>
+                        <td style="width: 120px; "><strong>Nama Supplier</strong></td>
+                        <td style="width: 10px; text-align: center;">:</td>
+                        <td style="">{{ $sp3->Nama_Supplier }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">2.</td>
+                        <td style="padding-top: 5px;"><strong>No. Invoice</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_Invoice }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">3.</td>
+                        <td style="padding-top: 5px;"><strong>No. Kwitansi</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_Kwitansi }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">4.</td>
+                        <td style="padding-top: 5px;"><strong>No. Purchase Order</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->purchaseOrder->PR_Code }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">5.</td>
+                        <td style="padding-top: 5px;"><strong>No. Delivery Order</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_DO }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">6.</td>
+                        <td style="padding-top: 5px;"><strong>No. Faktur Pajak</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_FP }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">7.</td>
+                        <td style="padding-top: 5px;"><strong>Quotation</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">1013</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        @else
+        @endif
+
+        @if ($sp3)
+
+            <table style="padding: 15px 25px 0px 0px;">
+                <tr>
+                    <td class="bold" style="vertical-align: top; white-space: nowrap; padding: 0px 37px 0px 0px;">
+                        Untuk Pembayaran</td>
+                    <td>&nbsp; &nbsp; &nbsp; : &nbsp; {{ $sp3->Untuk_Pembayaran }}. Pembelian Item:
+                        <table style="padding: 0px 25px 0px 0px;">
+                            @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
+                                <tr>
+                                    <td style="padding-left:25px;">
+                                        -{{ $item->Item_Name }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td style="padding-left:25px;">
+                                    *invoice/nota/kwitansi asli dilampirkan setelah payment
+                                    <br>
+                                    <strong><i>MR-310</i></strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="payment-table-details">
+                <tr>
+                    <td class="bolds" style="width: 30%;">Amount</td>
+                    <td style="width: 12%;">Rp </td>
+                    <td style="width: 50%;">{{ number_format($sp3->Amount, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td class="bolds">PPN 11%</td>
+                    <td>Rp </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bolds">PPH 23 (2%)</td>
+                    <td>Rp </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="bolds">Discount</td>
+                    <td>Rp </td>
+                    <td class="underline" style="margin-left: -26px; width: 75px;">{{ $sp3->Discount }}</td>
+                </tr>
+                <tr>
+                    <td class=" bolds">Jumlah Total</td>
+                    <td>Rp </td>
+                    <td>{{ number_format($sp3->Jumlah, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td class="bolds">Jumlah yg harus di transfer</td>
+                    <td>Rp </td>
+                    <td>{{ number_format($sp3->Jumlah, 0, ',', '.') }}</td>
+                </tr>
+            </table>
+            <br><br>
+            <table class="payment-table-details">
+                <tr>
+                    <td class="bold" style="width: 27%;">Terbilang</td>
+                    <td style="width: 2%;">:</td>
+                    <td style="text-decoration: underline;">{{ $sp3->Terbilang }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Rekening Bank</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Rekening_Bank }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">Acc No.</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Nomor_Rekening }}</td>
+                </tr>
+                <tr>
+                    <td class="bold">A/N</td>
+                    <td>:</td>
+                    <td>{{ $sp3->Atas_Nama }}</td>
+                </tr>
+            </table>
+        @else
+        @endif
+
+        <div class="signature">
+            <div>
+                <p class="bold" style="padding-bottom: 25%;">
+                    Dibuat Oleh
+                </p>
                 <p>
-                    {{ 'Rp' . number_format($sp3->purchaseOrder->Sub_Total, 0, ',', '.') }}
+                    <b>Irvan Sandoval</b>
                 </p>
             </div>
-            <div class="shipping-fee">
-                <p>Shipping Fee</p>
-                <p>
-                    {{ 'Rp' . number_format($sp3->purchaseOrder->Shipping_Fee, 0, ',', '.') }}
+            <div>
+                <p class="bold" style="padding-bottom: 25%;">
+                    Diperiksa Oleh
+                </p>
+                <p style="padding-bottom: 12%;">
+                    <b>Irwandi</b>
                 </p>
             </div>
-            <div class="final-total">
-                <p>Total</p>
-                <p>
-                    {{ 'Rp' . number_format($sp3->purchaseOrder->Grand_Total, 0, ',', '.') }}
+            <div>
+                <p class="bold" style="padding-bottom: 25%;">
+                    Diketahui Oleh
+                </p>
+                <p style="padding-bottom: 12%;">
+                    <b>Bong Tedy</b>
                 </p>
             </div>
         </div>
     </div>
-
-
-
-    <!-- Page Break untuk Halaman Kedua -->
-    <div class="page-break"></div>
-
-    <!-- Halaman Kedua -->
-    <div>
-        <p><strong>Terbilang:</strong> {{ $sp3->Terbilang }}</p>
-        <br>
-        <p><strong><u>Vendor Bank Details</u></strong></p>
-        <p><strong>Bank:</strong> Mandiri</p>
-        <p><strong>Account No:</strong> 1030006931402</p>
-        <p><strong>Name:</strong> MOCHAMAD IRVAN SANDO</p>
-        <br>
-        <p><strong><u>NPWP Information of PT Audemars Indonesia</u></strong></p>
-        <p><strong>NPWP:</strong> 03.262.362.1-047.000</p>
-        <p><strong>Delivery Address:</strong> Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa
-            Barat, 17530</p>
-        <p><strong>Phone Number:</strong> 021-7195519</p>
-        <p><strong>Payment Terms:</strong> {{ $sp3->Payment_Terms }} </p>
-        <p><strong>Delivery Times: </strong> {{ $sp3->Delivery_Time }} </p>
-        <p><strong>Inspection Note: </strong> {{ $sp3->Inspection_Notes }} </p>
-        <p><strong>Vendor Note:</strong> Pembayaran ke vendor menggunakan Virtual Account dengan batas waktu, sehingga
-            dana ditransfer ke rekening di atas dan dibayarkan melalui Virtual Account milik atas nama rekening
-            tersebut.</p>
-    </div>
-
-    <!-- Signature Section -->
-    <div class="signature-section">
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irvan Sandoval</p>
-            </b>
-            <p style="margin: 0!important">Purchasing</p>
-        </div>
-        <div class="signature-box">
-            <strong>
-                <p>PT Audemars Indonesia</p>
-            </strong>
-            <br>
-            <br>
-            <b>
-                <p style="margin-bottom: 1rem!important">Irwandi</p>
-            </b>
-            <p style="margin: 0!important">Direktur</p>
-        </div>
-        <div class="signature-box">
-            <b>
-                <p>{{ $sp3->vendors->CompanyName }}</p>
-            </b>
-            <br>
-            <br>
-            <p>________________________</p>
-        </div>
-    </div>
-
 </body>
 
 </html>

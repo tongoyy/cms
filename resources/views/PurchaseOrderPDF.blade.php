@@ -352,25 +352,27 @@
             <table class="inside">
                 <thead>
                     <tr>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width: 5%">NO</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">ITEMS</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:30%">DESCRIPTION</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">UNIT PRICE</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width: 5%;">NO</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%;">ITEMS</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:30%;">DESCRIPTION</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:18%;">UNIT PRICE</th>
                         <th style="font-size:14px; padding:2px; font-weight:100; width:5%">QTY</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:10%">UNIT</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">TOTAL</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:8%">UNIT</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%; text-align:end">TOTAL</th>
                     </tr>
                 </thead>
                 @foreach ($data->purchaseOrderItems as $poItems)
                     <tbody>
                         <tr>
-                            <td style="padding:2px;">{{ $loop->iteration }}</td>
+                            <td style="padding:2px; text-align:center;">{{ $loop->iteration }}</td>
                             <td style="padding:2px;">{{ $poItems->Item_Name }}</td>
                             <td style="padding:2px;">{{ $poItems->Item_Description }}</td>
-                            <td style="padding:2px;">{{ $poItems->Price }}</td>
-                            <td style="padding:2px;">{{ $poItems->Quantity }}</td>
+                            <td style="padding:2px; text-align:end;">
+                                {{ 'Rp' . number_format($poItems->Price, 0, ',', '.') }}</td>
+                            <td style="padding:2px; text-align:center;">{{ $poItems->Quantity }}</td>
                             <td style="padding:2px;">{{ $poItems->Unit }}</td>
-                            <td style="padding:2px;">{{ $poItems->Total }}</td>
+                            <td style="padding:2px; text-align:end;">
+                                {{ 'Rp' . number_format($poItems->Total, 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 @endforeach
@@ -396,55 +398,55 @@
 
         <div class="row" style="margin-top: 40px">
             <div class="label"><strong>Terbilang:</strong></div>
-            <div class="value">TUJUH JUTA TUJUH RATUS DELAPAN PULUH RIBU RUPIAH</div>
+            <div class="value">{{ strtoupper($data->Terbilang) }}</div>
         </div>
 
         <div class="section-header">Vendor Bank Details</div>
 
         <div class="row">
-            <div class="label">Bank:</div>
-            <div class="value">Mandiri</div>
+            <div class="label"><strong>Bank:</strong></div>
+            <div class="value">{{ $data->vendors->RekeningBank }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Account No:</div>
-            <div class="value">1260006101603</div>
+            <div class="label"><strong>Account No:</strong></div>
+            <div class="value">{{ $data->vendors->NomorRekening }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Name:</div>
-            <div class="value">KUI LIAN</div>
+            <div class="label"><strong>Name:</strong></div>
+            <div class="value">{{ $data->vendors->AtasNama }}</div>
         </div>
 
         <div class="section-header">NPWP Information of PT Audemars Indonesia</div>
 
         <div class="row">
-            <div class="label">NPWP:</div>
-            <div class="value">03.262.362.1-047.000</div>
+            <div class="label"><strong>NPWP:</strong></div>
+            <div class="value">{{ $data->vendors->NPWP }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Address:</div>
-            <div class="value">Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa Barat, 17530</div>
+            <div class="label"><strong>Delivery Address:</strong></div>
+            <div class="value">{{ $data->vendors->Address }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Phone Number:</div>
-            <div class="value">021-7195519</div>
+            <div class="label"><strong>Phone Number:</strong></div>
+            <div class="value">{{ $data->vendors->Phone }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Payment Terms:</div>
-            <div class="value">Barang diproses setelah dana masuk</div>
+            <div class="label"><strong>Payment Terms:</strong></div>
+            <div class="value">{{ $data->vendors->Payment_Terms }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Time:</div>
-            <div class="value"></div>
+            <div class="label"><strong>Delivery Time:</strong></div>
+            <div class="value">{{ $data->vendors->Delivery_Time }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Point:</div>
+            <div class="label"><strong>Delivery Point:</strong></div>
             <div class="value"></div>
         </div>
 

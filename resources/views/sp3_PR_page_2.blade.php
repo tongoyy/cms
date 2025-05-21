@@ -1,5 +1,5 @@
 @php
-    $image = public_path() . '/images/logo.jpg';
+    $image = public_path() . '/images/logo.png';
 @endphp
 
 <!DOCTYPE html>
@@ -10,13 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Permintaan Proses Pembayaran</title>
     <style>
-        .containers {
-            font-family: Arial, sans-serif;
+        .container {
+            font-family: Helvetica, sans-serif;
             margin: 20px;
-            font-size: 12px;
+            font-size: 10px;
         }
 
-        .containers {
+        .container {
             width: 92%;
             margin: auto;
             border: 1px solid black;
@@ -25,12 +25,10 @@
         .container-header {
             display: flex;
             justify-content: space-between;
-            border: 1px solid black;
         }
 
         .container-doc-info {
             display: flex;
-            border: 1px solid black;
             width: 27.5%;
             padding: 1%;
             font-size: 10px;
@@ -54,12 +52,13 @@
             align-items: center;
             width: 45%;
             font-size: 13px;
-            border: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
         }
 
         .logo {
             text-align: left;
-            border: 1px solid black;
+            border-left: 1px solid black;
             width: 27.5%;
             display: flex;
             justify-content: center;
@@ -67,7 +66,8 @@
 
         .info-table {
             width: 100%;
-            border: 1px solid black;
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
             border-collapse: collapse;
         }
 
@@ -87,7 +87,7 @@
         .info-table td,
         .payment-info-table td,
         .payment-table td {
-            padding: 5px;
+            padding-top: 5px;
         }
 
         .payment-table {
@@ -123,12 +123,12 @@
         }
 
         .payment-table-details {
-            width: 100%;
+            width: 75%;
             border-collapse: collapse;
         }
 
         .payment-table-details td {
-            padding: 5px;
+            padding-top: 5px;
         }
 
         .payment-table-details .bold {
@@ -160,7 +160,7 @@
 </head>
 
 <body>
-    <div class="containers">
+    <div class="container">
         <div class="container-header">
             <div class="logo" style="vertical-align: middle;">
                 <img src="<?php echo $image; ?>" alt="Audemars Indonesia" width="130" height="75"
@@ -196,7 +196,7 @@
                     </tr>
                     <tr>
                         <td class="bold">Date</td>
-                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                        <td>: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }} </td>
                     </tr>
                     <tr>
                         <td class="bold">To</td>
@@ -225,53 +225,142 @@
         @if ($sp3)
             <table class="payment-tyoe">
                 <tr>
-                    <td class="bold"><strong>Jenis Pembayaran</strong></td>
-                    <td> : {{ $sp3->Jenis_Pembayaran }}</td>
+                    <td class="bold" style="width: 55%">Jenis Pembayaran</td>
+                    <td> &nbsp; &nbsp; : {{ $sp3->Jenis_Pembayaran }}</td>
                 </tr>
             </table>
-            <br>
-            <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
 
-            <div style="display: flex;">
-                <table class="payment-info-table" style="white-space: nowrap;">
+            <br>
+
+            <div>
+                <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
+                <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td class="bold">1. Nama Supplier</td>
-                        <td style="padding-right: 5rem;">: &nbsp; {{ $sp3->Nama_Supplier }}</td>
+                        <td style="width: 20px; ">1.</td>
+                        <td style="width: 120px; "><strong>Nama Supplier</strong></td>
+                        <td style="width: 10px; text-align: center;">:</td>
+                        <td style="">{{ $sp3->Nama_Supplier }}</td>
                     </tr>
                     <tr>
-                        <td class="bold">2. No. Invoice</td>
-                        <td>: &nbsp; {{ $sp3->No_Invoice }}</td>
+                        <td style="padding-top: 5px;">2.</td>
+                        <td style="padding-top: 5px;"><strong>No. Invoice</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_Invoice }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="bold">3. No. Kwitansi</td>
-                        <td>: &nbsp; {{ $sp3->No_Kwitansi }} </td>
+                        <td style="padding-top: 5px;">3.</td>
+                        <td style="padding-top: 5px;"><strong>No. Kwitansi</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_Kwitansi }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="bold">4. No. Purchase Order</td>
-                        <td>: &nbsp; {{ $sp3->purchaseRequest->PR_Code }}</td>
+                        <td style="padding-top: 5px;">4.</td>
+                        <td style="padding-top: 5px;"><strong>No. Purchase Order</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->purchaseRequest->PR_Code }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="bold">5. No. Delivery Order</td>
-                        <td>: &nbsp; {{ $sp3->No_DO }} </td>
+                        <td style="padding-top: 5px;">5.</td>
+                        <td style="padding-top: 5px;"><strong>No. Delivery Order</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_DO }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="bold">6. No. Faktur Pajak</td>
-                        <td>: &nbsp; {{ $sp3->No_FP }}</td>
+                        <td style="padding-top: 5px;">6.</td>
+                        <td style="padding-top: 5px;"><strong>No. Faktur Pajak</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_FP }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="bold">7. Masa SSP</td>
-                        <td>: &nbsp; {{ $sp3->Tanggal_FP }}</td>
+                        <td style="padding-top: 5px;">7.</td>
+                        <td style="padding-top: 5px;"><strong>Quotation</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">1013</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
+
             </div>
         @else
         @endif
 
         @if ($sp3)
-            <table style="padding: 0px 25px 0px 0px;">
+
+            <table style="padding: 15px 25px 0px 0px;">
                 <tr>
-                    <td class="bold" style="white-space: nowrap; padding: 0px 25px 0px 0px;">Untuk Pembayaran</td>
-                    <td> : &nbsp; {{ $sp3->Untuk_Pembayaran }} </td>
+                    <td class="bold" style="vertical-align: top; white-space: nowrap; padding: 0px 37px 0px 0px;">
+                        Untuk Pembayaran</td>
+                    <td>&nbsp; &nbsp; &nbsp; : &nbsp; {{ $sp3->Untuk_Pembayaran }}. Pembelian Item:
+                        <table style="padding: 0px 25px 0px 0px;">
+                            @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
+                                <tr>
+                                    <td style="padding-left:25px;">
+                                        -{{ $item->Item_Name }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr>
+                                <td style="padding-left:25px;">
+                                    *invoice/nota/kwitansi asli dilampirkan setelah payment
+                                    <br>
+                                    <strong>MR-310</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
             </table>
 
@@ -294,7 +383,7 @@
                 <tr>
                     <td class="bolds">Discount</td>
                     <td>Rp </td>
-                    <td class="underline" style="margin-left: -26px; width: 75px;"> </td>
+                    <td class="underline" style="margin-left: -26px; width: 75px;">{{ $sp3->Discount }}</td>
                 </tr>
                 <tr>
                     <td class=" bolds">Jumlah Total</td>
@@ -310,7 +399,7 @@
             <br><br>
             <table class="payment-table-details">
                 <tr>
-                    <td class="bold" style="width: 25%;">Terbilang</td>
+                    <td class="bold" style="width: 27%;">Terbilang</td>
                     <td style="width: 2%;">:</td>
                     <td style="text-decoration: underline;">{{ $sp3->Terbilang }}</td>
                 </tr>
@@ -338,19 +427,25 @@
                 <p class="bold" style="padding-bottom: 25%;">
                     Dibuat Oleh
                 </p>
-                <b>Irvan Sandoval</b>
+                <p>
+                    <b>Irvan Sandoval</b>
+                </p>
             </div>
             <div>
                 <p class="bold" style="padding-bottom: 25%;">
                     Diperiksa Oleh
                 </p>
-                <b>Irwandi</b>
+                <p style="padding-bottom: 12%;">
+                    <b>Irwandi</b>
+                </p>
             </div>
             <div>
                 <p class="bold" style="padding-bottom: 25%;">
                     Diketahui Oleh
                 </p>
-                <b>Bong Tedy</b>
+                <p style="padding-bottom: 12%;">
+                    <b>Bong Tedy</b>
+                </p>
             </div>
         </div>
     </div>

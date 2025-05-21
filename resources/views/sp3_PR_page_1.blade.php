@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPPP Purchase Request</title>
+    <title>SPPP_PR</title>
 
     <style>
         body {
@@ -15,14 +15,14 @@
             font-size: 8px;
             margin: 0;
             padding: 0;
-            padding-top: 10%;
+            padding-top: 2%;
         }
 
         .containers {
             padding-top: 5%;
-            padding-left: 2%;
-            padding-right: 2%;
-            padding-bottom: 2%;
+            padding-left: 5%;
+            padding-right: 5%;
+            padding-bottom: 5%;
         }
 
         .headers {
@@ -37,6 +37,7 @@
         }
 
         .title-section {
+            font-size: 12px;
             width: 60%;
             display: flex;
             align-items: center;
@@ -46,7 +47,7 @@
 
         .doc-info-section {
             width: 34%;
-            font-size: 8px;
+            font-size: 9px;
             border-left: 1px solid #000;
         }
 
@@ -63,7 +64,6 @@
             width: 50%;
             padding: 5px;
             border-right: 1px solid #000;
-            font-weight: bold;
         }
 
         .doc-info-value {
@@ -84,14 +84,19 @@
             align-items: center;
             padding-left: 15px;
             padding-right: 15px;
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
 
         .content-info {
             display: flex;
             padding: 0 !important;
             margin: 0 !important;
+        }
+
+        .box {
+            padding: 0.5px;
+            border: 1px solid black;
         }
 
         /* TABLE */
@@ -136,7 +141,7 @@
 
         .signature-section {
             display: flex;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .signature-box {
@@ -144,7 +149,7 @@
             border: 1px solid #000;
             height: 70px;
             text-align: center;
-            padding-top: 10px;
+            padding-top: 0px;
         }
 
         .page-break {
@@ -157,33 +162,36 @@
 <body>
     <div class="containers">
 
-        <div class="headers">
-            <div class="logo-section">
-                <center>
-                    <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo"
-                        style="max-width: 95%; min-width:90%; border:none;">
-                </center>
-            </div>
-            <div class="title-section">
-                MATERIAL REQUEST (MR)
-            </div>
-            <div class="doc-info-section">
-                <div class="doc-info-row">
-                    <div class="doc-info-label">NOMOR DOKUMEN</div>
-                    <div class="doc-info-value">AMI-F-PROC-P-01/01</div>
+        <div class="box" style="padding: 1px;">
+            <div class="headers">
+                <div class="logo-section">
+                    <center>
+                        <img src="<?php echo $image; ?>" alt="Audemars Indonesia Logo" class="logo"
+                            style="width: 150px; height: 42px; border: none;">
+                    </center>
                 </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">REVISI</div>
-                    <div class="doc-info-value">00</div>
+                <div class="title-section">
+                    MATERIAL REQUEST (MR)
                 </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">TANGGAL TERBIT</div>
-                    <div class="doc-info-value">{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
+                <div class="doc-info-section">
+                    <div class="doc-info-row">
+                        <div class="doc-info-label" style="padding: 0;">Nomor Dokumen</div>
+                        <div class="doc-info-value" style="padding: 0;">AMI-F-PROC-P-01/01</div>
                     </div>
-                </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">HALAMAN</div>
-                    <div class="doc-info-value">1/1</div>
+                    <div class="doc-info-row">
+                        <div class="doc-info-label" style="padding: 0;">Revisi</div>
+                        <div class="doc-info-value" style="padding: 0;">00</div>
+                    </div>
+                    <div class="doc-info-row">
+                        <div class="doc-info-label" style="padding: 0;">Tanggal Terbit</div>
+                        <div class="doc-info-value" style="padding: 0;">
+                            {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
+                        </div>
+                    </div>
+                    <div class="doc-info-row">
+                        <div class="doc-info-label" style="padding: 0;">Halaman</div>
+                        <div class="doc-info-value" style="padding: 0;">1/1</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -254,7 +262,7 @@
                                 <p style="margin: 0px 0px;"><b>Requested By</b></p>
                             </td>
                             <td>
-                                <p style="margin: 0px 0px;">: {{ $sp3->purchaseRequest->RequestedBy }}</p>
+                                <p style="margin: 0px 0px;">: {{ $sp3->RequestedBy }}</p>
                             </td>
                         </tr>
                     </table>
@@ -264,74 +272,75 @@
         @else
         @endif
 
-        <center>
-            @if ($sp3->purchaseRequest->purchaseRequestItems->isNotEmpty())
-                <table class="tg">
-                    <thead>
-                        <tr>
-                            <th class="tg-0pky" rowspan="2" style="width: 3%">NO</th>
-                            <th class="tg-0pky" rowspan="2" style="width: 12%">PART NUMBER/SIZE</th>
-                            <th class="tg-0pky" rowspan="2" style="width: 38%" style="">ITEMS DESCRIPTION</th>
-                            <th class="tg-0pky" rowspan="2" style="width: 3%">QTY</th>
-                            <th class="tg-0pky" rowspan="2" style="width: 3%">UNIT</th>
-                            <th class="tg-0pky" rowspan="2" style="width: 3%">ON <br> HAND</th>
-                            <th class="tg-0pky" colspan="3" style="width: 20%">LAST RECEIVED</th>
-                            <th class="tg-0lax" rowspan="2" style="width: 25%;">REMARKS</th>
-                        </tr>
-                        <tr>
-                            <th class="tg-0pky">DATE</th>
-                            <th class="tg-0pky">QTY</th>
-                            <th class="tg-0lax">UNIT</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align: center;">
-                        @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
+        <div class="box" style="padding: 1px;">
+            <center>
+                @if ($sp3->purchaseRequest->purchaseRequestItems->isNotEmpty())
+                    <table class="tg">
+                        <thead>
                             <tr>
-                                <td class="tg-0pky">{{ $loop->iteration }}</td>
-                                <td class="tg-0pky"></td>
-                                <td class="tg-0pky" style="text-align: left;">{{ $item->Item_Name }}</td>
-                                <td class="tg-0pky">{{ $item->Quantity }}</td>
-                                <td class="tg-0pky">{{ $item->Unit }}</td>
-                                <td class="tg-0pky"></td>
-                                <td class="tg-0pky"></td>
-                                <td class="tg-0pky"></td>
-                                <td class="tg-0lax"></td>
-                                {{-- @if ($loop->first)
-                                    <td class="tg-0lax" rowspan="{{ $sp3->purchaseRequestItems->count() }}">
-                                        {{ $sp3->purchaseRequest->Item_Description }}
+                                <th class="tg-0pky" rowspan="2" style="width: 3%">NO</th>
+                                <th class="tg-0pky" rowspan="2" style="width: 12%">PART NUMBER/SIZE</th>
+                                <th class="tg-0pky" rowspan="2" style="width: 38%" style="">ITEMS DESCRIPTION
+                                </th>
+                                <th class="tg-0pky" rowspan="2" style="width: 3%">QTY</th>
+                                <th class="tg-0pky" rowspan="2" style="width: 3%">UNIT</th>
+                                <th class="tg-0pky" rowspan="2" style="width: 3%">ON <br> HAND</th>
+                                <th class="tg-0pky" colspan="3" style="width: 20%">LAST RECEIVED</th>
+                                <th class="tg-0lax" rowspan="2" style="width: 25%;">REMARKS</th>
+                            </tr>
+                            <tr>
+                                <th class="tg-0pky">DATE</th>
+                                <th class="tg-0pky">QTY</th>
+                                <th class="tg-0lax">UNIT</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                            @foreach ($sp3->purchaseRequest->purchaseRequestItems as $item)
+                                <tr>
+                                    <td class="tg-0pky">{{ $loop->iteration }}</td>
+                                    <td class="tg-0pky"></td>
+                                    <td class="tg-0pky" style="text-align: left;">{{ $item->Item_Name }}</td>
+                                    <td class="tg-0pky">{{ $item->Quantity }}</td>
+                                    <td class="tg-0pky">{{ $item->Unit }}</td>
+                                    <td class="tg-0pky"></td>
+                                    <td class="tg-0pky"></td>
+                                    <td class="tg-0pky"></td>
+                                    <td class="tg-0lax"></td>
+                                    {{-- @if ($loop->first)
+                                    <td class="tg-0lax" rowspan="{{ $sp3->purchaseRequest->purchaseRequestItems->count() }}">
+                                        {{ $sp3->Item_Description }}
                                     </td>
                                 @endif --}}
-                                <td class="tg-0lax">
-                                    {{ $item->Item_Description }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-            @endif
-        </center>
+                                    <td class="tg-0lax">
+                                        {{ $item->Item_Description }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                @endif
+            </center>
 
-        <div class="signature-section">
-            <div class="signature-box">
-                Prepare By
-                <p style="padding-top: 22%">Irvan Sandoval</p>
-            </div>
-            <div class="signature-box">
-                Check By
-            </div>
-            <div class="signature-box">
-                Aprroved By
-                <p style="padding-top: 22%">Irwandi</p>
-            </div>
-            <div class="signature-box">
-                Receive By
+            <div class="signature-section">
+                <div class="signature-box">
+                    Prepare By
+                    <p style="padding-top: 25%;">Irvan Sandoval</p>
+                </div>
+                <div class="signature-box">
+                    Check By
+                </div>
+                <div class="signature-box">
+                    Aprroved By
+                    <p style="padding-top: 25%;">Irwandi</p>
+                </div>
+                <div class="signature-box">
+                    Receive By
+                </div>
             </div>
         </div>
 
-    </div>
-
-    <div class="page-break">
+        <div class="page-break"></div>
 
     </div>
 </body>
