@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.4",
         "ariaieboy/filament-currency": "^1.13",
+        "asmit/resized-column": "^1.0",
         "awcodes/light-switch": "^1.0",
         "barryvdh/laravel-dompdf": "^3.0",
         "codewithdennis/filament-simple-map": "^3.0",

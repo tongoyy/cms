@@ -32,9 +32,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\Attributes\Reactive;
 use PhpParser\Node\Stmt\Label;
+use Asmit\ResizedColumn\HasResizableColumn;
+
 
 class PurchaseOrderResource extends Resource
 {
+
     protected static ?string $model = PurchaseOrder::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';

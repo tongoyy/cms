@@ -24,6 +24,13 @@
       0 => 'Ariaieboy\\FilamentCurrency\\FilamentCurrencyServiceProvider',
     ),
   ),
+  'asmit/resized-column' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Asmit\\ResizedColumn\\ResizedColumnServiceProvider',
+    ),
+  ),
   'awcodes/light-switch' => 
   array (
     'providers' => 

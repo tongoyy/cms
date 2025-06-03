@@ -32,6 +32,7 @@ use Orion\FilamentGreeter\GreeterPlugin;
 use Orion\FilamentFeedback\FeedbackPlugin;
 use Orion\FilamentSettings\SettingsPlugin;
 use Orion\FilamentSupport\FilamentSupportPlugin;
+use Asmit\ResizedColumn\ResizedColumnPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -43,13 +44,16 @@ class AdminPanelProvider extends PanelProvider
             /* Lightswitch */
             ->plugins([
                 LightSwitchPlugin::make(),
+                ResizedColumnPlugin::make()->preserveOnDB(),
             ])
+            // Enable database storage (optional)
+
 
             /* Icon Replacement */
             // ->plugin(\Filafly\PhosphorIconReplacement::make())
 
             /* Dash UI */
-            ->plugin(DashStackThemePlugin::make())
+            // ->plugin(DashStackThemePlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
