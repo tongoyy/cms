@@ -76,7 +76,7 @@ class SP3_PdfController extends Controller
                 ->dismissDialogs()
                 ->waitUntilNetworkIdle()
                 ->format('A4')
-                ->margins(10, 10, 10, 10)
+                ->margins(10, 0, 0, 0)
                 ->savePdf($pdfPath);
 
             $renderTime = microtime(true) - $start;

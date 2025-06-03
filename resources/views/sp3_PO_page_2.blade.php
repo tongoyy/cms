@@ -17,7 +17,7 @@
         }
 
         .containers {
-            width: fit-content%;
+            width: 100%;
             margin: auto;
             border: 1px solid black;
         }
@@ -236,16 +236,16 @@
                 <p>Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
                 <table style="width: 100%; border-collapse: collapse;">
                     <tr>
-                        <td style="width: 20px;">1.</td>
-                        <td style="width: 120px;"><strong>Nama Supplier</strong></td>
+                        <td style="width: 20px; ">1.</td>
+                        <td style="width: 120px; "><strong>Nama Supplier</strong></td>
                         <td style="width: 10px; text-align: center;">:</td>
                         <td style="">{{ $sp3->Nama_Supplier }}</td>
                     </tr>
                     <tr>
-                        <td>2.</td>
-                        <td><strong>No. Invoice</strong></td>
+                        <td style="padding-top: 5px;">2.</td>
+                        <td style="padding-top: 5px;"><strong>No. Invoice</strong></td>
                         <td style="text-align: center;">:</td>
-                        <td>
+                        <td style="padding-top: 5px;">
                             <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
                                     <td style="width: 60%;">{{ $sp3->No_Invoice }}</td>
@@ -257,10 +257,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>3.</td>
-                        <td><strong>No. Kwitansi</strong></td>
+                        <td style="padding-top: 5px;">3.</td>
+                        <td style="padding-top: 5px;"><strong>No. Kwitansi</strong></td>
                         <td style="text-align: center;">:</td>
-                        <td>
+                        <td style="padding-top: 5px;">
                             <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
                                     <td style="width: 60%;">{{ $sp3->No_Kwitansi }}</td>
@@ -272,63 +272,66 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>4.</td>
-                        <td><strong>No. Purchase Order</strong></td>
+                        <td style="padding-top: 5px;">4.</td>
+                        <td style="padding-top: 5px;"><strong>No. Purchase Order</strong></td>
                         <td style="text-align: center;">:</td>
-                        <td>
+                        <td style="padding-top: 5px;">
                             <table style="width: 100%; border-collapse: collapse;">
                                 <tr>
-                                    <td style="width: 60%;">{{ $sp3->purchaseOrder->PR_Code }}</td>
+                                    <td style="width: 60%;">{{ $sp3->purchaseOrder->PO_Code }}</td>
                                     <td style="width: 40px;">Tgl</td>
                                     <td style="width: 10px; text-align: center;">:</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 5px;">5.</td>
-                                    <td style="padding-top: 5px;"><strong>No. Delivery Order</strong></td>
-                                    <td style="text-align: center;">:</td>
-                                    <td style="padding-top: 5px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <td style="width: 60%;">{{ $sp3->No_DO }}</td>
-                                                <td style="width: 40px;">Tgl</td>
-                                                <td style="width: 10px; text-align: center;">:</td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 5px;">6.</td>
-                                    <td style="padding-top: 5px;"><strong>No. Faktur Pajak</strong></td>
-                                    <td style="text-align: center;">:</td>
-                                    <td style="padding-top: 5px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <td style="width: 60%;">{{ $sp3->No_FP }}</td>
-                                                <td style="width: 40px;">Tgl</td>
-                                                <td style="width: 10px; text-align: center;">:</td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="padding-top: 5px;">7.</td>
-                                    <td style="padding-top: 5px;"><strong>Quotation</strong></td>
-                                    <td style="text-align: center;">:</td>
-                                    <td style="padding-top: 5px;">
-                                        <table style="width: 100%; border-collapse: collapse;">
-                                            <tr>
-                                                <td style="width: 60%;">1013</td>
-                                                <td style="width: 40px;">Tgl</td>
-                                                <td style="width: 10px; text-align: center;">:</td>
-                                                <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
                                 </tr>
                             </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">5.</td>
+                        <td style="padding-top: 5px;"><strong>No. Delivery Order</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_DO }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">6.</td>
+                        <td style="padding-top: 5px;"><strong>No. Faktur Pajak</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">{{ $sp3->No_FP }}</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 5px;">7.</td>
+                        <td style="padding-top: 5px;"><strong>Quotation</strong></td>
+                        <td style="text-align: center;">:</td>
+                        <td style="padding-top: 5px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%;">1013</td>
+                                    <td style="width: 40px;">Tgl</td>
+                                    <td style="width: 10px; text-align: center;">:</td>
+                                    <td>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('j F Y') }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
 
             </div>
         @else

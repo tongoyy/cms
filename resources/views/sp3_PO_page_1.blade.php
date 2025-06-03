@@ -18,7 +18,6 @@
         }
 
         .container {
-            padding-top: 5%;
             padding-bottom: 5%;
             padding-left: 3%;
             padding-right: 3%;
@@ -35,8 +34,11 @@
         }
 
         .document-info {
-            text-align: right;
             font-size: 9px;
+        }
+
+        .doc-info {
+            padding-bottom: 15px;
         }
 
         .title {
@@ -348,13 +350,16 @@
             <table class="inside">
                 <thead>
                     <tr>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width: 5%">NO</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">ITEMS</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:30%">DESCRIPTION</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">UNIT PRICE</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:5%">QTY</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:10%">UNIT</th>
-                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%">TOTAL</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width: 5%; text-align:left;">NO</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%; text-align:left;">ITEMS</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:30%; text-align:left;">
+                            DESCRIPTION</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%; text-align:left;">UNIT PRICE
+                        </th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:5%; text-align:center;">QTY</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:10%; text-align:left;">UNIT</th>
+                        <th style="font-size:14px; padding:2px; font-weight:100; width:20%; text-align:right;">TOTAL
+                        </th>
                     </tr>
                 </thead>
                 @foreach ($sp3->purchaseOrderItems as $poItems)
@@ -392,60 +397,65 @@
 
         <div class="row" style="margin-top: 40px">
             <div class="label"><strong>Terbilang:</strong></div>
-            <div class="value">TUJUH JUTA TUJUH RATUS DELAPAN PULUH RIBU RUPIAH</div>
+            <div class="value">{{ strtoupper($sp3->Terbilang) }}</div>
         </div>
 
         <div class="section-header">Vendor Bank Details</div>
 
         <div class="row">
             <div class="label">Bank:</div>
-            <div class="value">Mandiri</div>
+            <div class="value">{{ $sp3->vendors->Rekening_Bank }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Account No:</div>
-            <div class="value">1260006101603</div>
+            <div class="label"><strong>Bank:</strong></div>
+            <div class="value">{{ $sp3->vendors->RekeningBank }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Name:</div>
-            <div class="value">KUI LIAN</div>
+            <div class="label"><strong>Account No:</strong></div>
+            <div class="value">{{ $sp3->vendors->NomorRekening }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label"><strong>Name:</strong></div>
+            <div class="value">{{ $sp3->vendors->AtasNama }}</div>
         </div>
 
         <div class="section-header">NPWP Information of PT Audemars Indonesia</div>
 
         <div class="row">
-            <div class="label">NPWP:</div>
-            <div class="value">03.262.362.1-047.000</div>
+            <div class="label"><strong>NPWP:</strong></div>
+            <div class="value">{{ $sp3->vendors->NPWP }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Address:</div>
-            <div class="value">Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa Barat, 17530</div>
+            <div class="label"><strong>Delivery Address:</strong></div>
+            <div class="value">{{ $sp3->vendors->Address }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Phone Number:</div>
-            <div class="value">021-7195519</div>
+            <div class="label"><strong>Phone Number:</strong></div>
+            <div class="value">{{ $sp3->vendors->Phone }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Payment Terms:</div>
-            <div class="value">Barang diproses setelah dana masuk</div>
+            <div class="label"><strong>Payment Terms:</strong></div>
+            <div class="value">{{ $sp3->vendors->Payment_Terms }}</div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Time:</div>
+            <div class="label"><strong>Delivery Time:</strong></div>
+            <div class="value">{{ $sp3->vendors->Delivery_Time }}</div>
+        </div>
+
+        <div class="row">
+            <div class="label"><strong>Delivery Point:</strong></div>
             <div class="value"></div>
         </div>
 
         <div class="row">
-            <div class="label">Delivery Point:</div>
-            <div class="value"></div>
-        </div>
-
-        <div class="row">
-            <div class="label">Inspection Terms:</div>
+            <div class="label"><strong>Inspection Terms:</strong></div>
             <div class="value italic-text" style="line-height: 2;">
                 Every supplied goods meet the stated goods specifications upon delivery, the goods will <br>
                 be inspected. Those goods that did not meet requirement or damage will be rejected <br>

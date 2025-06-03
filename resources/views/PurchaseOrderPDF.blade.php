@@ -34,8 +34,11 @@
         }
 
         .document-info {
-            text-align: right;
             font-size: 9px;
+        }
+
+        .doc-info {
+            padding-bottom: 15px;
         }
 
         .title {

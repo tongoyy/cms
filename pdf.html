@@ -1,304 +1,629 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Request (MR)</title>
+    <title>Dokumen Keuangan</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
             margin: 0;
             padding: 20px;
-            box-sizing: border-box;
+            background-color: #f4f4f4;
+            font-size: 10pt;
+            line-height: 1.5;
         }
 
-        .container {
-            width: 100%;
-            border: 1px solid #000;
+        .document-container {
+            background-color: #fff;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 800px; /* Sesuaikan dengan lebar dokumen A4 kira-kira */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .header {
+        .document-header {
             display: flex;
-            border-bottom: 1px solid #000;
-        }
-
-        .logo-section {
-            width: 33%;
-            border-right: 1px solid #000;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .title-section {
-            width: 33%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .doc-info-section {
-            width: 34%;
-            border-left: 1px solid #000;
-        }
-
-        .doc-info-row {
-            display: flex;
-            border-bottom: 1px solid #000;
-        }
-
-        .doc-info-row:last-child {
-            border-bottom: none;
-        }
-
-        .doc-info-label {
-            width: 50%;
-            padding: 5px;
-            border-right: 1px solid #000;
-            font-weight: bold;
-        }
-
-        .doc-info-value {
-            width: 50%;
-            padding: 5px;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .logo {
-            width: 120px;
+            max-width: 180px; /* Adjusted size */
             height: auto;
         }
 
-        .mr-info {
-            display: flex;
-            padding: 10px 0;
-            margin: 20px 0;
+        .document-title {
+            text-align: center;
+            flex-grow: 1;
+            margin-left: 20px; /* Add some space if logo is large */
         }
 
-        .mr-info-left {
-            width: 50%;
+        .document-title h1 {
+            margin: 0 0 5px 0;
+            font-size: 18pt;
+            font-weight: bold;
+        }
+        .document-title h2 { /* For SPPP title */
+            margin: 0 0 5px 0;
+            font-size: 14pt;
+            font-weight: bold;
         }
 
-        .mr-info-right {
-            width: 50%;
-            text-align: left;
-        }
 
-        .info-row {
-            display: flex;
-            margin-bottom: 10px;
+        .doc-info table {
+            font-size: 9pt;
+            border-collapse: collapse;
         }
-
-        .info-label {
-            width: 100px;
+        .doc-info td {
+            padding: 2px 5px;
+        }
+        .doc-info td:first-child {
             font-weight: normal;
         }
 
-        .main-table {
-            width: 100%;
-            border-collapse: collapse;
+
+        .content-section {
+            margin-bottom: 20px;
         }
 
-        .main-table th,
-        .main-table td {
+        .two-column-layout {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom:15px;
+        }
+
+        .two-column-layout .left-column,
+        .two-column-layout .right-column {
+            width: 48%;
+        }
+        
+        .info-table {
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 9pt;
+        }
+
+        .info-table td {
+            padding: 3px 0;
+            vertical-align: top;
+        }
+
+        .info-table td:first-child {
+            font-weight: normal; /* Changed from bold to normal for labels like "To:" */
+            width: 100px; /* Fixed width for labels */
+        }
+        
+        .info-table.tight td:first-child {
+            width: auto; /* For tables where label width is not fixed */
+            padding-right:5px;
+        }
+
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 9pt;
+        }
+
+        .items-table th,
+        .items-table td {
+            border: 1px solid #888;
+            padding: 6px 8px;
+            text-align: left;
+        }
+
+        .items-table thead th {
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .items-table td.currency, .items-table th.currency-header {
+            text-align: right;
+        }
+        .items-table td.center, .items-table th.center-header {
+            text-align: center;
+        }
+        .items-table td.qty {
+            text-align: center;
+        }
+
+
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            font-size: 9pt;
+        }
+
+        .totals-table td {
+            padding: 4px 8px;
+        }
+        .totals-table td:first-child {
+            font-weight: normal;
+            text-align: right;
+        }
+        .totals-table td:last-child {
+            font-weight: bold;
+            text-align: right;
+            min-width: 120px;
+        }
+        .totals-table tr:last-child td {
+            font-weight: bold;
+        }
+
+
+        .terbilang {
+            font-weight: bold;
+            text-transform: uppercase;
             border: 1px solid #000;
             padding: 8px;
             text-align: center;
+            margin: 20px 0;
+            font-size: 9pt;
         }
 
-        .main-table th {
-            background-color: #fff;
-        }
-
-        .signature-section {
+        .signatures {
             display: flex;
+            justify-content: space-between; /* Changed to space-between for PO */
+            margin-top: 40px;
+            text-align: center;
+            font-size: 9pt;
+        }
+        .signatures.sppp-signatures { /* Specific for SPPP 3 columns */
+             justify-content: space-around;
+        }
+
+        .signature-block {
+            width: 30%; /* Adjusted for 3 blocks */
+        }
+        .signature-block .name {
+            margin-top: 70px; /* Space for signature */
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .signature-block .title {
+            margin-top: 5px;
+        }
+
+        .footer-notes {
+            font-size: 8pt;
             margin-top: 20px;
         }
-
-        .signature-box {
-            width: 25%;
-            border: 1px solid #000;
-            height: 130px;
-            text-align: center;
-            padding-top: 10px;
+        .footer-notes p {
+            margin: 5px 0;
         }
 
-        .orange-logo {
-            color: #FF7700;
+        .page-number {
+            text-align: right;
+            font-size: 8pt;
+            margin-top: 30px;
+        }
+
+        /* SPPP Specific Styles */
+        .sppp-header-table {
+            width: 100%;
+            font-size: 9pt;
+            margin-bottom: 15px;
+        }
+        .sppp-header-table td {
+            padding: 2px 5px;
+        }
+        .sppp-header-table td:nth-child(odd) { /* Labels */
+            width: 100px;
+        }
+        .sppp-header-table td:nth-child(even) { /* Values */
+            width: auto;
+        }
+
+        .document-list-table {
+            width: 100%;
+            font-size: 9pt;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom:15px;
+        }
+        .document-list-table td {
+            padding: 3px 5px;
+            vertical-align: top;
+        }
+         .document-list-table td:nth-child(1) { /* No. */
+            width: 30px;
+        }
+        .document-list-table td:nth-child(2) { /* Item */
+            width: 180px;
+        }
+         .document-list-table td:nth-child(3) { /* Titik dua */
+            width: 10px; text-align:center;
+        }
+        .document-list-table td:nth-child(4) { /* Value */
+            width: auto;
+        }
+        .document-list-table td:nth-child(5) { /* Tgl Label */
+            width: 25px;
+        }
+        .document-list-table td:nth-child(6) { /* Titik dua */
+            width: 10px; text-align:center;
+        }
+        .document-list-table td:nth-child(7) { /* Tgl Value */
+            width: 100px;
+        }
+
+        .payment-details {
+            font-size: 9pt;
+            margin-bottom: 15px;
+        }
+        .payment-details p {
+            margin: 3px 0;
+        }
+        .payment-details ul {
+            list-style: none;
+            padding-left: 15px;
+            margin: 5px 0;
+        }
+        .payment-details ul li::before {
+            content: "- ";
+        }
+
+        .sppp-amount-table {
+            width: 50%; /* Aligned to the right often */
+            margin-left: auto; /* Pushes table to the right */
+            font-size: 9pt;
+            margin-bottom: 15px;
+        }
+        .sppp-amount-table td{
+            padding: 3px 5px;
+        }
+        .sppp-amount-table td:first-child { /* Label */
+            width: 150px;
+        }
+        .sppp-amount-table td:nth-child(2) { /* Rp text */
+            width: 25px;
+        }
+        .sppp-amount-table td:last-child { /* Amount value */
+            text-align: right;
             font-weight: bold;
-            font-size: 18px;
+            border-bottom: 1px solid #ccc; /* Line for amount entry */
+            min-width: 120px;
         }
+         .sppp-amount-table tr:last-child td:last-child {
+            border-bottom: 2px solid #000; /* Thicker line for total */
+        }
+
+
+        hr.separator {
+            border: none;
+            border-top: 1px dashed #ccc;
+            margin: 40px 0;
+        }
+
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-section">
-                <!-- Orange logo with text -->
-                <div style="text-align: center;">
-                    <div style="font-size: 32px; color: #FF7700;">▲</div>
-                    <div style="display: flex; justify-content: center;">
-                        <div style="font-size: 20px; color: #FF7700; margin-right: 2px;">///</div>
-                        <div style="font-size: 20px; color: #FF7700; margin-left: 2px;">\\\\</div>
-                    </div>
-                    <div class="orange-logo">AUDEMARS</div>
-                    <div class="orange-logo">INDONESIA</div>
-                    <div style="display: flex; justify-content: center; margin-top: 5px;">
-                        <div style="font-size: 20px; color: #FF7700; margin-right: 2px;">///</div>
-                        <div style="font-size: 20px; color: #FF7700; margin-left: 2px;">\\\\</div>
-                    </div>
-                </div>
-            </div>
-            <div class="title-section">
-                MATERIAL REQUEST (MR)
-            </div>
-            <div class="doc-info-section">
-                <div class="doc-info-row">
-                    <div class="doc-info-label">NOMOR DOKUMEN</div>
-                    <div class="doc-info-value">AMI-F-PROC-P-01/01</div>
-                </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">REVISI</div>
-                    <div class="doc-info-value">00</div>
-                </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">TANGGAL TERBIT</div>
-                    <div class="doc-info-value">13 Februari 2017</div>
-                </div>
-                <div class="doc-info-row">
-                    <div class="doc-info-label">HALAMAN</div>
-                    <div class="doc-info-value">1/1</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="mr-info">
-            <div class="mr-info-left">
-                <div class="info-row">
-                    <div class="info-label">MR NUMBER</div>
-                    <div>: MR20112700026</div>
+    <div class="document-container">
+        <section id="purchase-order">
+            <div class="document-header">
+                <img src="https://seeklogo.com/images/A/audemars-piguet-logo-1955E995B0-seeklogo.com.png" alt="Audemars Indonesia Logo" class="logo"> <div class="document-title">
+                    <h1>PURCHASE ORDER</h1>
                 </div>
-                <div class="info-row">
-                    <div class="info-label">DATE</div>
-                    <div>: 2020-11-27</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">FAX</div>
-                    <div>:</div>
-                </div>
-            </div>
-            <div class="mr-info-right">
-                <div class="info-row">
-                    <div class="info-label">PAGE NO</div>
-                    <div>: PAGE 1 OF 1</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">LOCATION</div>
-                    <div>: AUDEMARS BUILDING</div>
+                <div class="doc-info">
+                    <table>
+                        <tr><td>Nomor Dokumen:</td><td>AM-F-PROC-P-01/01</td></tr>
+                        <tr><td>Revisi:</td><td>02</td></tr>
+                        <tr><td>Tanggal Terbit:</td><td>27 Februari 2023</td></tr>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <table class="main-table">
-            <thead>
+            <table class="info-table">
                 <tr>
-                    <th>NO</th>
-                    <th>PART<br>NUMBER/SIZE</th>
-                    <th>ITEMS DESCRIPTION</th>
-                    <th>QTY</th>
-                    <th>UNIT</th>
-                    <th>ON<br>HAND</th>
-                    <th colspan="3">LAST RECEIVED</th>
-                    <th>REMARKS</th>
+                    <td>To:</td>
+                    <td><strong>BEKASI MANDIRI STAINLESS STEEL</strong></td>
+                    <td>Jenis Pembayaran:</td>
+                    <td>Full Payment</td>
                 </tr>
                 <tr>
-                    <th colspan="6"></th>
-                    <th>DATE</th>
-                    <th>QTY</th>
-                    <th>UNIT</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>Address:</td>
+                    <td>Jl. Perjuangan Baru No. 88/89H, Ruko Golden Bekasi, Indonesia</td>
+                    <td>Date:</td>
+                    <td>2023-04-28</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>NPWP:</td>
+                    <td></td>
+                    <td>Kategori:</td>
+                    <td>Manufaktur</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>Subject:</td>
+                    <td>BEKASI MANDIRI STAINLESS STEEL</td>
+                    <td>Telephone:</td>
+                    <td>02188950940</td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td>PO No:</td>
+                    <td>#PO-00132-Apr-2023-VC-106</td>
+                    <td></td>
+                    <td></td>
                 </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>
+            </table>
 
-        <div class="signature-section">
-            <div class="signature-box">
-                Prepare By
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th style="width:30px;">NO</th>
+                        <th>ITEMS</th>
+                        <th>DESCRIPTION</th>
+                        <th class="currency-header">UNIT PRICE</th>
+                        <th class="center-header" style="width:40px;">QTY</th>
+                        <th class="center-header" style="width:50px;">UNIT</th>
+                        <th class="currency-header">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">1</td>
+                        <td>KPNGANRILNGD</td>
+                        <td>Plat DOP 4mm 304 Potongan (7cm x 12 cm)</td>
+                        <td class="currency">Rp50.000</td>
+                        <td class="qty">24</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp1.200.000</td>
+                    </tr>
+                    <tr>
+                        <td class="center">2</td>
+                        <td>3.6</td>
+                        <td>Plat Strip 3 x 25 (304) P.600</td>
+                        <td class="currency">Rp385.000</td>
+                        <td class="qty">3</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp1.155.000</td>
+                    </tr>
+                    <tr>
+                        <td class="center">3</td>
+                        <td>PLATHL304/4'.2</td>
+                        <td>Plat HL 2mm 304 (4 x 8) Ft</td>
+                        <td class="currency">Rp2.470.000</td>
+                        <td class="qty">2</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp4.940.000</td>
+                    </tr>
+                    <tr>
+                        <td class="center">4</td>
+                        <td>ONGPOT</td>
+                        <td>Ongkos Potong</td>
+                        <td class="currency">Rp35.000</td>
+                        <td class="qty">1</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp35.000</td>
+                    </tr>
+                    <tr>
+                        <td class="center">5</td>
+                        <td>KWT.LSC 2.0/kg</td>
+                        <td>Kawat Las Cantum (E-308.S) 2.0mm</td>
+                        <td class="currency">Rp165.000</td>
+                        <td class="qty">2</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp330.000</td>
+                    </tr>
+                    <tr>
+                        <td class="center">6</td>
+                        <td>ONGKIR0<</td>
+                        <td>Ongkos Kirim</td>
+                        <td class="currency">Rp120.000</td>
+                        <td class="qty">1</td>
+                        <td class="center"></td>
+                        <td class="currency">Rp120.000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="totals-section">
+                <table class="totals-table">
+                    <tr>
+                        <td>Subtotal</td>
+                        <td class="currency">Rp7.780.000</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td class="currency">Rp7.780.000</td>
+                    </tr>
+                </table>
             </div>
-            <div class="signature-box">
-                Check By
+
+            <div class="terbilang">
+                TUJUH JUTA TUJUH RATUS DELAPAN PULUH RIBU RUPIAH
             </div>
-            <div class="signature-box">
-                Aprroved By
+
+            <table class="info-table tight">
+                <tr><td colspan="2"><strong>Vendor Bank Details</strong></td></tr>
+                <tr><td>Bank:</td><td>Mandiri</td></tr>
+                <tr><td>Account No:</td><td>1200006101603</td></tr>
+                <tr><td>Name:</td><td>KUI LIAN</td></tr>
+            </table>
+            
+            <br>
+
+            <table class="info-table tight">
+                <tr><td colspan="2"><strong>NPWP Information of PT Audemars Indonesia</strong></td></tr>
+                <tr><td>NPWP:</td><td>03.252.382.1.047.000</td></tr>
+                <tr><td>Delivery Address:</td><td>Jl. Telaga Asih No.21 RT.007/RW.001 Kab. Bekasi, Cikarang Barat, Jawa Barat, 17530</td></tr>
+                <tr><td>Phone Number:</td><td>021-7196519</td></tr>
+                <tr><td>Payment Terms:</td><td>Barang diproses setelah dana masuk</td></tr>
+                <tr><td>Delivery Time:</td><td></td></tr>
+                <tr><td>Delivery Point:</td><td></td></tr>
+                <tr>
+                    <td>Inspection Terms:</td>
+                    <td>Every supplied goods meet the stated goods specifications upon delivery, the goods will be inspected. Those goods that did not meet requirement or damage will be rejected and returned to the supplier for replacement.</td>
+                </tr>
+            </table>
+
+            <div class="signatures">
+                <div class="signature-block">
+                    PT Audemars Indonesia
+                    <div class="name">Irvan Sandoval</div>
+                    <div class="title">Purchasing</div>
+                </div>
+                <div class="signature-block">
+                    PT Audemars Indonesia
+                    <div class="name">Irwandi</div>
+                    <div class="title">Direktur</div>
+                </div>
+                <div class="signature-block">
+                    BEKASI MANDIRI STAINLESS STEEL
+                    <div class="name"></div>
+                    <div class="title"></div>
+                </div>
             </div>
-            <div class="signature-box">
-                Receive By
+            <div class="page-number">1/1</div>
+        </section>
+
+        <hr class="separator">
+
+        <section id="payment-request">
+            <div class="document-header">
+                <img src="https://seeklogo.com/images/A/audemars-piguet-logo-1955E995B0-seeklogo.com.png" alt="Audemars Indonesia Logo" class="logo"> <div class="document-title">
+                    <h2>SURAT PERMINTAAN PROSES PEMBAYARAN</h2>
+                </div>
+                 <div class="doc-info">
+                    <table>
+                        <tr><td>Nomor Dokumen:</td><td>AM-F-FINH-01/01</td></tr>
+                        <tr><td>Revisi:</td><td>02</td></tr>
+                        <tr><td>Tanggal Terbit:</td><td>27 Juli 2020</td></tr>
+                    </table>
+                </div>
             </div>
-        </div>
+            
+            <table class="sppp-header-table">
+                <tr>
+                    <td>SPPP No</td><td>: 00273/AM/-SP3/04/2023-VC-*06</td>
+                    <td>KP</td><td>:</td>
+                </tr>
+                <tr>
+                    <td>Data</td><td>: 28 Apr 2023</td>
+                    <td>Pemakaian</td><td>: Zone 4</td>
+                </tr>
+                 <tr>
+                    <td>To</td><td>:</td>
+                    <td>Lokasi</td><td>: Beringin</td>
+                </tr>
+                <tr>
+                    <td>Fax</td><td>:</td>
+                    <td></td><td></td>
+                </tr>
+                 <tr>
+                    <td>Dari</td><td>:</td>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td>Jenis Pembayaran</td><td>: FULL PAYMENT</td>
+                    <td></td><td></td>
+                </tr>
+            </table>
+
+            <p style="font-size:9pt; margin-bottom:5px;">Terlampir kami kirim dokumen pendukung pembayaran antara lain :</p>
+            <table class="document-list-table">
+                <tr>
+                    <td>1.</td><td>Nama Supplier</td><td>:</td><td>BEKASI MANDIRI STAINLESS STEEL</td>
+                    <td>Tgl</td><td>:</td><td></td>
+                </tr>
+                <tr>
+                    <td>2.</td><td>No. Invoice</td><td>:</td><td></td>
+                    <td>Tgl</td><td>:</td><td></td>
+                </tr>
+                 <tr>
+                    <td>3.</td><td>No. Kwitansi</td><td>:</td><td></td>
+                    <td>Tgl</td><td>:</td><td>28-04-2023</td>
+                </tr>
+                <tr>
+                    <td>4.</td><td>No. Purchase Order</td><td>:</td><td>#PO-00132-APR-2023-VC-106</td>
+                    <td>Tgl</td><td>:</td><td></td>
+                </tr>
+                 <tr>
+                    <td>5.</td><td>No. Delivery Order</td><td>:</td><td></td>
+                    <td>Tgl</td><td>:</td><td></td>
+                </tr>
+                 <tr>
+                    <td>6.</td><td>No. Faktur Pajak</td><td>:</td><td></td>
+                    <td>Tgl</td><td>:</td><td></td>
+                </tr>
+                 <tr>
+                    <td>7.</td><td>Quotation</td><td>:</td><td>1013</td>
+                    <td>Tgl</td><td>:</td><td>28-04-2023</td>
+                </tr>
+            </table>
+
+            <div class="payment-details">
+                <p><strong>Untuk Pembayaran :</strong></p>
+                <p style="margin-left:15px;">Material untuk keperluan pembuatan clamp katoda dan anoda tanam di zona 4 lapangan beringin. Pembelian sbb:</p>
+                <ul>
+                    <li>Plat DOP 4mm 304 Potongan (7cm x 12 cm) 24 pcs</li>
+                    <li>Plat Strip 3 x 25 (304) P.600 3 lembar</li>
+                    <li>Plat HL 2mm 304 (4 x 8) Ft 2 lembar</li>
+                    <li>Kawat Las Cantum (E-308 S) 2.0mm 2 pcs</li>
+                    <li>Ongkos Potong 1 ls</li>
+                </ul>
+                <p>Pembayaran/kwitansi asli dilampirkan setelah payment</p>
+                <p><strong>MR-310</strong></p>
+            </div>
+            
+            <table class="sppp-amount-table">
+                <tr><td>Amount</td><td>Rp</td><td>7.660.000</td></tr>
+                <tr><td>PPN 12%</td><td>Rp</td><td></td></tr>
+                <tr><td>PPH 23 (2%)</td><td>Rp</td><td></td></tr>
+                <tr><td>Shipping Fee</td><td>Rp</td><td>120.000</td></tr>
+                <tr><td colspan="3">&nbsp;</td></tr>
+                <tr><td><strong>Jumlah Total</strong></td><td>Rp</td><td>7.780.000</td></tr>
+                <tr><td><strong>Jumlah yg harus di transfer</strong></td><td>Rp</td><td>7.780.000</td></tr>
+            </table>
+
+            <div class="terbilang">
+                TUJUH JUTA TUJUH RATUS DELAPAN PULUH RIBU RUPIAH
+            </div>
+
+            <table class="info-table tight">
+                 <tr>
+                    <td><strong>Rekening Bank</strong></td>
+                    <td></td>
+                 </tr>
+                 <tr>
+                    <td>Acc No.</td>
+                    <td>: 0690192845</td>
+                 </tr>
+                 <tr>
+                    <td>A/N</td>
+                    <td>: KUI LIAN</td>
+                 </tr>
+            </table>
+
+            <div class="signatures sppp-signatures">
+                <div class="signature-block">
+                    Dibuat Oleh
+                    <div class="name">Irvan Sandoval</div>
+                    <div class="title"></div>
+                </div>
+                <div class="signature-block">
+                    Diperiksa Oleh
+                    <div class="name">Irwandi</div>
+                    <div class="title"></div>
+                </div>
+                <div class="signature-block">
+                    Diketahui Oleh
+                    <div class="name">Bong Tedy</div>
+                    <div class="title"></div>
+                </div>
+            </div>
+            <div class="page-number">3/3</div>
+
+        </section>
     </div>
-</body>
 
+</body>
 </html>
