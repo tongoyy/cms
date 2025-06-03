@@ -1,4 +1,15 @@
 <?php return array (
+  'afsakar/filament-leaflet-map-picker' => 
+  array (
+    'aliases' => 
+    array (
+      'LeafletMapPicker' => 'Afsakar\\LeafletMapPicker\\Facades\\LeafletMapPicker',
+    ),
+    'providers' => 
+    array (
+      0 => 'Afsakar\\LeafletMapPicker\\LeafletMapPickerServiceProvider',
+    ),
+  ),
   'akaunting/laravel-money' => 
   array (
     'providers' => 
