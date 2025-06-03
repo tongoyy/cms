@@ -338,31 +338,27 @@
         @endif
 
         @if ($sp3)
-
             <table style="padding: 15px 25px 0px 0px;">
                 <tr>
                     <td class="bold" style="vertical-align: top; white-space: nowrap; padding: 0px 37px 0px 0px;">
-                        Untuk Pembayaran</td>
-                    <td>&nbsp; &nbsp; &nbsp; : &nbsp; {{ $sp3->Untuk_Pembayaran }}. Pembelian Item:
-                        <table style="padding: 0px 25px 0px 0px;">
-                            @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
-                                <tr>
-                                    <td style="padding-left:25px;">
-                                        -{{ $item->Item_Name }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td style="padding-left:25px;">
-                                    *invoice/nota/kwitansi asli dilampirkan setelah payment
-                                    <br>
-                                    <strong><i>MR-310</i></strong>
-                                </td>
-                            </tr>
-                        </table>
+                        Untuk Pembayaran
                     </td>
+                    @if (!empty($sp3->Untuk_Pembayaran))
+                        <td style="white-space: nowrap;">&nbsp;:&nbsp;</td>
+                        <td>{{ $sp3->Untuk_Pembayaran }}.</td>
+                    @else
+                        <td colspan="2">
+                            Pembelian Item:
+                            <ul style="margin: 5px 0px 0px 25px; padding-left: 0;">
+                                @foreach ($sp3->purchaseOrder->purchaseOrderItems as $item)
+                                    <li>{{ $item->Item_Name }}</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    @endif
                 </tr>
             </table>
+
 
             <table class="payment-table-details">
                 <tr>

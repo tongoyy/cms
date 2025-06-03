@@ -33,6 +33,9 @@ use Orion\FilamentFeedback\FeedbackPlugin;
 use Orion\FilamentSettings\SettingsPlugin;
 use Orion\FilamentSupport\FilamentSupportPlugin;
 use Asmit\ResizedColumn\ResizedColumnPlugin;
+use CWSPS154\UsersRolesPermissions\UsersRolesPermissionsPlugin;
+
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -46,23 +49,15 @@ class AdminPanelProvider extends PanelProvider
                 LightSwitchPlugin::make(),
                 ResizedColumnPlugin::make()->preserveOnDB(),
             ])
-            // Enable database storage (optional)
-
 
             /* Icon Replacement */
             // ->plugin(\Filafly\PhosphorIconReplacement::make())
 
             /* Dash UI */
-            // ->plugin(DashStackThemePlugin::make())
+            ->plugin(DashStackThemePlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
-
-            /* Auth UI */
-            // ->viteTheme('resources/css/filament/admin/theme.css')
-            // ->plugins([
-            //     AuthUIEnhancerPlugin::make(),
-            // ])
 
             /* Calendar */
             // ->plugin(
@@ -99,6 +94,7 @@ class AdminPanelProvider extends PanelProvider
                 // 'success' => Color::Emerald,
                 // 'warning' => Color::Orange,
             ])
+
             /* Vite */
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -132,6 +128,10 @@ class AdminPanelProvider extends PanelProvider
             ->tenantMiddleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
+
+            // ->databaseNotifications() //need to see the export files for the permission
+            // ->databaseTransactions() //optional
+            // ->plugins([UsersRolesPermissionsPlugin::make()]); //required to enable this extension
         ;
     }
 }

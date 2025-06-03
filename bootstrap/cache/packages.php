@@ -82,6 +82,13 @@
       0 => 'Codeat3\\BladePhosphorIcons\\BladePhosphorIconsServiceProvider',
     ),
   ),
+  'codewithdennis/filament-select-tree' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'CodeWithDennis\\FilamentSelectTree\\FilamentSelectTreeServiceProvider',
+    ),
+  ),
   'codewithdennis/filament-simple-map' => 
   array (
     'aliases' => 
@@ -93,6 +100,13 @@
       0 => 'CodeWithDennis\\SimpleMap\\SimpleMapServiceProvider',
     ),
   ),
+  'cwsps154/users-roles-permissions' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'CWSPS154\\UsersRolesPermissions\\UsersRolesPermissionsServiceProvider',
+    ),
+  ),
   'diogogpinto/filament-auth-ui-enhancer' => 
   array (
     'aliases' => 
@@ -102,6 +116,13 @@
     'providers' => 
     array (
       0 => 'DiogoGPinto\\AuthUIEnhancer\\AuthUIEnhancerServiceProvider',
+    ),
+  ),
+  'erlandmuchasaj/laravel-gzip' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'ErlandMuchasaj\\LaravelGzip\\GzipServiceProvider',
     ),
   ),
   'filament/actions' => 
@@ -181,6 +202,17 @@
       0 => 'Hasnayeen\\Themes\\ThemesServiceProvider',
     ),
   ),
+  'intervention/image' => 
+  array (
+    'aliases' => 
+    array (
+      'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
+  ),
   'joaopaulolndev/filament-pdf-viewer' => 
   array (
     'aliases' => 
@@ -190,6 +222,17 @@
     'providers' => 
     array (
       0 => 'Joaopaulolndev\\FilamentPdfViewer\\FilamentPdfViewerServiceProvider',
+    ),
+  ),
+  'joshembling/image-optimizer' => 
+  array (
+    'aliases' => 
+    array (
+      'ImageOptimizer' => 'Joshembling\\ImageOptimizer\\Facades\\ImageOptimizer',
+    ),
+    'providers' => 
+    array (
+      0 => 'Joshembling\\ImageOptimizer\\ImageOptimizerServiceProvider',
     ),
   ),
   'kirschbaum-development/eloquent-power-joins' => 
@@ -320,6 +363,13 @@
       0 => 'PrintFilament\\Print\\PrintServiceProvider',
     ),
   ),
+  'propaganistas/laravel-phone' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Propaganistas\\LaravelPhone\\PhoneServiceProvider',
+    ),
+  ),
   'ryangjchandler/blade-capture-directive' => 
   array (
     'aliases' => 
@@ -392,6 +442,13 @@
     'providers' => 
     array (
       0 => 'Torgodly\\Html2Media\\Html2MediaServiceProvider',
+    ),
+  ),
+  'ysfkaya/filament-phone-input' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Ysfkaya\\FilamentPhoneInput\\FilamentPhoneInputServiceProvider',
     ),
   ),
 );

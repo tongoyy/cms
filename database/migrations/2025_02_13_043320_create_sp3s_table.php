@@ -49,7 +49,7 @@ return new class extends Migration
             $table->text('No_FP')->nullable();
             $table->date('Tanggal_FP')->nullable();;
             $table->text('Jenis_Pembayaran');
-            $table->text('Untuk_Pembayaran');
+            $table->text('Untuk_Pembayaran')->nullable();
             $table->text('Rekening_Bank')->nullable();
             $table->bigInteger('Nomor_Rekening')->nullable();
             $table->text('Atas_Nama');

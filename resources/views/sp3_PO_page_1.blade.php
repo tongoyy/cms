@@ -345,7 +345,7 @@
         </div>
 
         <!-- Table -->
-        @if ($sp3->purchaseOrderItems->isNotEmpty())
+        @if ($sp3->purchaseOrder->purchaseOrderItems->isNotEmpty())
             {{-- Check if there are any posts --}}
             <table class="inside">
                 <thead>
@@ -362,7 +362,7 @@
                         </th>
                     </tr>
                 </thead>
-                @foreach ($sp3->purchaseOrderItems as $poItems)
+                @foreach ($sp3->purchaseOrder->purchaseOrderItems as $poItems)
                     <tbody>
                         <tr>
                             <td style="padding:2px;">{{ $loop->iteration }}</td>
