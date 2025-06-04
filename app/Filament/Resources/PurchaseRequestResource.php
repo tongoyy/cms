@@ -49,7 +49,7 @@ class PurchaseRequestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static ?string $navigationLabel = 'Purchase Request';
+    protected static ?string $navigationLabel = 'Material Request';
 
     public static function getNavigationBadge(): ?string
     {

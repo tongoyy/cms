@@ -113,7 +113,7 @@
 
         .signature {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             margin-top: 42px;
         }
 
@@ -433,14 +433,6 @@
                 </p>
                 <p style="padding-bottom: 12%;">
                     <b>Irwandi</b>
-                </p>
-            </div>
-            <div>
-                <p class="bold" style="padding-bottom: 25%;">
-                    Diketahui Oleh
-                </p>
-                <p style="padding-bottom: 12%;">
-                    <b>Bong Tedy</b>
                 </p>
             </div>
         </div>
