@@ -7,13 +7,13 @@ use App\Models\PurchaseRequest;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
-class Stats_PR extends BaseWidget
+class Stats extends BaseWidget
 {
     protected static bool $isLazy = false;
 
     protected ?string $heading = 'Summary';
 
-    protected ?string $description = 'An overview of some Purchase Request.';
+    protected ?string $description = 'An overview of some Purchasing.';
 
     protected function getStats(): array
     {

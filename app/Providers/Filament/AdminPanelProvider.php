@@ -34,8 +34,7 @@ use Orion\FilamentSettings\SettingsPlugin;
 use Orion\FilamentSupport\FilamentSupportPlugin;
 use Asmit\ResizedColumn\ResizedColumnPlugin;
 use CWSPS154\UsersRolesPermissions\UsersRolesPermissionsPlugin;
-
-
+use Filament\Widgets\Widget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -59,21 +58,6 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(LoginCustom::class)
 
-            /* Calendar */
-            // ->plugin(
-            //     FilamentFullCalendarPlugin::make()
-            //         ->schedulerLicenseKey()
-            //         ->selectable()
-            //         ->editable()
-            //         ->timezone()
-            //         ->locale()
-            //         ->plugins()
-            //         ->config()
-            // )
-
-            /* FileManager */
-            // ->plugin(\TomatoPHP\FilamentMediaManager\FilamentMediaManagerPlugin::make())
-
             /* Menus */
             ->passwordReset()
             ->registration() // Enable registration
@@ -87,10 +71,10 @@ class AdminPanelProvider extends PanelProvider
             ->font('Poppins')
             ->defaultThemeMode(ThemeMode::Light)
             ->colors([
+                'primary' => Color::Yellow,
                 // 'danger' => Color::Rose,
                 // 'gray' => Color::Gray,
                 // 'info' => Color::Blue,
-                'primary' => Color::Yellow,
                 // 'success' => Color::Emerald,
                 // 'warning' => Color::Orange,
             ])
@@ -128,10 +112,6 @@ class AdminPanelProvider extends PanelProvider
             ->tenantMiddleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
-
-            // ->databaseNotifications() //need to see the export files for the permission
-            // ->databaseTransactions() //optional
-            // ->plugins([UsersRolesPermissionsPlugin::make()]); //required to enable this extension
         ;
     }
 }
