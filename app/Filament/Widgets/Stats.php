@@ -25,8 +25,8 @@ class Stats extends BaseWidget
                     'class' => 'cursor-pointer',
                     'wire:click' => "\$dispatch('setStatusFilter', { filter: 'processed' })",
                 ])->chart([50, 150, 10, 200, 500, 410, 170]),
-            Stat::make('Purchase Order', PurchaseOrder::count(), 'PR')
-                ->description('Total PR')->descriptionIcon('heroicon-o-shopping-cart')
+            Stat::make('Purchase Order', PurchaseOrder::count(), 'PO')
+                ->description('Total PO')->descriptionIcon('heroicon-o-shopping-bag')
                 ->color('success')
                 ->extraAttributes([
                     'class' => 'cursor-pointer',

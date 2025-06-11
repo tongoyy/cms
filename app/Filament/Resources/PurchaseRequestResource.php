@@ -15,7 +15,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Group;
+use Filament\Tables\Grouping\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -32,6 +32,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Cheesegrits\FilamentGoogleMaps\Fields\Map;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Blade;
@@ -42,6 +44,12 @@ use PhpParser\Node\Stmt\Label;
 use PrintFilament\Print\Infolists\Components\PrintComponent;
 use Spatie\Browsershot\Browsershot;
 use Torgodly\Html2Media\Tables\Actions\Html2MediaAction;
+use Illuminate\Contracts\Pagination\Paginator;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 
 class PurchaseRequestResource extends Resource
 {
@@ -236,16 +244,21 @@ class PurchaseRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('DueDate')
+                    ->label('Tanggal')
+                    ->date()->collapsible(),
+            ])
             ->columns([
-                TextColumn::make('PR_Code')->label('PR Code')->visibleFrom('md'),
+                TextColumn::make('PR_Code')->label('PR Code')->badge()->visibleFrom('md'),
                 TextColumn::make('PR_Name')->label('PR Name'),
                 TextColumn::make('Project'),
                 TextColumn::make('Department'),
-                TextColumn::make('PurchaseType')->label('Purchase Type'),
                 TextColumn::make('Category'),
                 TextColumn::make('DueDate')->label('Due Date')->date('d-M-Y'),
                 TextColumn::make('Description')->limit(35),
-                TextColumn::make('GrandTotal')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                TextColumn::make('GrandTotal')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->icon('heroicon-m-currency-dollar')->iconColor('primary')->weight(FontWeight::Bold)
+                    ->summarize(Sum::make()->label('Total')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Request')
@@ -261,14 +274,17 @@ class PurchaseRequestResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('pdf')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn(PurchaseRequest $record) => route('pdfPR', $record))
-                    ->openUrlInNewTab()
-                    ->label('PDF')
-                    ->color('success'),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    Tables\Actions\Action::make('pdf')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->url(fn(PurchaseRequest $record) => route('pdfPR', $record))
+                        ->openUrlInNewTab()
+                        ->label('PDF')
+                        ->color('success'),
+                ])->icon('heroicon-o-bars-3'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

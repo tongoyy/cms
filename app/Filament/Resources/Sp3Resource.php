@@ -24,17 +24,26 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Tables\Columns\Summarizers\Summarizer;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Contracts\Pagination\Paginator;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 
 class Sp3Resource extends Resource
 {
     protected static ?string $model = Sp3::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
+    protected static ?string $navigationIcon = 'heroicon-o-document-currency-dollar';
 
     protected static ?string $navigationLabel = 'SP3';
 
@@ -278,8 +287,13 @@ class Sp3Resource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('Date_Created')
+                    ->label('Tanggal')
+                    ->date()->collapsible(),
+            ])
             ->columns([
-                TextColumn::make('SP3_Number')->label('SP3 Number'),
+                TextColumn::make('SP3_Number')->label('SP3 Number')->badge(),
                 TextColumn::make('Nama_Supplier')->label('Nama Supplier'),
 
                 TextColumn::make('purchaseRequest.PR_Code')
@@ -298,7 +312,8 @@ class Sp3Resource extends Resource
                     ->label('Order Date')
                     ->date('d-M-Y'),
                 TextColumn::make('vendors.CompanyName')->label('Vendor'),
-                TextColumn::make('Jumlah')->label('Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                TextColumn::make('Jumlah')->label('Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->icon('heroicon-m-currency-dollar')->iconColor('primary')->weight(FontWeight::Bold)
+                    ->summarize(Sum::make()->label('Total')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan SP3 baru.')
@@ -314,14 +329,17 @@ class Sp3Resource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('pdf')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn(sp3 $record) => route('pdfSP3', $record))
-                    ->openUrlInNewTab()
-                    ->label('PDF')
-                    ->color('success'),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    Tables\Actions\Action::make('pdf')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->url(fn(sp3 $record) => route('pdfSP3', $record))
+                        ->openUrlInNewTab()
+                        ->label('PDF')
+                        ->color('success'),
+                ])->icon('heroicon-o-bars-3'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -33,7 +33,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Livewire\Attributes\Reactive;
 use PhpParser\Node\Stmt\Label;
 use Asmit\ResizedColumn\HasResizableColumn;
-
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Grouping\Group;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 
 class PurchaseOrderResource extends Resource
 {
@@ -339,13 +345,19 @@ class PurchaseOrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->groups([
+                Group::make('Order_Date')
+                    ->label('Tanggal')
+                    ->date()->collapsible(),
+            ])
             ->columns([
-                TextColumn::make('PO_Code')->label('PR Code'),
+                TextColumn::make('PO_Code')->label('PR Code')->badge(),
                 TextColumn::make('PO_Name')->label('PR Name'),
                 TextColumn::make('vendors.CompanyName')->label('Vendors'),
                 TextColumn::make('Order_Date')->label('Order Date')->date('d-M-Y'),
                 TextColumn::make('Project')->label('Purchase Type'),
-                TextColumn::make('Grand_Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                TextColumn::make('Grand_Total')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.'))->icon('heroicon-m-currency-dollar')->iconColor('primary')->weight(FontWeight::Bold)
+                    ->summarize(Sum::make()->label('Total')),
             ])->searchable()
             ->emptyStateHeading('Belum ada Data Purchasing!')
             ->emptyStateDescription('Silahkan tambahkan Purchase Order')
@@ -361,14 +373,17 @@ class PurchaseOrderResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\Action::make('pdf')
-                    ->icon('heroicon-o-document-arrow-down')
-                    ->url(fn(PurchaseOrder $record) => route('pdfPO', $record))
-                    ->openUrlInNewTab()
-                    ->label('PDF')
-                    ->color('success'),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    Tables\Actions\Action::make('pdf')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->url(fn(PurchaseOrder $record) => route('pdfPO', $record))
+                        ->openUrlInNewTab()
+                        ->label('PDF')
+                        ->color('success'),
+                ])->icon('heroicon-o-bars-3'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

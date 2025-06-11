@@ -53,7 +53,7 @@ class AdminPanelProvider extends PanelProvider
             // ->plugin(\Filafly\PhosphorIconReplacement::make())
 
             /* Dash UI */
-            ->plugin(DashStackThemePlugin::make())
+            // ->plugin(DashStackThemePlugin::make())
             ->id('admin')
             ->path('admin')
             ->login(LoginCustom::class)
