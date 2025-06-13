@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PettyCash extends Model
+class LaporanPettyCash extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
     public function PettyCash()
@@ -15,9 +16,8 @@ class PettyCash extends Model
         return $this->belongsTo(PettyCash::class, 'Petty_Cash_ID');
     }
 
-    /* Relasi Items Detail */
     public function LaporanPettyCash()
     {
-        return $this->hasMany(LaporanPettyCash::class, 'Petty_Cash_ID');
+        return $this->belongsTo(LaporanPettyCash::class, 'Petty_Cash_ID');
     }
 }

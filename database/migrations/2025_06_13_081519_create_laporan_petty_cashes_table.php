@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('petty_cashes', function (Blueprint $table) {
+        Schema::create('laporan_petty_cashes', function (Blueprint $table) {
             $table->id();
-            // Foreign key ke purchase_requests
             $table->foreignId('Petty_Cash_ID') // Gunakan snake_case
                 ->nullable()
                 ->constrained('petty_cashes')
                 ->onDelete('set null');
-            $table->date('TanggalSaldo')->nullable();
-            $table->string('Description')->nullable();
-            $table->integer('SaldoAwal')->nullable();
-            $table->integer('SaldoMasuk')->nullable();
-            $table->integer('SaldoKeluar')->nullable();
+            $table->date('TanggalLaporan')->nullable();
+            $table->integer('QuantityNumber')->nullable();
+            $table->string('QuantityText')->nullable();
+            $table->string('Posting')->nullable();
+            $table->string('Keterangan')->nullable();
+            $table->string('Kegunaan')->nullable();
+            $table->integer('HargaSatuan');
+            $table->integer('HargaTotal');
+            $table->string('Vendor')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('petty_cashes');
+        Schema::dropIfExists('laporan_petty_cashes');
     }
 };

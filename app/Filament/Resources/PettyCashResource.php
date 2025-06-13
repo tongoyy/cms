@@ -8,14 +8,18 @@ use App\Models\PettyCash;
 use Filament\Forms;
 use Filament\Forms\Components;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 
 class PettyCashResource extends Resource
 {
@@ -36,10 +40,9 @@ class PettyCashResource extends Resource
     {
         return $form
             ->schema([
-                Repeater::make('pettyCashes')
-                    ->label('Laporan Pengeluaran Petty Cash')
+                Fieldset::make('Petty Cash')
                     ->schema([
-                        DateTimePicker::make('Tanggal')
+                        DateTimePicker::make('TanggalSaldo')
                             ->label('Tanggal')
                             ->native(false)
                             ->firstDayOfWeek(1)
@@ -51,32 +54,79 @@ class PettyCashResource extends Resource
                         TextInput::make('Description')
                             ->label('Description'),
                         TextInput::make('SaldoAwal')
-                            ->label('Saldo')
-                            ->numeric(),
+                            ->label('Saldo Awal')
+                            ->numeric()
+                            ->nullable()
+                            ->default(function () {
+                                $latest = \App\Models\PettyCash::orderByDesc('created_at')->value('SaldoAwal');
+                                return $latest ?? 0;
+                            }),
                         TextInput::make('SaldoMasuk')
-                            ->label('Masuk')
-                            ->numeric(),
+                            ->label('Saldo Masuk')
+                            ->numeric()
+                            ->nullable(),
                         TextInput::make('SaldoKeluar')
-                            ->label('Keluar')
-                            ->numeric(),
+                            ->label('Saldo Keluar')
+                            ->numeric()
+                            ->nullable(),
+                    ])
+                    ->columns(5),
+                Repeater::make('LaporanPettyCash')
+                    ->schema([
+                        DateTimePicker::make('TanggalLaporan')
+                            ->label('Tanggal')
+                            ->native(false)
+                            ->firstDayOfWeek(1)
+                            ->closeOnDateSelection()
+                            ->timezone('Asia/Jakarta')
+                            ->locale('id')
+                            ->displayFormat('D, d-M-Y H:i:s')
+                            ->default(now())
+                            ->hidden(),
+                        TextInput::make('QuantityNumber')
+                            ->label('Quantity (Jumlah)')
+                            ->numeric()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                $hargaSatuan = (float) $get('HargaSatuan');
+                                $set('HargaTotal', (float) $state * $hargaSatuan);
+                            }),
                         TextInput::make('QuantityText')
-                            ->label('Quantity Text'),
+                            ->label('Quantity (Unit)'),
                         TextInput::make('Posting')
-                            ->label('Posting'),
+                            ->label('Posting')
+                            ->nullable(),
                         TextInput::make('Keterangan')
                             ->label('Keterangan'),
                         TextInput::make('Kegunaan')
                             ->label('Kegunaan'),
                         TextInput::make('HargaSatuan')
                             ->label('Harga Satuan')
-                            ->numeric(),
+                            ->numeric()
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                $quantityNumber = (float) $get('QuantityNumber');
+                                $set('HargaTotal', $quantityNumber * (float) $state);
+                            }),
                         TextInput::make('HargaTotal')
                             ->label('Harga Total')
-                            ->numeric(),
+                            ->numeric()
+                            ->disabled()
+                            ->dehydrated()
+                            ->default(
+                                fn($get) =>
+                                (float) $get('QuantityNumber') * (float) $get('HargaSatuan')
+                            ),
                         TextInput::make('Vendor')
                             ->label('Vendor'),
-                    ])->columns(3)
+                    ])
+                    ->relationship('LaporanPettyCash')
+                    ->columns(4)
                     ->columnSpanFull()
+                    ->label(new HtmlString('<span class="text-xl font-bold text-gray-800">Laporan Petty Cash</span>'))
+                    ->addActionLabel('Tambah Item')
+                    ->reorderableWithButtons()
+                    ->cloneable()
             ]);
     }
 
@@ -84,7 +134,10 @@ class PettyCashResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('TanggalSaldo')->label('Tanggal'),
+                TextColumn::make('SaldoAwal')->label('Saldo'),
+                TextColumn::make('SaldoMasuk')->label('Pemasukan'),
+                TextColumn::make('SaldoKeluar')->label('Pengeluaran'),
             ])
             ->filters([
                 //
