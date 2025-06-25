@@ -244,6 +244,7 @@ class PurchaseRequestResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            /* Mengelompokkan data berdasarkan tanggal */
             ->groups([
                 Group::make('DueDate')
                     ->label('Tanggal')

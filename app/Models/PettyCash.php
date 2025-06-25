@@ -10,12 +10,7 @@ class PettyCash extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function PettyCash()
-    {
-        return $this->belongsTo(PettyCash::class, 'Petty_Cash_ID');
-    }
-
-    /* Relasi Items Detail */
+    /* Relasi Laporan Petty Cash */
     public function LaporanPettyCash()
     {
         return $this->hasMany(LaporanPettyCash::class, 'Petty_Cash_ID');

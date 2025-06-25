@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('petty_cashes', function (Blueprint $table) {
             $table->id();
-            // Foreign key ke purchase_requests
+
+            // Foreign key ke Petty Cash
             $table->foreignId('Petty_Cash_ID') // Gunakan snake_case
                 ->nullable()
                 ->constrained('petty_cashes')
                 ->onDelete('set null');
+
             $table->date('TanggalSaldo')->nullable();
-            $table->string('Description')->nullable();
             $table->integer('SaldoAwal')->nullable();
             $table->integer('SaldoMasuk')->nullable();
             $table->integer('SaldoKeluar')->nullable();

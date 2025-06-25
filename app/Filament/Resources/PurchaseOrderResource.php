@@ -188,18 +188,15 @@ class PurchaseOrderResource extends Resource
                         TextInput::make('Unit')->required(),
                         Select::make('Tax')->label('Tax')->placeholder('Pilih Pajak')->nullable()
                             ->options([
-                                'PPH (2%)' => 'PPH (2%)',
-                                'PPN (12%)' => 'PPN (12%)',
+                                'PPN (11%)' => 'PPN (11%)',
                                 '' => ''
                             ])
                             ->reactive()
                             ->afterStateUpdated(function (Set $set, Get $get) {
                                 $total = (float) $get('Total');
                                 $taxType = $get('Tax');
-                                if ($taxType === 'PPH') {
+                                if ($taxType === 'PPN (11%)') {
                                     $taxAmount = 0.02 * $total;
-                                } elseif ($taxType === 'PPN') {
-                                    $taxAmount = 0.12 * $total;
                                 } else {
                                     $taxAmount = 0;
                                 }

@@ -5,6 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PettyCashResource\Pages;
 use App\Filament\Resources\PettyCashResource\RelationManagers;
 use App\Models\PettyCash;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components;
 use Filament\Forms\Components\DateTimePicker;
@@ -20,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use Filament\Tables\Grouping\Group;
 
 class PettyCashResource extends Resource
 {
@@ -40,38 +45,59 @@ class PettyCashResource extends Resource
     {
         return $form
             ->schema([
-                Fieldset::make('Petty Cash')
-                    ->schema([
-                        DateTimePicker::make('TanggalSaldo')
-                            ->label('Tanggal')
-                            ->native(false)
-                            ->firstDayOfWeek(1)
-                            ->closeOnDateSelection()
-                            ->timezone('Asia/Jakarta')
-                            ->locale('id')
-                            ->displayFormat('D, d-M-Y H:i:s')
-                            ->default(now()),
-                        TextInput::make('Description')
-                            ->label('Description'),
-                        TextInput::make('SaldoAwal')
-                            ->label('Saldo Awal')
-                            ->numeric()
-                            ->nullable()
-                            ->default(function () {
-                                $latest = \App\Models\PettyCash::orderByDesc('created_at')->value('SaldoAwal');
-                                return $latest ?? 0;
-                            }),
-                        TextInput::make('SaldoMasuk')
-                            ->label('Saldo Masuk')
-                            ->numeric()
-                            ->nullable(),
-                        TextInput::make('SaldoKeluar')
-                            ->label('Saldo Keluar')
-                            ->numeric()
-                            ->nullable(),
-                    ])
-                    ->columns(5),
+                DateTimePicker::make('TanggalSaldo')
+                    ->label('Tanggal')
+                    ->native(false)
+                    ->firstDayOfWeek(1)
+                    ->closeOnDateSelection()
+                    ->timezone('Asia/Jakarta')
+                    ->locale('id')
+                    ->displayFormat('D, d-M-Y H:i:s')
+                    ->default(now()),
+
+                TextInput::make('SaldoAwal')
+                    ->label('Saldo Awal')
+                    ->prefix('Rp ')
+                    ->default(function () {
+                        $latest = \App\Models\PettyCash::latest('TanggalSaldo')->first();
+                        return $latest ? $latest->SaldoAwal : 0;
+                    })
+                    ->numeric()
+                    ->nullable()
+                    ->live()
+                    ->debounce(500)
+                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
+
+                TextInput::make('SaldoMasuk')
+                    ->label('Saldo Masuk')
+                    ->prefix('Rp ')
+                    // ->default(function () {
+                    //     $latest = \App\Models\PettyCash::latest('TanggalSaldo')->first();
+                    //     return $latest ? $latest->SaldoMasuk : 0;
+                    // })
+                    ->default(0)
+                    ->numeric()
+                    ->nullable()
+                    ->live()
+                    ->debounce(3000)
+                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
+
+                TextInput::make('SaldoKeluar')
+                    ->label('Saldo Keluar')
+                    ->prefix('Rp ')
+                    // ->default(function () {
+                    //     $latest = \App\Models\PettyCash::latest('TanggalSaldo')->first();
+                    //     return $latest ? $latest->SaldoKeluar : 0;
+                    // })
+                    ->default(0)
+                    ->numeric()
+                    ->nullable()
+                    ->live()
+                    ->debounce(3000)
+                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
+
                 Repeater::make('LaporanPettyCash')
+                    ->relationship('LaporanPettyCash')
                     ->schema([
                         DateTimePicker::make('TanggalLaporan')
                             ->label('Tanggal')
@@ -85,25 +111,33 @@ class PettyCashResource extends Resource
                             ->hidden(),
                         TextInput::make('QuantityNumber')
                             ->label('Quantity (Jumlah)')
+                            ->nullable()
                             ->numeric()
                             ->reactive()
+                            ->debounce(500)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 $hargaSatuan = (float) $get('HargaSatuan');
                                 $set('HargaTotal', (float) $state * $hargaSatuan);
                             }),
                         TextInput::make('QuantityText')
-                            ->label('Quantity (Unit)'),
+                            ->label('Quantity (Unit)')
+                            ->nullable(),
                         TextInput::make('Posting')
                             ->label('Posting')
                             ->nullable(),
                         TextInput::make('Keterangan')
-                            ->label('Keterangan'),
+                            ->label('Keterangan')
+                            ->nullable(),
                         TextInput::make('Kegunaan')
-                            ->label('Kegunaan'),
+                            ->label('Kegunaan')
+                            ->nullable(),
                         TextInput::make('HargaSatuan')
                             ->label('Harga Satuan')
+                            ->nullable()
                             ->numeric()
+                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                             ->reactive()
+                            ->debounce(1000)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 $quantityNumber = (float) $get('QuantityNumber');
                                 $set('HargaTotal', $quantityNumber * (float) $state);
@@ -111,16 +145,25 @@ class PettyCashResource extends Resource
                         TextInput::make('HargaTotal')
                             ->label('Harga Total')
                             ->numeric()
-                            ->disabled()
-                            ->dehydrated()
+                            ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)
                             ->default(
                                 fn($get) =>
                                 (float) $get('QuantityNumber') * (float) $get('HargaSatuan')
-                            ),
+                            )
+                            ->reactive()
+                            ->debounce(3000)
+                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                // Hitung total HargaTotal dari semua item di repeater
+                                $laporan = $get('../../LaporanPettyCash') ?? [];
+                                $totalKeluar = 0;
+                                foreach ($laporan as $item) {
+                                    $totalKeluar += (float) ($item['HargaTotal'] ?? 0);
+                                }
+                                $set('../../SaldoKeluar', $totalKeluar);
+                            }),
                         TextInput::make('Vendor')
                             ->label('Vendor'),
                     ])
-                    ->relationship('LaporanPettyCash')
                     ->columns(4)
                     ->columnSpanFull()
                     ->label(new HtmlString('<span class="text-xl font-bold text-gray-800">Laporan Petty Cash</span>'))
@@ -128,22 +171,40 @@ class PettyCashResource extends Resource
                     ->reorderableWithButtons()
                     ->cloneable()
             ]);
+        // ->addable(false)
+        // ->defaultItems(3)
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            // Mengelompokkan Data berdasarkan tanggal
+            ->groups([
+                Group::make('TanggalSaldo')
+                    ->label('Tanggal')
+                    ->date()->collapsible(),
+            ])
             ->columns([
-                TextColumn::make('TanggalSaldo')->label('Tanggal'),
-                TextColumn::make('SaldoAwal')->label('Saldo'),
-                TextColumn::make('SaldoMasuk')->label('Pemasukan'),
-                TextColumn::make('SaldoKeluar')->label('Pengeluaran'),
+                TextColumn::make('TanggalSaldo')->label('Tanggal')->date('d-M-Y'),
+                TextColumn::make('SaldoAwal')->label('Saldo')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                TextColumn::make('SaldoMasuk')->label('Pemasukan')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                TextColumn::make('SaldoKeluar')->label('Pengeluaran')->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make(),
+                    Tables\Actions\Action::make('pdf')
+                        ->icon('heroicon-o-document-arrow-down')
+                        ->url(fn(PettyCash $record) => route('pdfPR', $record))
+                        ->openUrlInNewTab()
+                        ->label('PDF')
+                        ->color('success'),
+                ])->icon('heroicon-o-bars-3'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
