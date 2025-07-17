@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use Illuminate\Http\Request;
+use Spatie\LaravelPdf\Facades\Pdf;
 use Spatie\Browsershot\Browsershot;
+use Spatie\LaravelPdf\Enums\Orientation;
 
 class PO_PdfController extends Controller
 {
@@ -29,7 +31,9 @@ class PO_PdfController extends Controller
         // Simpan sebagai PDF
         $filename = "#PO-{$nextNumber}_" . $desc . '.pdf';
         Browsershot::html($html)
-            ->format('A4') // Pastikan format halaman
+            ->landscape() // Pastikan orientasi halaman
+            ->landscape()
+            ->format('A4')
             ->save($filename);
 
         return response()->download($filename);

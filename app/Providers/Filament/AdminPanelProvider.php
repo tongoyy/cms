@@ -34,7 +34,10 @@ use Orion\FilamentSettings\SettingsPlugin;
 use Orion\FilamentSupport\FilamentSupportPlugin;
 use Asmit\ResizedColumn\ResizedColumnPlugin;
 use CWSPS154\UsersRolesPermissions\UsersRolesPermissionsPlugin;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\Widget;
+use Illuminate\Support\HtmlString;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -63,7 +66,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration() // Enable registration
             ->spa()
             ->profile(isSimple: false)
-            ->sidebarFullyCollapsibleOnDesktop()
+            ->sidebarCollapsibleOnDesktop()
             ->maxContentWidth(MaxWidth::Full)
             ->brandLogo(asset('images/aiweb.png'))
             ->favicon(asset('images/aiweb.png'))
@@ -111,7 +114,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->tenantMiddleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
-            ])
-        ;
+            ]);
+    }
+
+    public function boot(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::SCRIPTS_AFTER,
+            fn(): string => new HtmlString('
+        <script>document.addEventListener("scroll-to-top", () => window.scrollTo(0, 0))</script>
+            '),
+        );
     }
 }

@@ -14,6 +14,7 @@ use Filament\Forms\Components;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,6 +26,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use Filament\Tables\Grouping\Group;
+use Filament\Forms\Components\Wizard;
+
 
 class PettyCashResource extends Resource
 {
@@ -71,10 +74,6 @@ class PettyCashResource extends Resource
                 TextInput::make('SaldoMasuk')
                     ->label('Saldo Masuk')
                     ->prefix('Rp ')
-                    // ->default(function () {
-                    //     $latest = \App\Models\PettyCash::latest('TanggalSaldo')->first();
-                    //     return $latest ? $latest->SaldoMasuk : 0;
-                    // })
                     ->default(0)
                     ->numeric()
                     ->nullable()
@@ -83,18 +82,27 @@ class PettyCashResource extends Resource
                     ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
 
                 TextInput::make('SaldoKeluar')
-                    ->label('Saldo Keluar')
+                    ->label('Pengeluaran')
                     ->prefix('Rp ')
-                    // ->default(function () {
-                    //     $latest = \App\Models\PettyCash::latest('TanggalSaldo')->first();
-                    //     return $latest ? $latest->SaldoKeluar : 0;
-                    // })
                     ->default(0)
                     ->numeric()
                     ->nullable()
                     ->live()
                     ->debounce(3000)
                     ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2),
+
+                TextInput::make('JudulLaporan')
+                    ->label('Judul Laporan')
+                    ->default(''),
+
+                Select::make('JenisLaporan')
+                    ->label('Jenis Laporan')
+                    ->options([
+                        'Mess Jakarta' => 'Mess Jakarta',
+                        'Lapangan' => 'Lapangan',
+                        'Sukowati' => 'Sukowati',
+                        'Beringin' => 'Beringin',
+                    ]),
 
                 Repeater::make('LaporanPettyCash')
                     ->relationship('LaporanPettyCash')
@@ -160,6 +168,7 @@ class PettyCashResource extends Resource
                                     $totalKeluar += (float) ($item['HargaTotal'] ?? 0);
                                 }
                                 $set('../../SaldoKeluar', $totalKeluar);
+                                $set('../../TotalPengeluaran', $totalKeluar);
                             }),
                         TextInput::make('Vendor')
                             ->label('Vendor'),
@@ -169,10 +178,26 @@ class PettyCashResource extends Resource
                     ->label(new HtmlString('<span class="text-xl font-bold text-gray-800">Laporan Petty Cash</span>'))
                     ->addActionLabel('Tambah Item')
                     ->reorderableWithButtons()
-                    ->cloneable()
+                    ->cloneable(),
+
+                TextInput::make('TotalPengeluaran')
+                    ->label('Total Pengeluaran')
+                    ->prefix('Rp ')
+                    ->numeric()
+                    ->disabled()
+                    ->default(0)
+                    ->reactive()
+                    ->debounce(1000)
+                    ->afterStateHydrated(function ($set, $get) {
+                        $laporan = $get('LaporanPettyCash') ?? [];
+                        $total = 0;
+                        foreach ($laporan as $item) {
+                            $total += (float) ($item['HargaTotal'] ?? 0);
+                        }
+                        $set('TotalPengeluaran', $total);
+                    })
+                    ->currencyMask(thousandSeparator: ',', decimalSeparator: '.', precision: 2)->columnSpanFull(),
             ]);
-        // ->addable(false)
-        // ->defaultItems(3)
     }
 
     public static function table(Table $table): Table
@@ -200,7 +225,7 @@ class PettyCashResource extends Resource
                     DeleteAction::make(),
                     Tables\Actions\Action::make('pdf')
                         ->icon('heroicon-o-document-arrow-down')
-                        ->url(fn(PettyCash $record) => route('pdfPR', $record))
+                        ->url(fn(PettyCash $record) => route('pdfPC', $record))
                         ->openUrlInNewTab()
                         ->label('PDF')
                         ->color('success'),

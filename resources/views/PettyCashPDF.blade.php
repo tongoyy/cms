@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Pengeluaran Petty Cash</title>
+    <style>
+        body {
+            font-family: Arial;
+            font-size: 10px;
+            margin: 5px;
+            background-color: white;
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        .header-section {
+            margin-bottom: 5px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .header-table td {
+            border: 1px solid black;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        .header-table .no-col {
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .header-table .tanggal-col {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .header-table .description-col {
+            width: 400px;
+            font-weight: bold;
+        }
+
+        .header-table .masuk-col,
+        .header-table .keluar-col {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .header-table .saldo-col {
+            width: 100px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .currency {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .amount {
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .report-title {
+            font-weight: bold;
+            font-size: 12px;
+            margin: 10px 0 5px 0;
+        }
+
+        .report-info {
+            font-size: 10px;
+            margin-bottom: 15px;
+        }
+
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            /* border: 2px solid black; */
+        }
+
+        .main-table th,
+        .main-table td {
+            border: 1px solid black;
+            padding: 2px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .main-table th {
+            background-color: white;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        .main-table .no-col {
+            width: 25px;
+        }
+
+        .main-table .tanggal-col {
+            width: 70px;
+        }
+
+        .main-table .qty-col {
+            width: 50px;
+        }
+
+        .main-table .posting-col {
+            width: 50px;
+        }
+
+        .main-table .keterangan-col {
+            width: 150px;
+        }
+
+        .main-table .kegunaan-col {
+            width: 150px;
+        }
+
+        .main-table .harga-col {
+            width: 70px;
+        }
+
+        .main-table .total-col {
+            width: 80px;
+        }
+
+        .main-table .vendor-col {
+            width: 100px;
+        }
+
+        .main-table .text-left {
+            text-align: left;
+            padding-left: 5px;
+        }
+
+        .main-table .text-right {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .total-row {
+            font-weight: bold;
+        }
+
+        .note-section {
+            margin-top: 15px;
+            font-size: 9px;
+        }
+
+        .signature-section {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 150px;
+        }
+
+        .signature-line {
+            margin-top: 50px;
+            margin-bottom: 5px;
+        }
+
+        .management-info {
+            font-size: 9px;
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    @if ($data)
+        <!-- Header Section -->
+        <div class="header-section" style="padding-top: 0px;">
+            <table class="header-table">
+                <tr>
+                    <td class="no-col">NO</td>
+                    <td class="tanggal-col">TANGGAL</td>
+                    <td class="description-col">DESCRIPTION</td>
+                    <td class="masuk-col">MASUK</td>
+                    <td class="keluar-col">KELUAR</td>
+                    <td class="saldo-col">SALDO</td>
+                </tr>
+                <tr>
+                    <td style="border-width: 0px 1px;">1</td>
+                    <td style="border-width: 0px 1px;"></td>
+                    <td style="border-width: 0px 1px;">Sisa dana petty cash tanggal
+                        {{ \Carbon\Carbon::parse($data->TanggalSaldo)->subDay()->format('d M Y') }}
+                    </td>
+                    <td style="border-width: 0px 1px;" class="currency"></td>
+                    <td style="border-width: 0px 1px;"></td>
+                    <td style="border-width: 0px 1px;" class="amount">
+                        <div class="saldoAwal" style="display: flex; justify-content:space-between;">
+                            <div>
+                                Rp
+                            </div>
+                            <div>
+                                {{ number_format($data->SaldoAwal, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-width: 0px 1px;">2</td>
+                    <td style="border-width: 0px 1px;"></td>
+                    <td style="border-width: 0px 1px;">Transfer dana dari PT. Audemars Indonesia</td>
+                    <td style="border-width: 0px 1px;" class="currency">
+                        <div class="saldoMasuk" style="display: flex; justify-content:space-between;">
+                            <div>
+                                Rp
+                            </div>
+                            <div>
+                                {{ $data->SaldoMasuk == 0 ? '' : number_format($data->SaldoMasuk, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </td>
+                    <td style="border-width: 0px 1px;"></td>
+                    <td style="border-width: 0px 1px;" class="amount"></td>
+                </tr>
+                <tr>
+                    <td style="border-width: 0px 1px 1px 1px;">3</td>
+                    <td style="border-width: 0px 1px 1px 1px;"></td>
+                    <td style="border-width: 0px 1px 1px 1px;">
+                        Pengeluaran petty cash hari ini
+                        {{ \Carbon\Carbon::parse($data->TanggalSaldo)->format('d M Y') }}
+                    </td>
+                    <td style="border-width: 0px 1px 1px 1px;"></td>
+                    <td style="border-width: 0px 1px 1px 1px;" class="amount">
+                        <div class="saldoKeluar" style="display: flex; justify-content:space-between;">
+                            <div>
+                                Rp
+                            </div>
+                            <div>
+                                {{ number_format($data->SaldoKeluar, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </td>
+                    <td style="border-width: 0px 1px 1px 1px;" class="amount">
+                        <div class="saldoAwal" style="display: flex; justify-content:space-between;">
+                            <div>
+                                Rp
+                            </div>
+                            <div>
+                                {{ number_format($data->SaldoAwal - $data->SaldoKeluar, 0, ',', '.') }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    @else
+    @endif
+
+    <!-- Report Title -->
+    <div class="reporting-section"
+        style="margin-top: 0px; margin-bottom: 10px; display: flex; justify-content: space-between;">
+        <div class="report-title-section" style=" padding-bottom: 5px;">
+            <div class="report-title" style="margin-top: 0!important; margin-bottom: 0!important;">
+                {{ strtoupper($data->JudulLaporan) }}
+            </div>
+            <strong>{{ $data->JenisLaporan }}</strong><br>
+        </div>
+        <div class="report-info" style=" margin-bottom: 0!important; padding-bottom: 0!important;">
+            No. Report &nbsp;&nbsp;&nbsp;&nbsp;:
+            {{ \Carbon\Carbon::parse($data->TanggalSaldo)->format('d') }}/PC/AI-PJ/{{ strtoupper(\Carbon\Carbon::parse($data->TanggalSaldo)->format('M')) }}/{{ \Carbon\Carbon::parse($data->TanggalSaldo)->format('Y') }}<br><br>
+            Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+            {{ \Carbon\Carbon::parse($data->TanggalSaldo)->format('d-M-Y') }}<br>
+        </div>
+    </div>
+
+    @if (!empty($data->PettyCash))
+        <!-- Main Table -->
+    @elseif (isset($data->LaporanPettyCash) && $data->LaporanPettyCash->count())
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th class="no-col">NO</th>
+                    <th class="tanggal-col">TANGGAL</th>
+                    <th class="qty-col">QUANTITY</th>
+                    <th class="posting-col">POSTING</th>
+                    <th class="keterangan-col">KETERANGAN</th>
+                    <th class="kegunaan-col">KEGUNAAN</th>
+                    <th class="harga-col">HARGA SATUAN</th>
+                    <th class="total-col">TOTAL</th>
+                    <th class="vendor-col">VENDOR</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data->LaporanPettyCash as $laporan)
+                    <tr>
+                        <td style="border-width: 0px 1px;">{{ $loop->iteration }}</td>
+                        <td style="border-width: 0px 1px;">
+                            {{ \Carbon\Carbon::parse($laporan->TanggalSaldo)->format('d-M-Y') }}
+                        </td>
+                        <td style="border-width: 0px 1px;">
+                            {{ $laporan->Quantity }}
+                        </td>
+                        <td style="border-width: 0px 0px;">
+                            {{ $laporan->Posting }}
+                        </td>
+                        <td style="border-width: 0px 1px;" class="text-left" style="border-width: 0px 1px;">
+                            {{ $laporan->Keterangan }}
+                        </td>
+                        <td style="border-width: 0px 1px;" class="text-left">
+                            {{ $laporan->Kegunaan }}
+                        </td>
+                        <td style="border-width: 0px 1px;" class="text-right">
+                            <div class="hargaSatuan" style="display: flex; justify-content:space-between;">
+                                <div>
+                                    Rp
+                                </div>
+                                <div>
+                                    {{ number_format($laporan->HargaSatuan, 0, ',', '.') }}
+                                </div>
+                            </div>
+                        </td>
+                        <td style="border-width: 0px 1px;" class="text-right">
+                            <div class="total" style="display: flex; justify-content:space-between;">
+                                <div>
+                                    Rp
+                                </div>
+                                <div>
+                                    {{ number_format($laporan->Total, 0, ',', '.') }}
+                                </div>
+                            </div>
+                        </td>
+                        <td style="border-width: 0px 1px;">{{ $laporan->Vendor }}</td>
+                    </tr>
+                @endforeach
+
+                @if ($data->LaporanPettyCash->count() < 20)
+                    @for ($i = $data->LaporanPettyCash->count() + 1; $i <= 20; $i++)
+                        <tr>
+                            <td style="border-width: 0px 1px;">{{ $i }}</td>
+                            <td style="border-width: 0px 1px;"></td>
+                            <td style="border-width: 0px 1px;"></td>
+                            <td style="border-width: 0px 0px;"></td>
+                            <td style="border-width: 0px 1px;" class="text-left" style="border-width: 0px 1px;"></td>
+                            <td style="border-width: 0px 1px;" class="text-left"></td>
+                            <td style="border-width: 0px 1px;" class="text-right"></td>
+                            <td style="border-width: 0px 1px;" class="text-right"></td>
+                            <td style="border-width: 0px 1px;"></td>
+                        </tr>
+                    @endfor
+                @endif
+
+                <tr class="total-row">
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                    <td colspan="2" style="text-align: center; font-weight: bold;">Total Pengeluaran</td>
+                    <td class="text-right">
+                        {{ number_format($data->SaldoKeluar, 0, ',', '.') }}
+                    </td>
+                    <td
+                        style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    @else
+    @endif
+
+    <div class="footer">
+        <!-- Note Section -->
+        <div
+            style="border-color: black; border-width: 1px; border-style: solid; width: 25%; display: grid; justify-content: center; padding-bottom: 15px; float: inline-start;">
+            <div class="note-section" style="margin-top: 5px;">
+                <strong>NOTE :</strong><br>
+                <em>Dana petty cash hanya digunakan untuk hal-hal yang<br>
+                    bersifat keperluan operasional.</em>
+            </div>
+
+            <!-- Management Info -->
+            <div class="management-info" style="padding-left: 55%; padding-bottom: 0px;">
+                <p style="font-style: italic; height: 0; margin-top: 0;">Terima Kasih<br>
+                    Management</p>
+            </div>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature-section" style="display: flex; justify-content: space-between; margin: 5px ;">
+            <div class="signature-box" style="margin-left: 35%;">
+                <div>Dibuat Oleh</div>
+                <div class="signature-line"></div>
+                <div>(Irvan Sandoval)</div>
+            </div>
+            <div class="signature-box">
+                <div>Diperiksa Oleh,</div>
+                <div class="signature-line"></div>
+                <div>(Irwandi )</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

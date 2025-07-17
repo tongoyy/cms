@@ -23,4 +23,11 @@ class ListSp3s extends ListRecords
     {
         return $this->getResource()::getUrl('index');
     }
+
+    public function setPage($page, $pageName = 'page'): void
+    {
+        parent::setPage($page, $pageName);
+
+        $this->dispatch('scroll-to-top');
+    }
 }
