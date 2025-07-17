@@ -9,18 +9,17 @@
         body {
             font-family: Arial;
             font-size: 10px;
-            margin: 20px;
+            margin: 5px;
             background-color: white;
         }
 
         .header-section {
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .header-table {
             width: 100%;
             border-collapse: collapse;
-            border: 2px solid black;
         }
 
         .header-table td {
@@ -83,13 +82,13 @@
         .main-table {
             width: 100%;
             border-collapse: collapse;
-            border: 2px solid black;
+            /* border: 2px solid black; */
         }
 
         .main-table th,
         .main-table td {
             border: 1px solid black;
-            padding: 4px;
+            padding: 2px;
             text-align: center;
             vertical-align: top;
         }
@@ -169,7 +168,6 @@
 
         .signature-line {
             margin-top: 50px;
-            border-bottom: 1px solid black;
             margin-bottom: 5px;
         }
 
@@ -183,7 +181,7 @@
 
 <body>
     <!-- Header Section -->
-    <div class="header-section" style="padding-top: 50px;">
+    <div class="header-section" style="padding-top: 0px;">
         <table class="header-table">
             <tr>
                 <td class="no-col">NO</td>
@@ -210,22 +208,29 @@
                 <td style="border-width: 0px 1px;" class="amount"></td>
             </tr>
             <tr>
-                <td style="border-width: 0px 1px;">3</td>
-                <td style="border-width: 0px 1px;"></td>
-                <td style="border-width: 0px 1px;">Pengeluaran petty cash hari ini 04 Mei 2023</td>
-                <td style="border-width: 0px 1px;"></td>
-                <td style="border-width: 0px 1px;" class="amount">2,616,665</td>
-                <td style="border-width: 0px 1px;" class="amount">3,676,337</td>
+                <td style="border-width: 0px 1px 1px 1px;">3</td>
+                <td style="border-width: 0px 1px 1px 1px;"></td>
+                <td style="border-width: 0px 1px 1px 1px;">Pengeluaran petty cash hari ini 04 Mei 2023</td>
+                <td style="border-width: 0px 1px 1px 1px;"></td>
+                <td style="border-width: 0px 1px 1px 1px;" class="amount">2,616,665</td>
+                <td style="border-width: 0px 1px 1px 1px;" class="amount">3,676,337</td>
             </tr>
         </table>
     </div>
 
     <!-- Report Title -->
-    <div class="report-title">LAPORAN PENGELUARAN PETTY CASH</div>
-    <div class="report-info">
-        <strong>MESS JAKARTA</strong><br>
-        No. Report &nbsp;&nbsp;&nbsp;&nbsp;: 04/PC/AI-PJ/MEI/2023<br>
-        Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 04-May-23
+    <div class="reporting-section"
+        style="margin-top: 0px; margin-bottom: 10px; display: flex; justify-content: space-between;">
+        <div class="report-title-section" style=" padding-bottom: 5px;">
+            <div class="report-title" style="margin-top: 0!important; margin-bottom: 0!important;">LAPORAN PENGELUARAN
+                PETTY
+                CASH</div>
+            <strong>MESS JAKARTA</strong><br>
+        </div>
+        <div class="report-info" style=" margin-bottom: 0!important; padding-bottom: 0!important;">
+            No. Report &nbsp;&nbsp;&nbsp;&nbsp;: 04/PC/AI-PJ/MEI/2023<br><br>
+            Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 04-May-23
+        </div>
     </div>
 
     <!-- Main Table -->
@@ -245,207 +250,82 @@
         </thead>
         <tbody>
             <tr>
-                <td>1</td>
-                <td>04-May-23</td>
-                <td>1 Bulan</td>
-                <td></td>
-                <td class="text-left">Pembayaran Utilities</td>
-                <td class="text-left">Listrik PLN</td>
-                <td class="text-right">Rp 1,886,646</td>
-                <td class="text-right">Rp 1,886,646</td>
-                <td></td>
+                <td style="border-width: 0px 1px;">1</td>
+                <td style="border-width: 0px 1px;">04-May-23</td>
+                <td style="border-width: 0px 1px;">1 Bulan</td>
+                <td style="border-width: 0px 0px;"></td>
+                <td style="border-width: 0px 1px;" class="text-left" style="border-width: 0px 1px;">Pembayaran Utilities
+                </td>
+                <td style="border-width: 0px 1px;" class="text-left">Listrik PLN</td>
+                <td style="border-width: 0px 1px;" class="text-right">Rp 1,886,646</td>
+                <td style="border-width: 0px 1px;" class="text-right">Rp 1,886,646</td>
+                <td style="border-width: 0px 1px;"></td>
             </tr>
             <tr>
-                <td>2</td>
-                <td>04-May-23</td>
-                <td>1 Bulan</td>
-                <td></td>
-                <td class="text-left">Pembayaran Utilities</td>
-                <td class="text-left">Telpon kantor Telkom</td>
-                <td class="text-right">Rp 112,257</td>
-                <td class="text-right">Rp 112,257</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>04-May-23</td>
-                <td>1 Bulan</td>
-                <td></td>
-                <td class="text-left">Pembayaran Utilities</td>
-                <td class="text-left">Air PDAM</td>
-                <td class="text-right">Rp 22,462</td>
-                <td class="text-right">Rp 22,462</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>04-May-23</td>
-                <td>1 Unit</td>
-                <td></td>
-                <td class="text-left">Power Supply PC</td>
-                <td class="text-left">Untuk kebutuhan PC kantor</td>
-                <td class="text-right">Rp 545,000</td>
-                <td class="text-right">Rp 545,000</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td></td>
-                <td>1 Ls</td>
-                <td></td>
-                <td class="text-left">Biaya Ongkir & jasa aplikasi</td>
-                <td class="text-left"></td>
-                <td class="text-right">Rp 50,300</td>
-                <td class="text-right">Rp 50,300</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>18</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>19</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>20</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="border-width: 0px 1px;">2</td>
+                <td style="border-width: 0px 1px;">04-May-23</td>
+                <td style="border-width: 0px 1px;">1 Bulan</td>
+                <td style="border-width: 0px 1px;"></td>
+                <td style="border-width: 0px 1px;" class="text-left">Pembayaran Utilities</td>
+                <td style="border-width: 0px 1px;" class="text-left">Telpon kantor Telkom</td>
+                <td style="border-width: 0px 1px;" class="text-right">Rp 112,257</td>
+                <td style="border-width: 0px 1px;" class="text-right">Rp 112,257</td>
+                <td style="border-width: 0px 1px;"></td>
             </tr>
             <tr class="total-row">
-                <td style="border-width: 0px; border-color: white;"></td>
-                <td style="border-width: 0px; border-color: white;"></td>
-                <td style="border-width: 0px; border-color: white;"></td>
-                <td style="border-width: 0px; border-color: white;"></td>
-                <td style="border-width: 0px; border-color: white;"></td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
                 <td colspan="2" style="text-align: center; font-weight: bold;">Total Pengeluaran</td>
                 <td class="text-right">Rp 2,616,665</td>
-                <td style="border-width: 0px;"></td>
+                <td
+                    style="border-top: 1px solid black; border-bottom: 0px; border-color: white; border-left: 0px; border-right: 0px; border-color: black;">
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Note Section -->
-    <div class="note-section">
-        <strong>NOTE :</strong><br>
-        <em>Dana petty cash hanya digunakan untuk hal-hal yang<br>
-            bersifat keperluan operasional.</em>
-    </div>
+    <div class="footer">
+        <!-- Note Section -->
+        <div
+            style="border-color: black; border-width: 1px; border-style: solid; width: 25%; display: grid; justify-content: center; padding-bottom: 15px; float: inline-start;">
+            <div class="note-section" style="margin-top: 5px;">
+                <strong>NOTE :</strong><br>
+                <em>Dana petty cash hanya digunakan untuk hal-hal yang<br>
+                    bersifat keperluan operasional.</em>
+            </div>
 
-    <!-- Management Info -->
-    <div class="management-info">
-        <em>Terima Kasih<br>
-            Management</em>
-    </div>
-
-    <!-- Signature Section -->
-    <div class="signature-section">
-        <div class="signature-box">
-            <div>Dibuat Oleh</div>
-            <div class="signature-line"></div>
-            <div>(Irvan Sandoval)</div>
+            <!-- Management Info -->
+            <div class="management-info" style="padding-left: 55%; padding-bottom: 0px;">
+                <p style="font-style: italic; height: 0; margin-top: 0;">Terima Kasih<br>
+                    Management</p>
+            </div>
         </div>
-        <div class="signature-box">
-            <div>Diperiksa Oleh,</div>
-            <div class="signature-line"></div>
-            <div>(Irwandi )</div>
+
+        <!-- Signature Section -->
+        <div class="signature-section" style="display: flex; justify-content: space-between; margin: 5px ;">
+            <div class="signature-box" style="margin-left: 35%;">
+                <div>Dibuat Oleh</div>
+                <div class="signature-line"></div>
+                <div>(Irvan Sandoval)</div>
+            </div>
+            <div class="signature-box">
+                <div>Diperiksa Oleh,</div>
+                <div class="signature-line"></div>
+                <div>(Irwandi )</div>
+            </div>
         </div>
     </div>
 </body>
