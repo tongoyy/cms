@@ -41,8 +41,8 @@ cd cms
 rm composer.lock
 
 3. Install Dependensi Backend
-
 composer install
+
 4. Install Dependensi Frontend
 npm install
 
