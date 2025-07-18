@@ -73,6 +73,7 @@ Edit
 php artisan serve
 Akses aplikasi di: http://localhost:8000
 
+<canvas>
 📂 Struktur Folder Penting
 app/Filament/Resources — Berisi definisi halaman Filament untuk PR, PO, dan SP3.
 
@@ -81,7 +82,7 @@ database/migrations — Berisi skema database untuk masing-masing entitas.
 routes/web.php — Rute utama aplikasi.
 
 .env.example — Template konfigurasi environment.
-
+</canvas>
 👨‍💼 Kontribusi & Dukungan
 Saat ini project ini bersifat internal dan dikembangkan untuk keperluan kantor. Namun, jika kamu punya saran atau ingin diskusi lebih lanjut, silakan buat issue atau pull request.
 
