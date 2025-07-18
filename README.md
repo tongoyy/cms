@@ -1,5 +1,3 @@
-:
-
 
 <h1> 📦 Laravel Purchasing System - Internal Finance Tools </h1>
 Aplikasi Purchasing ini dibuat berdasarkan kebutuhan dan permintaan dari tim manajemen finance di kantor kami. Sistem ini dibangun menggunakan Laravel dan Filament, dan dirancang untuk memudahkan proses pengadaan barang/jasa secara terstruktur dan terdokumentasi.
